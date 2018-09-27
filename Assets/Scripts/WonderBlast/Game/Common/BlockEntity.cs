@@ -71,7 +71,7 @@ namespace WonderBlast.Game.Common
         {
             state = State.move;
 
-            yield return StartCoroutine(Co_Move(endPos));
+            yield return StartCoroutine(Co_Move(endPos, .35f));
 
             state = State.idle;
             SetData(x, y);
@@ -81,19 +81,22 @@ namespace WonderBlast.Game.Common
         protected IEnumerator Co_TargetMove(Vector2 endPos)
         {
             state = State.special_move;
+            UIWidget widget = gameObject.GetComponent<UIWidget>();
+            widget.depth = 10;
 
-            yield return StartCoroutine(Co_Move(endPos));
+            yield return StartCoroutine(Co_Move(endPos, .2f));
 
+            widget.depth = 1;
             state = State.wait;
             Hide();
             _LocalPosition = endPos;
         }
 
-        protected IEnumerator Co_Move(Vector2 endPos)
+        protected IEnumerator Co_Move(Vector2 endPos, float duration)
         {
             Vector2 startPos = this._LocalPosition;
             float startTime = Time.time;
-            float duration = .3f;
+            //float duration = .35f;
             while (Time.time - startTime <= duration)
             {
                 _LocalPosition = Vector2.Lerp(startPos, endPos, (Time.time - startTime) / duration);

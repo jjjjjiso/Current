@@ -64,6 +64,11 @@ namespace WonderBlast.Game.Common
             SetBlockType(random);
         }
 
+        public void SetSprite(string strName)
+        {
+            UpdateSprite(strName);
+        }
+
         //private Method
         private void UpdateSprite()
         {

@@ -13,7 +13,7 @@ namespace WonderBlast.Game.Manager
         private void Start()
         {
             min = (int)BlockType.red;
-            max = (int)BlockType.purple;
+            max = (int)BlockType.blue;
             CreateStage();
         }
 
@@ -26,21 +26,6 @@ namespace WonderBlast.Game.Manager
         {
             if (stage == null) return;
             stage.SpecialMatch(x, y);
-            //switch(specialType)
-            //{
-            //    case SpecialType.left_right_arrow:
-            //        stage.WidthMatch(y);
-            //        break;
-            //    case SpecialType.up_down_arrow:
-            //        stage.HeightMatch(x);
-            //        break;
-            //    case SpecialType.bomb:
-            //        stage.NineMatch(x, y);
-            //        break;
-            //    case SpecialType.ranbow:
-            //        stage.SameColorMatch(x, y);
-            //        break;
-            //}
         }
 
         public void StageUpdate(int x, int y, BlockType blockType)

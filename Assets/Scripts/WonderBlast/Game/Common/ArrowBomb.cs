@@ -21,36 +21,15 @@ namespace WonderBlast.Game.Common
             Stage s = GameMgr.Get()._Stage;
             List<BlockDef> blocks = new List<BlockDef>();
 
-            switch(arrowType)
+            bomb1 = type;
+            bool isCombo = GetCombo(x, y, type);
+            if (!isCombo)
             {
-                case ArrowType.horizontal:
-                    {
-                        //up
-                        for (int iy = y; iy >= 0; --iy)
-                        {
-                            AddBlock(blocks, x, iy);
-                        }
-                        //down
-                        for (int iy = y+1; iy < s.height; ++iy)
-                        {
-                            AddBlock(blocks, x, iy);
-                        }
-                    }
-                    break;
-                case ArrowType.vertical:
-                    {
-                        //left
-                        for (int ix = x; ix >= 0; --ix)
-                        {
-                            AddBlock(blocks, ix, y);
-                        }
-                        //right
-                        for (int ix = x + 1; ix < s.width; ++ix)
-                        {
-                            AddBlock(blocks, ix, y);
-                        }
-                    }
-                    break;
+                ArrowBombMatch(blocks, s.width, s.height, x, y, arrowType);
+            }
+            else
+            {
+                SpecialCombo(blocks, s.width, s.height, x, y);
             }
 
             return blocks;
@@ -59,21 +38,15 @@ namespace WonderBlast.Game.Common
         public void UpdateSprite(ArrowType type)
         {
             this.arrowType = type;
-            UpdateSprite();
+            UpdateSprite(arrowType.ToString());
         }
 
         public void UpdateSprite(int type)
         {
             this.arrowType = (ArrowType)type;
-            UpdateSprite();
+            UpdateSprite(arrowType.ToString());
         }
-
-        protected void UpdateSprite()
-        {
-            string strName = arrowType.ToString();
-            if (uiSprite != null) uiSprite.spriteName = strName;
-        }
-
+        
         public ArrowType _ArrowType
         {
             get { return arrowType; }

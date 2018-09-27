@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 using WonderBlast.Game.Manager;
 
@@ -31,8 +32,8 @@ namespace WonderBlast.Game.Common
 
         public BlockEntity[,] blockEntities = null;
 
-        public int width  = 7;
-        public int height = 7;
+        public int width  = 9;
+        public int height = 9;
 
         private BlockEntity blockPrefab = null;
 
@@ -41,6 +42,15 @@ namespace WonderBlast.Game.Common
             blockPrefab = Resources.Load<BlockEntity>(BLOCK_PATH);
             BlockSetting();
             CheckCanColorMatch();
+        }
+
+        private BlockEntity CreateBlock()
+        {
+            GamePool gamePools = GameMgr.Get().gamePools;
+            BlockEntity entity = gamePools.blockPool.GetObject().GetComponent<BlockEntity>();
+            Assert.IsNotNull(entity);
+            entity.Show();
+            return entity;
         }
 
         private void BlockSetting()
@@ -53,8 +63,8 @@ namespace WonderBlast.Game.Common
             {
                 for (int iY = 0; iY < height; ++iY)
                 {
-                    var temp = Instantiate<BlockEntity>(blockPrefab);
-                    if (temp == null) continue; 
+                    var temp = CreateBlock();
+                    Assert.IsNotNull(temp);
                     temp.GetComponent<Block>().SetRandomColor(GameMgr.Get().Min, GameMgr.Get().Max);
                     temp.SetData(iX, iY);
                     BlockArea.Get().Attach(temp.transform);

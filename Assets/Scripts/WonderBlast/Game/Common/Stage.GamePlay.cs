@@ -11,7 +11,7 @@ namespace WonderBlast.Game.Common
     public partial class Stage : MonoBehaviour
     {
         //private field
-        private float delayTime = 0.3f;
+        private float delayTime = 0.35f;
 
         //default Method
 
@@ -26,7 +26,7 @@ namespace WonderBlast.Game.Common
             {
                 BlockDef n = qTemp.Dequeue();
                 BlockDef w = n, e = new BlockDef(n.x + 1, n.y);
-                while ((w.x >= 0) && ColorMatch(w.x, w.y, blockType))//left
+                while ((w.x >= 0) && IsColorMatch(w.x, w.y, blockType))//left
                 {
                     if (!matchList.Contains(new Vector2(w.x, w.y)))
                     {
@@ -34,21 +34,21 @@ namespace WonderBlast.Game.Common
                     }
                     if (!matchList.Contains(new Vector2(w.x, w.y - 1)))
                     {
-                        if ((w.y > 0) && ColorMatch(w.x, w.y - 1, blockType))//up
+                        if ((w.y > 0) && IsColorMatch(w.x, w.y - 1, blockType))//up
                         {
                             qTemp.Enqueue(new BlockDef(w.x, w.y - 1));
                         }
                     }
                     if (!matchList.Contains(new Vector2(w.x, w.y + 1)))
                     {
-                        if ((w.y < height - 1) && ColorMatch(w.x, w.y + 1, blockType))//down
+                        if ((w.y < height - 1) && IsColorMatch(w.x, w.y + 1, blockType))//down
                         {
                             qTemp.Enqueue(new BlockDef(w.x, w.y + 1));
                         }
                     }
                     w.x--;
                 }
-                while ((e.x <= width - 1) && ColorMatch(e.x, e.y, blockType))//right
+                while ((e.x <= width - 1) && IsColorMatch(e.x, e.y, blockType))//right
                 {
                     if (!matchList.Contains(new Vector2(e.x, e.y)))
                     {
@@ -56,14 +56,14 @@ namespace WonderBlast.Game.Common
                     }
                     if (!matchList.Contains(new Vector2(e.x, e.y - 1)))
                     {
-                        if ((e.y > 0) && ColorMatch(e.x, e.y - 1, blockType))//up
+                        if ((e.y > 0) && IsColorMatch(e.x, e.y - 1, blockType))//up
                         {
                             qTemp.Enqueue(new BlockDef(e.x, e.y - 1));
                         }
                     }
                     if (!matchList.Contains(new Vector2(e.x, e.y + 1)))
                     {
-                        if ((e.y < height - 1) && ColorMatch(e.x, e.y + 1, blockType))//down
+                        if ((e.y < height - 1) && IsColorMatch(e.x, e.y + 1, blockType))//down
                         {
                             qTemp.Enqueue(new BlockDef(e.x, e.y + 1));
                         }
@@ -73,7 +73,6 @@ namespace WonderBlast.Game.Common
             }
 
             //2개 이상만 터트리기.
-            List<int> xList = new List<int>();
             if (matchList.Count >= 2)
             {
                 if(matchList.Count >= 5)
@@ -83,21 +82,15 @@ namespace WonderBlast.Game.Common
                         int matchX = (int)matchList[i].x;
                         int matchY = (int)matchList[i].y;
 
-                        if (!xList.Contains(matchX)) xList.Add(matchX);
-
                         if (i == 0) continue;
                         
                         Vector2 v = blockEntities[(int)matchList[0].x, (int)matchList[0].y]._LocalPosition;
                         blockEntities[matchX, matchY].TargetMove(v);
                     }
-
-                    xList.Sort((int a, int b) => a.CompareTo(b));
-
+                    
                     int pickX = (int)matchList[0].x;
                     int pickY = (int)matchList[0].y;
-                    int loopStartX = xList[0];
-                    int loopEndX = xList[xList.Count - 1];
-                    SpecialItem(pickX, pickY, matchList.Count, loopStartX, loopEndX);
+                    StartCoroutine(Co_SpecialBlockChange(pickX, pickY, matchList.Count));
                 }
                 else
                 {
@@ -107,14 +100,9 @@ namespace WonderBlast.Game.Common
                         int matchY = (int)temp.y;
 
                         blockEntities[matchX, matchY].Hide();
-                        if (!xList.Contains(matchX)) xList.Add(matchX);
                     }
 
-                    xList.Sort((int a, int b) => a.CompareTo(b));
-
-                    int loopStartX = xList[0];
-                    int pickY = xList[xList.Count - 1];
-                    MatchDown(loopStartX, pickY);
+                    MatchDown();
                 }
             }
             else
@@ -123,70 +111,221 @@ namespace WonderBlast.Game.Common
                 {
                     int matchX = (int)temp.x;
                     int matchY = (int)temp.y;
-                    blockEntities[matchX, matchY].Show();
+                    blockEntities[matchX, matchY]._State = State.idle;
                 }
             }
         }
-        
-        //public void WidthMatch(int y)
-        //{
-        //    StopAllCoroutines();
-        //    StartCoroutine(Co_Match(y));
-        //}
-
-        //public void HeightMatch(int x)
-        //{
-        //    StopAllCoroutines();
-        //    StartCoroutine(Co_Match(x));
-        //}
 
         public void SpecialMatch(int x, int y)
         {
             List<BlockDef> blockDefList = blockEntities[x, y].GetComponent<Special>().Match(x, y);
-            
-            StartCoroutine(Co_Match(blockDefList));
+            ReturnObject(blockEntities[x, y].gameObject);
+            CreateNewBlock(x, y);
+            StartCoroutine(Co_SpecialMatch(blockDefList));
         }
 
-        public void SameColorMatch(int x, int y)
-        {
-            //List<Block> tempBlocks = new List<Block>();
+        //protected void SpecialCombo(List<BlockDef> blocks, int w, int h, int x, int y)
+        //{
+        //    switch (skillType)
+        //    {
+        //        case SpecialType.arrow:
+        //            ArrowBombAndArrowBomb(blocks, w, h, x, y);
+        //            break;
+        //        case SpecialType.bomb:
+        //            ArrowBombAndBomb(blocks, w, h, x, y);
+        //            break;
+        //        case SpecialType.ranbow:
+        //            break;
+        //    }
+        //}
 
-            //BlockType blockType = blockEntities[x, y]._BlockType;
-            //BlockType freColor = blockEntities[x, y]._FreColor;
-            //tempBlocks.Add(blockEntities[x, y]);
+        //protected void ArrowBombAndArrowBomb(List<BlockDef> blocks, int w, int h, int x, int y)
+        //{
+        //    //left
+        //    for (int ix = x; ix >= 0; --ix)
+        //    {
+        //        AddBlock(blocks, ix, y);
+        //    }
+        //    //up
+        //    for (int iy = y; iy >= 0; --iy)
+        //    {
+        //        AddBlock(blocks, x, iy);
+        //    }
+        //    //right
+        //    for (int ix = x + 1; ix < w; ++ix)
+        //    {
+        //        AddBlock(blocks, ix, y);
+        //    }
+        //    //down
+        //    for (int iy = y + 1; iy < h; ++iy)
+        //    {
+        //        AddBlock(blocks, x, iy);
+        //    }
+        //}
 
-            //for (int ix = 0; ix < width; ++ix)
-            //{
-            //    for (int iy = 0; iy < height; ++iy)
-            //    {
-            //        Block block = blockEntities[ix, iy];
-            //        if (freColor == BlockType.none || freColor != block._BlockType) continue;
-            //        string strTemp = string.Format("{0}_{1}", blockType, freColor);
-            //        block.SetBlockType(blockType, strTemp);
-            //        tempBlocks.Add(block);
-            //    }
-            //}
+        //protected void ArrowBombAndBomb(List<BlockDef> blocks, int w, int h, int x, int y)
+        //{
+        //    for (int ix = x - 1; ix <= x + 1; ++ix)
+        //    {
+        //        //up
+        //        for (int iy = y; iy >= 0; --iy)
+        //        {
+        //            AddBlock(blocks, ix, iy);
+        //        }
+        //        //down
+        //        for (int iy = y + 1; iy < h; ++iy)
+        //        {
+        //            AddBlock(blocks, ix, iy);
+        //        }
+        //    }
 
-            //if(tempBlocks.Count != 0) StartCoroutine(Co_SameColorMatch(tempBlocks));
-        }
-        
+        //    for (int iy = y - 1; iy <= y + 1; ++iy)
+        //    {
+        //        //left
+        //        for (int ix = x; ix >= 0; --ix)
+        //        {
+        //            AddBlock(blocks, ix, iy);
+        //        }
+        //        //right
+        //        for (int ix = x + 1; ix < w; ++ix)
+        //        {
+        //            AddBlock(blocks, ix, iy);
+        //        }
+        //    }
+        //}
+
+        //protected virtual void ArrowBombAndRanbow(List<BlockDef> blocks, int x, int y)
+        //{
+        //    Stage s = GameMgr.Get()._Stage;
+        //    for (int ix = 0; ix < s.width; ++ix)
+        //    {
+        //        for (int iy = 0; iy < s.height; ++iy)
+        //        {
+        //            BlockEntity entity = s.blockEntities[ix, iy];
+        //            Block block = entity.GetComponent<Block>();
+        //            if (block == null) continue;
+        //            if (preType == BlockType.none || preType != block._BlockType) continue;
+        //            block.SetSprite(type.ToString());
+        //            AddBlock(blocks, ix, iy);
+        //        }
+        //    }
+        //}
+
+        //protected void AddBlock(List<BlockDef> blocks, int x, int y)
+        //{
+        //    if (x < 0 || x >= width ||
+        //        y < 0 || y >= height) return;
+
+        //    BlockDef def = new BlockDef(x, y);
+        //    if (!blocks.Contains(def)) blocks.Add(def);
+        //}
+
+        //protected bool GetCombo(int x, int y, SpecialType type)
+        //{
+        //    var up = new BlockDef(x, y - 1);
+        //    var down = new BlockDef(x, y + 1);
+        //    var left = new BlockDef(x - 1, y);
+        //    var right = new BlockDef(x + 1, y);
+
+        //    bool isCombo = false;
+
+        //    if (IsCombo(x, y, up.x, up.y, type)) isCombo = true;
+        //    if (IsCombo(x, y, down.x, down.y, type)) isCombo = true;
+        //    if (IsCombo(x, y, left.x, left.y, type)) isCombo = true;
+        //    if (IsCombo(x, y, right.x, right.y, type)) isCombo = true;
+
+        //    return isCombo;
+        //}
+
+        //protected bool IsCombo(int pickX, int pickY, int x, int y, SpecialType type)
+        //{
+        //    if (!IsValidBlockEntity(x, y)) return false;
+        //    Stage s = GameMgr.Get()._Stage;
+        //    Special special = s.blockEntities[x, y].GetComponent<Special>();
+        //    if (special == null) return false;
+        //    //if (special._SpecialType != type) return false;
+        //    if (skillType < special._SpecialType)
+        //        skillType = special._SpecialType;
+        //    special.TargetMove(s.blockEntities[pickX, pickY]._LocalPosition);
+        //    special._isCombo = true;
+        //    return true;
+        //}
+
         //private Method
-        private bool CheckActive(int x, int y)
+
+        private ObjectPool GetSpecialPool(SpecialType type)
         {
-            if (blockEntities[x, y].isActiveAndEnabled) return true;
-            return false;
+            GamePool gamePools = GameMgr.Get().gamePools;
+            switch (type)
+            {
+                case SpecialType.arrow:
+                    return gamePools.arrowBombPool;
+
+                case SpecialType.bomb:
+                    return gamePools.bombPool;
+
+                case SpecialType.ranbow:
+                    return gamePools.ranbowPool;
+            }
+            return null;
         }
 
-        private bool CheckActive(Block block)
+        private void CreateSpecial(SpecialType type, int x, int y)
         {
-            if (block.isActiveAndEnabled) return true;
-            return false;
+            GamePool gamePools = GameMgr.Get().gamePools;
+            ObjectPool specialPool = null;
+            switch (type)
+            {
+                case SpecialType.arrow:
+                    specialPool = gamePools.arrowBombPool;
+                    break;
+
+                case SpecialType.bomb:
+                    specialPool = gamePools.bombPool;
+                    break;
+
+                case SpecialType.ranbow:
+                    specialPool = gamePools.ranbowPool;
+                    break;
+            }
+
+            Assert.IsNotNull(specialPool);
+            var special = CreateBlock(specialPool.GetObject());
+            CreateSpecial(special, x, y);
         }
 
-        private void SpecialItem(int x, int y, int count, int startX, int endX)
+        private void CreateSpecial(GameObject special, int x, int y)
         {
-            StopCoroutine(Co_SpecialItem(x, y, count, startX, endX));
-            StartCoroutine(Co_SpecialItem(x, y, count, startX, endX));
+            special.transform.localPosition = blockEntities[x, y]._LocalPosition;
+            BlockEntity entity = special.GetComponent<BlockEntity>();
+            Assert.IsNotNull(entity);
+            entity.transform.localScale = Vector3.one;
+            blockEntities[x, y] = entity;
+            blockEntities[x, y]._State = State.idle;
+            blockEntities[x, y].SetData(x, y);
+        }
+
+        private void CreateNewBlock(int x, int y)
+        {
+            BlockEntity entity = GameMgr.Get().gamePools.blockPool.GetObject().GetComponent<BlockEntity>();
+            Assert.IsNotNull(entity);
+            entity.transform.localPosition = blockEntities[x, y]._LocalPosition;
+            entity.transform.localScale = Vector3.one;
+            blockEntities[x, y] = entity;
+            blockEntities[x, y]._State = State.wait;
+            blockEntities[x, y].SetData(x, y);
+            blockEntities[x, y].Hide();
+        }
+
+        private GameObject CreateBlock(GameObject go)
+        {
+            go.GetComponent<BlockEntity>().Show();
+            return go;
+        }
+
+        private void ReturnObject(GameObject obj)
+        {
+            obj.GetComponent<PooledObject>().pool.ReturnObject(obj);
         }
 
         private void MatchDown(int startX, int endX)
@@ -203,7 +342,6 @@ namespace WonderBlast.Game.Common
                         {
                             stack.Add(block);
                             block._LocalPosition = new Vector2(x * block._SpriteWidthSize, height * block._SpriteHeightSize);
-                            //block.GetComponent<Block>().SetRandomColor(GameMgr.Get().Min, GameMgr.Get().Max);
                         }
                     }
 
@@ -242,7 +380,6 @@ namespace WonderBlast.Game.Common
                         {
                             stack.Add(block);
                             block._LocalPosition = new Vector2(x * block._SpriteWidthSize, height * block._SpriteHeightSize);
-                            //block.GetComponent<Block>().SetRandomColor(GameMgr.Get().Min, GameMgr.Get().Max);
                         }
                     }
 
@@ -279,15 +416,18 @@ namespace WonderBlast.Game.Common
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    BlockType blockType = blockEntities[x, y].GetComponent<Block>()._BlockType;
-                    if((x - 1) >= 0)
-                        if (ColorComparison(x - 1, y, blockType)) return;//left
-                    if ((x + 1) < width)
-                        if (ColorComparison(x + 1, y, blockType)) return;//right
-                    if ((y - 1) >= 0)
-                        if (ColorComparison(x, y - 1, blockType)) return;//up
-                    if ((y + 1) < height)
-                        if (ColorComparison(x, y + 1, blockType)) return;//down
+                    Block block = blockEntities[x, y].GetComponent<Block>();
+                    if (block == null) continue;
+
+                    var left  = new BlockDef(x - 1, y);
+                    var right = new BlockDef(x + 1, y);
+                    var up    = new BlockDef(x, y - 1);
+                    var down  = new BlockDef(x, y + 1);
+
+                    if (IsValidX(left.x) ) if (IsColorComparison(left, block._BlockType) ) return;
+                    if (IsValidX(right.x)) if (IsColorComparison(right, block._BlockType)) return;
+                    if (IsValidY(up.y)   ) if (IsColorComparison(up, block._BlockType)   ) return;
+                    if (IsValidY(down.y) ) if (IsColorComparison(down, block._BlockType) ) return;
                 }
             }
 
@@ -303,7 +443,7 @@ namespace WonderBlast.Game.Common
             }
         }
 
-        private bool MovingChecked(State state)
+        private bool IsMoving(State state)
         {
             foreach (var block in blockEntities)
             {
@@ -314,16 +454,41 @@ namespace WonderBlast.Game.Common
             return false;
         }
 
-        private bool ColorMatch(int x, int y, BlockType color)
+        private bool IsColorMatch(int x, int y, BlockType color)
         {
-            if (!blockEntities[x, y].GetComponent<Block>().ColorMatch(color)) return false;
+            Block block = blockEntities[x, y].GetComponent<Block>();
+            if (block == null) return false;
+            if (!block.ColorMatch(color)) return false;
             return true;
         }
 
-        private bool ColorComparison(int x, int y, BlockType color)
+        private bool IsColorComparison(BlockDef blockDef, BlockType color)
         {
-            if (!blockEntities[x, y].GetComponent<Block>().ColorComparison(color)) return false;
+            Block block = blockEntities[blockDef.x, blockDef.y].GetComponent<Block>();
+            if (block == null) return false;
+            if (!block.ColorComparison(color)) return false;
             return true;
+        }
+
+        private bool IsValidBlockEntity(BlockDef blockEntity)
+        {
+            return blockEntity.x >= 0 && blockEntity.x < width &&
+                   blockEntity.y >= 0 && blockEntity.y < height;
+        }
+
+        private bool IsValidBlockEntity(int x, int y)
+        {
+            return x >= 0 && x < width && y >= 0 && y < height;
+        }
+
+        private bool IsValidX(int x)
+        {
+            return x >= 0 && x < width;
+        }
+
+        private bool IsValidY(int y)
+        {
+            return y >= 0 && y < height;
         }
 
         private void Swap(BlockEntity a, BlockEntity b)
@@ -383,35 +548,29 @@ namespace WonderBlast.Game.Common
             return isTemp;
         }
 
-        private bool IsValidBlockEntity(BlockDef blockEntity)
-        {
-            return blockEntity.x >= 0 && blockEntity.x < width &&
-                   blockEntity.y >= 0 && blockEntity.y < height;
-        }
+       
 
         //coroutine Method
         IEnumerator Co_CheckCanColorMatch()
         {
-            while (MovingChecked(State.move)) yield return null;
+            while (IsMoving(State.move)) yield return null;
             yield return new WaitForSeconds(2f);//이부분은 나중에 수정
             MatchProcess();
             CheckCanColorMatch();
         }
-
-        //여기 수정해야함. 이제 특수퍼즐은 이미지 체인지 하지않음.
-        IEnumerator Co_SpecialItem(int x, int y, int count, int StartX, int endX)
+        
+        IEnumerator Co_SpecialBlockChange(int x, int y, int count)
         {
-            while (MovingChecked(State.special_move)) yield return null;
+            while (IsMoving(State.special_move)) yield return null;
             var hitBlock = blockEntities[x, y].GetComponent<Block>();
             BlockType colorType = (hitBlock != null) ? hitBlock._BlockType : BlockType.none;
-            blockEntities[x, y].Hide();
-            //hitBlock.GetComponent<PooledObject>().pool.ReturnObject(hitBlock.gameObject);
+            ReturnObject(hitBlock.gameObject);
 
             if (count == 5 || count == 6)
             {
                 int iRandom = Random.Range((int)ArrowType.horizontal, (int)ArrowType.vertical + 1);
                 CreateSpecial(SpecialType.arrow, x, y);
-                blockEntities[x, y].gameObject.AddComponent<ArrowBomb>().UpdateSprite((ArrowType)iRandom);
+                blockEntities[x, y].gameObject.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
             }
             else if (count == 7 || count == 8)
             {
@@ -420,153 +579,19 @@ namespace WonderBlast.Game.Common
             else
             {
                 CreateSpecial(SpecialType.ranbow, x, y);
-                Ranbow ranbow = blockEntities[x, y].gameObject.AddComponent<Ranbow>();
+                Ranbow ranbow = blockEntities[x, y].gameObject.GetComponent<Ranbow>();
                 Assert.IsNotNull(ranbow);
                 ranbow._PreType = colorType;
                 string strTemp = string.Format("{0}_{1}", SpecialType.ranbow, colorType);
                 ranbow.UpdateSprite(strTemp);
             }
             
-            MatchDown(StartX, endX);
+            MatchDown();
         }
 
-        private ObjectPool GetSpecialPool(SpecialType type)
+        protected IEnumerator Co_SpecialMatch(List<BlockDef> blockDefList)
         {
-            GamePool gamePools = GameMgr.Get().gamePools;
-            switch (type)
-            {
-                case SpecialType.arrow:
-                    return gamePools.arrowBombPool;
-
-                case SpecialType.bomb:
-                    return gamePools.bombPool;
-
-                case SpecialType.ranbow:
-                    return gamePools.ranbowPool;
-            }
-            return null;
-        }
-
-        private void CreateSpecial(SpecialType type, int x, int y)
-        {
-            GamePool gamePools = GameMgr.Get().gamePools;
-            ObjectPool specialPool = null;
-            switch (type)
-            {
-                case SpecialType.arrow:
-                    specialPool = gamePools.arrowBombPool;
-                    break;
-
-                case SpecialType.bomb:
-                    specialPool = gamePools.bombPool;
-                    break;
-
-                case SpecialType.ranbow:
-                    specialPool = gamePools.ranbowPool;
-                    break;
-            }
-
-            Assert.IsNotNull(specialPool);
-            var special = CreateBlock(specialPool.GetObject());
-            CreateSpecial(special, x, y);
-        }
-
-        private void CreateSpecial(GameObject special, int x, int y)
-        {
-            special.transform.localPosition = blockEntities[x, y]._LocalPosition;
-            BlockEntity entity = special.GetComponent<BlockEntity>();
-            Assert.IsNotNull(entity);
-            blockEntities[x, y] = entity;
-            blockEntities[x, y]._State = State.idle;
-        }
-
-        private GameObject CreateBlock(GameObject go)
-        {
-            go.GetComponent<BlockEntity>().Show();
-            return go;
-        }
-
-        //private GameObject CreateNewBlock()
-        //{
-        //    var percent = UnityEngine.Random.Range(0, 100);
-        //    if (generatedCollectables < neededCollectables &&
-        //        percent < level.collectableChance)
-        //    {
-        //        generatedCollectables += 1;
-        //        return CreateBlock(gamePools.GetTileEntity(level, new BlockTile { type = BlockType.Collectable }).gameObject);
-        //    }
-        //    else
-        //    {
-        //        return CreateBlock(gamePools.GetTileEntity(level, new BlockTile { type = BlockType.RandomBlock }).gameObject);
-        //    }
-        //}
-
-        //IEnumerator Co_WidthMatch(int y)
-        //{
-        //    int x = 0;
-        //    while (x < width)
-        //    {
-        //        var block = blockEntities[x, y].GetComponent<Special>();
-        //        if (block != null)
-        //        {
-        //            block._State = State.wait;
-        //            block.Hide();
-        //            //test
-        //            //block.isTest = false;
-        //            //
-
-        //            SpecialType type = block._SpecialType;
-        //            if (SpecialBlock(ref type, ref x, x, y, false, true))
-        //            {
-        //                block._SpecialType = type;
-        //                continue;
-        //            }
-
-        //            block._SpecialType = SpecialType.none;
-        //            ++x;
-        //            yield return null;
-        //        }
-        //    }
-
-        //    yield return new WaitForSeconds(delayTime);
-
-        //    MatchDown();
-        //}
-
-        //IEnumerator Co_HeightMatch(int x)
-        //{
-        //    int y = 0;
-        //    while (y < height)
-        //    {
-        //        var block = blockEntities[x, y].GetComponent<Special>();
-        //        if (block != null)
-        //        {
-        //            block._State = State.wait;
-        //            block.Hide();
-        //            //test
-        //            //block.isTest = false;
-        //            //
-
-        //            SpecialType type = block._SpecialType;
-        //            if (SpecialBlock(ref type, ref x, x, y, false, true))
-        //            {
-        //                block._SpecialType = type;
-        //                continue;
-        //            }
-
-        //            block._SpecialType = SpecialType.none;
-        //            ++y;
-        //            yield return null;
-        //        }
-        //    }
-
-        //    yield return new WaitForSeconds(delayTime);
-
-        //    MatchDown();
-        //}
-
-        protected IEnumerator Co_Match(List<BlockDef> blockDefList)
-        {
+            while (IsMoving(State.special_move)) yield return null;
             int defCount = blockDefList.Count;
             int count = 0;
             if (defCount != 0)
@@ -575,58 +600,35 @@ namespace WonderBlast.Game.Common
                 {
                     int x = blockDefList[count].x;
                     int y = blockDefList[count].y;
-                    var block = blockEntities[x, y].GetComponent<Special>();
-                    if (block != null)
-                    {
-                        block._State = State.wait;
-                        block.Hide();
-                        //test
-                        //block.isTest = false;
-                        //
+                    var hitBlock = blockEntities[x, y];
+                    Assert.IsNotNull(hitBlock);
+                    hitBlock._State = State.wait;
+                    hitBlock.Hide();
 
-                        SpecialType type = block._SpecialType;
-                        if (SpecialBlock(ref type, ref count, x, y, true, true))
+                    Special special = hitBlock.GetComponent<Special>();
+                    if(special != null)
+                    {
+                        if (!special._isCombo)
                         {
-                            block._SpecialType = type;
+                            SpecialMatch(x, y);
                             continue;
                         }
-
-                        block._SpecialType = SpecialType.none;
-                        ++count;
-                        //yield return null;
+                        else
+                        {
+                            ReturnObject(blockEntities[x, y].gameObject);
+                            CreateNewBlock(x, y);
+                            special._isCombo = false;
+                        }
                     }
+
+                    ++count;
+                    //yield return null;
                 }
 
                 yield return new WaitForSeconds(delayTime);
 
-                int pickX = blockDefList[0].x;
-                int startX = ((pickX - 1) >= 0) ? (pickX - 1) : pickX;
-                int endX = ((pickX + 1) < width) ? (pickX + 1) : pickX;
-                MatchDown(startX, endX);
-
-                //MatchDown();
+                MatchDown();
             }
-        }
-
-        IEnumerator Co_SameColorMatch(List<Block> blockDefList)
-        {
-            yield return new WaitForSeconds(delayTime);
-
-            int count = 0;
-            while (count < blockDefList.Count)
-            {
-                Block block = blockDefList[count];
-                block._State = State.wait;
-                block.Hide();
-                ++count;
-                //test
-                //block.isTest = false;
-                //
-            }
-
-            yield return new WaitForSeconds(delayTime);
-
-            MatchDown();
         }
     }
 }
