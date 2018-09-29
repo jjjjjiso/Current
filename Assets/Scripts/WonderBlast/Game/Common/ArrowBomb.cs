@@ -16,20 +16,89 @@ namespace WonderBlast.Game.Common
     {
         protected ArrowType arrowType = ArrowType.horizontal;
 
+        //public override List<BlockDef> Match(int x, int y)
+        //{
+        //    Stage s = GameMgr.Get()._Stage;
+        //    List<BlockDef> blocks = new List<BlockDef>();
+
+        //    //bomb1 = type;
+        //    //bool isCombo = GetCombo(x, y);
+        //    //if (!isCombo)
+        //    //{
+        //    //    ArrowBombMatch(blocks, s.width, s.height, x, y, arrowType);
+        //    //}
+        //    //else
+        //    //{
+        //    //    SpecialCombo(blocks, s.width, s.height, x, y);
+        //    //}
+
+        //    return blocks;
+        //}
+
         public override List<BlockDef> Match(int x, int y)
         {
             Stage s = GameMgr.Get()._Stage;
             List<BlockDef> blocks = new List<BlockDef>();
 
-            bomb1 = type;
-            bool isCombo = GetCombo(x, y, type);
-            if (!isCombo)
+            switch (arrowType)
             {
-                ArrowBombMatch(blocks, s.width, s.height, x, y, arrowType);
+                case ArrowType.horizontal:
+                    {
+                        //left
+                        for (int ix = x; ix >= 0; --ix)
+                        {
+                            AddBlock(blocks, ix, y);
+                        }
+                        //right
+                        for (int ix = x + 1; ix < s.width; ++ix)
+                        {
+                            AddBlock(blocks, ix, y);
+                        }
+                    }
+                    break;
+                case ArrowType.vertical:
+                    {
+                        //up
+                        for (int iy = y; iy >= 0; --iy)
+                        {
+                            AddBlock(blocks, x, iy);
+                        }
+                        //down
+                        for (int iy = y + 1; iy < s.height; ++iy)
+                        {
+                            AddBlock(blocks, x, iy);
+                        }
+                    }
+                    break;
             }
-            else
+
+            return blocks;
+        }
+
+        public override List<BlockDef> ComboMatch(int x, int y)
+        {
+            Stage s = GameMgr.Get()._Stage;
+            List<BlockDef> blocks = new List<BlockDef>();
+
+            //left
+            for (int ix = x; ix >= 0; --ix)
             {
-                SpecialCombo(blocks, s.width, s.height, x, y);
+                AddBlock(blocks, ix, y);
+            }
+            //up
+            for (int iy = y; iy >= 0; --iy)
+            {
+                AddBlock(blocks, x, iy);
+            }
+            //right
+            for (int ix = x + 1; ix < s.width; ++ix)
+            {
+                AddBlock(blocks, ix, y);
+            }
+            //down
+            for (int iy = y + 1; iy < s.height; ++iy)
+            {
+                AddBlock(blocks, x, iy);
             }
 
             return blocks;

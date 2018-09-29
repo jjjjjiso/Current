@@ -15,6 +15,7 @@ namespace WonderBlast.Game.Common
         protected BlockType preType = BlockType.none;
 
         protected float delayTime = 0.3f;
+
         protected bool isCombo = false;
 
         //default Method
@@ -25,42 +26,45 @@ namespace WonderBlast.Game.Common
             return new List<BlockDef>();
         }
 
-        protected bool GetCombo(int x, int y, SpecialType type)
+        public virtual List<BlockDef> ComboMatch(int x, int y)
         {
-            var up = new BlockDef(x, y - 1);
-            var down = new BlockDef(x, y + 1);
-            var left = new BlockDef(x - 1, y);
-            var right = new BlockDef(x + 1, y);
-
-            bool isCombo = false;
-
-            if (IsCombo(x, y, up.x, up.y, type)) isCombo = true;
-            if (IsCombo(x, y, down.x, down.y, type)) isCombo = true;
-            if (IsCombo(x, y, left.x, left.y, type)) isCombo = true;
-            if (IsCombo(x, y, right.x, right.y, type)) isCombo = true;
-
-            return isCombo;
+            return new List<BlockDef>();
         }
 
-        protected bool IsCombo(int pickX, int pickY, int x, int y, SpecialType type)
-        {
-            if (!IsValidBlock(x, y)) return false;
-            Stage s = GameMgr.Get()._Stage;
-            Special special = s.blockEntities[x, y].GetComponent<Special>();
-            if (special == null) return false;
+        //protected bool GetCombo(int x, int y)
+        //{
+        //    var up = new BlockDef(x, y - 1);
+        //    var down = new BlockDef(x, y + 1);
+        //    var left = new BlockDef(x - 1, y);
+        //    var right = new BlockDef(x + 1, y);
 
-            if (bomb2 >= special._SpecialType)
-                bomb1 = special._SpecialType;
-            if (bomb2 < special._SpecialType)
-                bomb2 = special._SpecialType;
-            
-            Ranbow ranbow = special.GetComponent<Ranbow>();
-            if (ranbow != null) _PreType = ranbow._PreType;
+        //    bool isCombo = false;
 
-            special.TargetMove(s.blockEntities[pickX, pickY]._LocalPosition);
-            special._isCombo = true;
-            return true;
-        }
+        //    if (IsCombo(x, y, up.x, up.y)) isCombo = true;
+        //    if (IsCombo(x, y, down.x, down.y)) isCombo = true;
+        //    if (IsCombo(x, y, left.x, left.y)) isCombo = true;
+        //    if (IsCombo(x, y, right.x, right.y)) isCombo = true;
+
+        //    return isCombo;
+        //}
+
+        //protected bool IsCombo(int pickX, int pickY, int x, int y)
+        //{
+        //    if (!IsValidBlock(x, y)) return false;
+        //    Stage s = GameMgr.Get()._Stage;
+        //    Special special = s.blockEntities[x, y].GetComponent<Special>();
+        //    if (special == null) return false;
+        //    if (!special.gameObject.activeSelf) return false;
+
+        //    if(!types.Contains(special._SpecialType)) types.Add(special._SpecialType);
+
+        //    Ranbow ranbow = special.GetComponent<Ranbow>();
+        //    if (ranbow != null) _PreType = ranbow._PreType;
+
+        //    special.TargetMove(s.blockEntities[pickX, pickY]._LocalPosition);
+        //    special._isCombo = true;
+        //    return true;
+        //}
 
         public void OnPressed()
         {
@@ -104,7 +108,7 @@ namespace WonderBlast.Game.Common
             set { preType = value; }
         }
 
-        public bool _isCombo
+        public bool _IsCombo
         {
             get { return isCombo; }
             set { isCombo = value; }

@@ -25,12 +25,14 @@ namespace WonderBlast.Game.Manager
         public void StageUpdate(int x, int y, SpecialType specialType)
         {
             if (stage == null) return;
+            if (stage.isSpecialWait) return;
             stage.SpecialMatch(x, y);
         }
 
         public void StageUpdate(int x, int y, BlockType blockType)
         {
             if (stage == null) return;
+            if (stage.isSpecialWait) return;
             stage.NormMatch(x, y, blockType);
         }
 
