@@ -8,24 +8,7 @@ namespace WonderBlast.Game.Common
 {
     public class Ranbow : Special
     {
-        //public override List<BlockDef> Match(int x, int y)
-        //{
-        //    Stage s = GameMgr.Get()._Stage;
-        //    List<BlockDef> blocks = new List<BlockDef>();
-
-        //    //bomb1 = type;
-        //    //bool isCombo = GetCombo(x, y);
-        //    //if (!isCombo)
-        //    //{
-        //    //    RanbowMatch(blocks, x, y);
-        //    //}
-        //    //else
-        //    //{
-        //    //    SpecialCombo(blocks, s.width, s.height, x, y);
-        //    //}
-
-        //    return blocks;
-        //}
+        protected BlockType preType = BlockType.none;
 
         public override List<BlockDef> Match(int x, int y)
         {
@@ -67,6 +50,12 @@ namespace WonderBlast.Game.Common
             }
 
             return blocks;
+        }
+
+        public BlockType _PreType
+        {
+            get { return preType; }
+            set { preType = value; }
         }
     }
 }

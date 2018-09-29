@@ -130,7 +130,7 @@ namespace WonderBlast.Game.Common
                 {
                     blockDefList.Clear();
                     types.Add(special._SpecialType);
-                    if (special._SpecialType == SpecialType.ranbow) ranbowColor = special._PreType;
+                    if (special._SpecialType == SpecialType.ranbow) ranbowColor = special.GetComponent<Ranbow>()._PreType;
                     blockDefList = SpecialCombo(special, x, y);
                 }
             }

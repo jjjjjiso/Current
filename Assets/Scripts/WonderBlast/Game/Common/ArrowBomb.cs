@@ -16,25 +16,6 @@ namespace WonderBlast.Game.Common
     {
         protected ArrowType arrowType = ArrowType.horizontal;
 
-        //public override List<BlockDef> Match(int x, int y)
-        //{
-        //    Stage s = GameMgr.Get()._Stage;
-        //    List<BlockDef> blocks = new List<BlockDef>();
-
-        //    //bomb1 = type;
-        //    //bool isCombo = GetCombo(x, y);
-        //    //if (!isCombo)
-        //    //{
-        //    //    ArrowBombMatch(blocks, s.width, s.height, x, y, arrowType);
-        //    //}
-        //    //else
-        //    //{
-        //    //    SpecialCombo(blocks, s.width, s.height, x, y);
-        //    //}
-
-        //    return blocks;
-        //}
-
         public override List<BlockDef> Match(int x, int y)
         {
             Stage s = GameMgr.Get()._Stage;
