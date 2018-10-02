@@ -704,7 +704,7 @@ MonoBehaviour:
   blockPool: {fileID: 1988441815}
   arrowBombPool: {fileID: 797041543}
   bombPool: {fileID: 1886208197}
-  ranbowPool: {fileID: 1442206678}
+  rainbowPool: {fileID: 1442206678}
 --- !u!4 &855820192
 Transform:
   m_ObjectHideFlags: 0
