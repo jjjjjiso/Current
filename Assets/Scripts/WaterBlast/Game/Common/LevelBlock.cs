@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class LevelBlock
     {
@@ -14,8 +14,8 @@ namespace WonderBlast.Game.Common
         public BlockType type;
     }
 
-    public class LevelSpecialType : LevelBlock
+    public class LevelBoosterType : LevelBlock
     {
-        public SpecialType type;
+        public BoosterType type;
     }
 }

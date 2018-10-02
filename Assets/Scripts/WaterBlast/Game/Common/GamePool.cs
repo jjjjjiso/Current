@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class GamePool : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace WonderBlast.Game.Common
 
         public ObjectPool arrowBombPool = null;
         public ObjectPool bombPool = null;
-        public ObjectPool ranbowPool = null;
+        public ObjectPool rainbowPool = null;
 
         //List<ObjectPool> colorBlocks = new List<ObjectPool>();
 
@@ -29,7 +29,7 @@ namespace WonderBlast.Game.Common
             //Assert.IsNotNull(purpleblockPool);
             Assert.IsNotNull(arrowBombPool);
             Assert.IsNotNull(bombPool);
-            Assert.IsNotNull(ranbowPool);
+            Assert.IsNotNull(rainbowPool);
 
             //colorBlocks.Add(redBlockPool);
             //colorBlocks.Add(orangeBlockPool);
@@ -66,17 +66,17 @@ namespace WonderBlast.Game.Common
                 //        }
                 //}
             }
-            else if(block is LevelSpecialType)
+            else if(block is LevelBoosterType)
             {
-                var type = (LevelSpecialType)block;
+                var type = (LevelBoosterType)block;
                 switch (type.type)
                 {
-                    case SpecialType.arrow:
+                    case BoosterType.arrow:
                         return arrowBombPool.GetObject().GetComponent<BlockEntity>();
-                    case SpecialType.bomb:
+                    case BoosterType.bomb:
                         return bombPool.GetObject().GetComponent<BlockEntity>();
-                    case SpecialType.ranbow:
-                        return ranbowPool.GetObject().GetComponent<BlockEntity>();
+                    case BoosterType.rainbow:
+                        return rainbowPool.GetObject().GetComponent<BlockEntity>();
                 }
             }
 

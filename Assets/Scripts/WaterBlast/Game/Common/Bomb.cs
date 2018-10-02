@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
-    public class Bomb : Special
+    public class Bomb : Booster
     {
         public override List<BlockDef> Match(int x, int y)
         {

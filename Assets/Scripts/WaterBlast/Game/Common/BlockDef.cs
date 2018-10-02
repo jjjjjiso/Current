@@ -1,4 +1,4 @@
-﻿namespace WonderBlast.Game.Common
+﻿namespace WaterBlast.Game.Common
 {
     public class BlockDef
     {

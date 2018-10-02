@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class ObjectPool : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-﻿namespace WonderBlast.Game.Common
+﻿namespace WaterBlast.Game.Common
 {
     public enum BlockerType
     {
@@ -17,20 +17,20 @@
         random,
     }
 
-    public enum SpecialType
+    public enum BoosterType
     {
         none,
         arrow,
         bomb,
-        ranbow,
+        rainbow,
     }
 
-    public enum specialSynthesis
+    public enum BoosterSynthesis
     {
         none,
         arrowBombAndBomb,
-        arrowBombAndRanbow,
-        BombAndRanbow,
+        arrowBombAndRainbow,
+        BombAndRainbow,
     }
 
     public enum State
@@ -38,6 +38,6 @@
         idle,
         move,
         wait,
-        special_move,//특수블럭쪽으로 움직이는 상태.
+        booster_move,//특수블럭쪽으로 움직이는 상태.
     }
 }

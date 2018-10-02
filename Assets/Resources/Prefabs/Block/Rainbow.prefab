@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114899622305324698}
   - component: {fileID: 114828196271867326}
   m_Layer: 9
-  m_Name: Ranbow
+  m_Name: Rainbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

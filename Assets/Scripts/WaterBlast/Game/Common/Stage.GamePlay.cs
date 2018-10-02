@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     //블럭 매치
     public partial class Stage : MonoBehaviour
     {
         private List<BlockDef> comboBomb = new List<BlockDef>();
-        private List<SpecialType> types = new List<SpecialType>();
-        private BlockType ranbowColor = BlockType.none;
+        private List<BoosterType> types = new List<BoosterType>();
+        private BlockType rainbowColor = BlockType.none;
 
         private float delayTime = 0.35f;
 
-        public bool isSpecialWait = false;
+        public bool isBoosterWait = false;
         
         public void NormMatch(int x, int y, BlockType blockType)
         {
@@ -90,14 +90,14 @@ namespace WonderBlast.Game.Common
 
         private void ExplodeBlockEntity(List<Vector2> matchList)
         {
-            bool isSpecial = (matchList.Count >= 5) ? true : false;
+            bool isBooster = (matchList.Count >= 5) ? true : false;
 
             for (int i = 0; i < matchList.Count; ++i)
             {
                 int x = (int)matchList[i].x;
                 int y = (int)matchList[i].y;
 
-                if(!isSpecial)
+                if(!isBooster)
                     blockEntities[x, y].Hide();
                 else
                 {
@@ -107,62 +107,62 @@ namespace WonderBlast.Game.Common
                 }
             }
 
-            if(!isSpecial)
+            if(!isBooster)
                 MatchDown();
             else
             {
                 int pickX = (int)matchList[0].x;
                 int pickY = (int)matchList[0].y;
-                StartCoroutine(Co_SpecialBlockChange(pickX, pickY, matchList.Count));
+                StartCoroutine(Co_BoosterChange(pickX, pickY, matchList.Count));
             }
         }
 
-        public void SpecialMatch(int x, int y, bool isComboCheck = true)
+        public void BoosterMatch(int x, int y, bool isComboCheck = true)
         {
             List<BlockDef> blockDefList = null;
-            Special special = blockEntities[x, y].GetComponent<Special>();
+            Booster booster = blockEntities[x, y].GetComponent<Booster>();
 
-            blockDefList = special.Match(x, y);
+            blockDefList = booster.Match(x, y);
             if (isComboCheck)
             {
                 bool isCombo = GetCombo(x, y);
                 if (isCombo)
                 {
                     blockDefList.Clear();
-                    types.Add(special._SpecialType);
-                    if (special._SpecialType == SpecialType.ranbow) ranbowColor = special.GetComponent<Ranbow>()._PreType;
-                    blockDefList = SpecialCombo(special, x, y);
+                    types.Add(booster._BoosterType);
+                    if (booster._BoosterType == BoosterType.rainbow) rainbowColor = booster.GetComponent<Rainbow>()._PreType;
+                    blockDefList = BoosterCombo(booster, x, y);
                 }
             }
 
             ReturnObject(blockEntities[x, y].gameObject);
             CreateNewBlock(x, y);
 
-            if (blockDefList != null) StartCoroutine(Co_SpecialMatch(blockDefList));
+            if (blockDefList != null) StartCoroutine(Co_BoosterMatch(blockDefList));
         }
 
-        private List<BlockDef> SpecialCombo(Special special, int x, int y)
+        private List<BlockDef> BoosterCombo(Booster booster, int x, int y)
         {
             List<BlockDef> blockList = null;
 
-            types.Sort(delegate (SpecialType a, SpecialType b) { return (b.CompareTo(a)); });
+            types.Sort(delegate (BoosterType a, BoosterType b) { return (b.CompareTo(a)); });
 
             if (types[0] == types[1])
             {
-                blockList = special.ComboMatch(x, y);
+                blockList = booster.ComboMatch(x, y);
             }
             else
             {
-                switch (SpecialComboType(types[0], types[1]))
+                switch (BoosterComboType(types[0], types[1]))
                 {
-                    case specialSynthesis.arrowBombAndBomb:
+                    case BoosterSynthesis.arrowBombAndBomb:
                         blockList = ArrowBombAndBomb(x, y);
                         break;
-                    case specialSynthesis.arrowBombAndRanbow:
-                        RanbowAndAnotherBomb(SpecialType.arrow);
+                    case BoosterSynthesis.arrowBombAndRainbow:
+                        RainbowAndAnotherBomb(BoosterType.arrow);
                         break;
-                    case specialSynthesis.BombAndRanbow:
-                        RanbowAndAnotherBomb(SpecialType.bomb);
+                    case BoosterSynthesis.BombAndRainbow:
+                        RainbowAndAnotherBomb(BoosterType.bomb);
                         break;
                 }
             }
@@ -172,22 +172,22 @@ namespace WonderBlast.Game.Common
             return blockList;
         }
 
-        private specialSynthesis SpecialComboType(SpecialType a, SpecialType b)
+        private BoosterSynthesis BoosterComboType(BoosterType a, BoosterType b)
         {
-            specialSynthesis type = specialSynthesis.none;
+            BoosterSynthesis type = BoosterSynthesis.none;
             switch (a)
             {
-                case SpecialType.arrow:
-                    if (b == SpecialType.bomb) type = specialSynthesis.arrowBombAndBomb;
-                    else if (b == SpecialType.ranbow) type = specialSynthesis.arrowBombAndRanbow;
+                case BoosterType.arrow:
+                    if (b == BoosterType.bomb) type = BoosterSynthesis.arrowBombAndBomb;
+                    else if (b == BoosterType.rainbow) type = BoosterSynthesis.arrowBombAndRainbow;
                     break;
-                case SpecialType.bomb:
-                    if (b == SpecialType.arrow) type = specialSynthesis.arrowBombAndBomb;
-                    else if (b == SpecialType.ranbow) type = specialSynthesis.BombAndRanbow;
+                case BoosterType.bomb:
+                    if (b == BoosterType.arrow) type = BoosterSynthesis.arrowBombAndBomb;
+                    else if (b == BoosterType.rainbow) type = BoosterSynthesis.BombAndRainbow;
                     break;
-                case SpecialType.ranbow:
-                    if (b == SpecialType.arrow) type = specialSynthesis.arrowBombAndRanbow;
-                    else if (b == SpecialType.bomb) type = specialSynthesis.BombAndRanbow;
+                case BoosterType.rainbow:
+                    if (b == BoosterType.arrow) type = BoosterSynthesis.arrowBombAndRainbow;
+                    else if (b == BoosterType.bomb) type = BoosterSynthesis.BombAndRainbow;
                     break;
             }
 
@@ -228,7 +228,7 @@ namespace WonderBlast.Game.Common
             return blocks;
         }
 
-        private void RanbowAndAnotherBomb(SpecialType type)
+        private void RainbowAndAnotherBomb(BoosterType type)
         {
             List<BlockDef> blocks = new List<BlockDef>();
             for (int x = 0; x < width; ++x)
@@ -238,59 +238,59 @@ namespace WonderBlast.Game.Common
                     BlockEntity entity = blockEntities[x, y];
                     Block block = entity.GetComponent<Block>();
                     if (block == null) continue;
-                    if (ranbowColor != block._BlockType) continue;
+                    if (rainbowColor != block._BlockType) continue;
                     blocks.Add(new BlockDef(x, y));
                 }
             }
 
-            StartCoroutine(Co_RanbowAndAnotherBomb(blocks, type));
+            StartCoroutine(Co_RainbowAndAnotherBomb(blocks, type));
         }
 
-        private ObjectPool GetSpecialPool(SpecialType type)
+        private ObjectPool GetBoosterPool(BoosterType type)
         {
             GamePool gamePools = GameMgr.Get().gamePools;
             switch (type)
             {
-                case SpecialType.arrow:
+                case BoosterType.arrow:
                     return gamePools.arrowBombPool;
 
-                case SpecialType.bomb:
+                case BoosterType.bomb:
                     return gamePools.bombPool;
 
-                case SpecialType.ranbow:
-                    return gamePools.ranbowPool;
+                case BoosterType.rainbow:
+                    return gamePools.rainbowPool;
             }
             return null;
         }
 
-        private void CreateSpecial(SpecialType type, int x, int y)
+        private void CreateBooster(BoosterType type, int x, int y)
         {
             GamePool gamePools = GameMgr.Get().gamePools;
-            ObjectPool specialPool = null;
+            ObjectPool boosterPool = null;
             switch (type)
             {
-                case SpecialType.arrow:
-                    specialPool = gamePools.arrowBombPool;
+                case BoosterType.arrow:
+                    boosterPool = gamePools.arrowBombPool;
                     break;
 
-                case SpecialType.bomb:
-                    specialPool = gamePools.bombPool;
+                case BoosterType.bomb:
+                    boosterPool = gamePools.bombPool;
                     break;
 
-                case SpecialType.ranbow:
-                    specialPool = gamePools.ranbowPool;
+                case BoosterType.rainbow:
+                    boosterPool = gamePools.rainbowPool;
                     break;
             }
 
-            Assert.IsNotNull(specialPool);
-            var special = CreateBlock(specialPool.GetObject());
-            CreateSpecial(special, x, y);
+            Assert.IsNotNull(boosterPool);
+            var booster = CreateBlock(boosterPool.GetObject());
+            CreateBooster(booster, x, y);
         }
 
-        private void CreateSpecial(GameObject special, int x, int y)
+        private void CreateBooster(GameObject booster, int x, int y)
         {
-            special.transform.localPosition = blockEntities[x, y]._LocalPosition;
-            BlockEntity entity = special.GetComponent<BlockEntity>();
+            booster.transform.localPosition = blockEntities[x, y]._LocalPosition;
+            BlockEntity entity = booster.GetComponent<BlockEntity>();
             Assert.IsNotNull(entity);
             entity.transform.localScale = Vector3.one;
             blockEntities[x, y] = entity;
@@ -439,17 +439,17 @@ namespace WonderBlast.Game.Common
         private bool IsCombo(int pickX, int pickY, int x, int y)
         {
             if (!IsValidBlockEntity(x, y)) return false;
-            Special special = blockEntities[x, y].GetComponent<Special>();
-            if (special == null) return false;
-            if (!special.gameObject.activeSelf) return false;
+            Booster booster = blockEntities[x, y].GetComponent<Booster>();
+            if (booster == null) return false;
+            if (!booster.gameObject.activeSelf) return false;
 
-            if (!types.Contains(special._SpecialType)) types.Add(special._SpecialType);
+            if (!types.Contains(booster._BoosterType)) types.Add(booster._BoosterType);
 
-            Ranbow ranbow = special.GetComponent<Ranbow>();
-            if (ranbow != null) ranbowColor = ranbow._PreType;
+            Rainbow rainbow = booster.GetComponent<Rainbow>();
+            if (rainbow != null) rainbowColor = rainbow._PreType;
 
-            special.TargetMove(blockEntities[pickX, pickY]._LocalPosition);
-            special._IsCombo = true;
+            booster.TargetMove(blockEntities[pickX, pickY]._LocalPosition);
+            booster._IsCombo = true;
             comboBomb.Add(new BlockDef(x, y));
             return true;
         }
@@ -527,9 +527,9 @@ namespace WonderBlast.Game.Common
             CheckCanColorMatch();
         }
         
-        IEnumerator Co_SpecialBlockChange(int x, int y, int count)
+        IEnumerator Co_BoosterChange(int x, int y, int count)
         {
-            while (IsMoving(State.special_move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
             var hitBlock = blockEntities[x, y].GetComponent<Block>();
             BlockType colorType = (hitBlock != null) ? hitBlock._BlockType : BlockType.none;
             ReturnObject(hitBlock.gameObject);
@@ -537,29 +537,29 @@ namespace WonderBlast.Game.Common
             if (count == 5 || count == 6)
             {
                 int iRandom = Random.Range((int)ArrowType.horizontal, (int)ArrowType.vertical + 1);
-                CreateSpecial(SpecialType.arrow, x, y);
+                CreateBooster(BoosterType.arrow, x, y);
                 blockEntities[x, y].gameObject.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
             }
             else if (count == 7 || count == 8)
             {
-                CreateSpecial(SpecialType.bomb, x, y);
+                CreateBooster(BoosterType.bomb, x, y);
             }
             else
             {
-                CreateSpecial(SpecialType.ranbow, x, y);
-                Ranbow ranbow = blockEntities[x, y].gameObject.GetComponent<Ranbow>();
-                Assert.IsNotNull(ranbow);
-                ranbow._PreType = colorType;
-                string strTemp = string.Format("{0}_{1}", SpecialType.ranbow, colorType);
-                ranbow.UpdateSprite(strTemp);
+                CreateBooster(BoosterType.rainbow, x, y);
+                Rainbow rainbow = blockEntities[x, y].gameObject.GetComponent<Rainbow>();
+                Assert.IsNotNull(rainbow);
+                rainbow._PreType = colorType;
+                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, colorType);
+                rainbow.UpdateSprite(strTemp);
             }
             
             MatchDown();
         }
 
-        IEnumerator Co_SpecialMatch(List<BlockDef> blockDefList)
+        IEnumerator Co_BoosterMatch(List<BlockDef> blockDefList)
         {
-            while (IsMoving(State.special_move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
             int defCount = blockDefList.Count;
             int count = 0;
             if (defCount != 0)
@@ -573,18 +573,18 @@ namespace WonderBlast.Game.Common
                     hitBlock._State = State.wait;
                     hitBlock.Hide();
 
-                    Special special = hitBlock.GetComponent<Special>();
-                    if(special != null)
+                    Booster booster = hitBlock.GetComponent<Booster>();
+                    if(booster != null)
                     {
-                        if (!special._IsCombo)
+                        if (!booster._IsCombo)
                         {
-                            SpecialMatch(x, y, false);
+                            BoosterMatch(x, y, false);
                             continue;
                         }
                         else
                         {
-                            special._IsCombo = false;
-                            ReturnObject(special.gameObject);
+                            booster._IsCombo = false;
+                            ReturnObject(booster.gameObject);
                             CreateNewBlock(x, y);
                         }
                     }
@@ -594,18 +594,18 @@ namespace WonderBlast.Game.Common
 
                 yield return new WaitForSeconds(delayTime);
 
-                isSpecialWait = false;
+                isBoosterWait = false;
                 ComboBombClear();
                 MatchDown();
             }
         }
 
-        IEnumerator Co_RanbowAndAnotherBomb(List<BlockDef> blocks, SpecialType type)
+        IEnumerator Co_RainbowAndAnotherBomb(List<BlockDef> blocks, BoosterType type)
         {
-            while (IsMoving(State.special_move)) yield return null;
-            isSpecialWait = true;
+            while (IsMoving(State.booster_move)) yield return null;
+            isBoosterWait = true;
             ComboBombClear();
-            List<Special> specials = new List<Special>();
+            List<Booster> boosters = new List<Booster>();
             int count = 0;
             while (count < blocks.Count)
             {
@@ -613,13 +613,13 @@ namespace WonderBlast.Game.Common
                 int y = blocks[count].y;
                 var hitBlock = blockEntities[x, y].GetComponent<Block>();
                 ReturnObject(hitBlock.gameObject);
-                CreateSpecial(type, x, y);
-                if (type == SpecialType.arrow)
+                CreateBooster(type, x, y);
+                if (type == BoosterType.arrow)
                 {
                     int iRandom = Random.Range((int)ArrowType.horizontal, (int)ArrowType.vertical + 1);
                     blockEntities[x, y].gameObject.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
                 }
-                specials.Add(blockEntities[x, y].GetComponent<Special>());
+                boosters.Add(blockEntities[x, y].GetComponent<Booster>());
                 ++count;
                 yield return null;
             }
@@ -628,11 +628,11 @@ namespace WonderBlast.Game.Common
 
             yield return new WaitForSeconds(.35f);
 
-            foreach (var special in specials)
+            foreach (var booster in boosters)
             {
-                if (special == null) continue;
-                blocks = special.Match(special._X, special._Y);
-                StartCoroutine(Co_SpecialMatch(blocks));
+                if (booster == null) continue;
+                blocks = booster.Match(booster._X, booster._Y);
+                StartCoroutine(Co_BoosterMatch(blocks));
             }
         }
     }

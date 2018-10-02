@@ -54,8 +54,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 696ffb0a1c6ab9c47ba54077e4e3b1e7, type: 2}
   mSprites:
   - name: blue
-    x: 204
-    y: 206
+    x: 51
+    y: 104
     width: 50
     height: 50
     borderLeft: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: green
-    x: 153
-    y: 155
+    x: 204
+    y: 206
     width: 50
     height: 50
     borderLeft: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: horizontal
     x: 51
-    y: 104
+    y: 155
     width: 50
     height: 50
     borderLeft: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: orange
-    x: 102
+    x: 153
     y: 155
     width: 50
     height: 50
@@ -119,6 +119,19 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: purple
+    x: 204
+    y: 155
+    width: 50
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: rainbow
     x: 51
     y: 2
     width: 50
@@ -131,9 +144,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: ranbow_blue
-    x: 153
-    y: 206
+  - name: rainbow_blue
+    x: 102
+    y: 155
     width: 50
     height: 50
     borderLeft: 0
@@ -144,7 +157,7 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: ranbow_green
+  - name: rainbow_green
     x: 0
     y: 104
     width: 50
@@ -157,33 +170,7 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: ranbow_orange
-    x: 0
-    y: 155
-    width: 50
-    height: 50
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: ranbow_purple
-    x: 0
-    y: 206
-    width: 50
-    height: 50
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: ranbow_red
+  - name: rainbow_orange
     x: 0
     y: 53
     width: 50
@@ -196,7 +183,33 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: ranbow_yellow
+  - name: rainbow_purple
+    x: 0
+    y: 206
+    width: 50
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: rainbow_red
+    x: 0
+    y: 155
+    width: 50
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: rainbow_yellow
     x: 102
     y: 206
     width: 50
@@ -210,7 +223,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: red
-    x: 51
+    x: 153
     y: 206
     width: 50
     height: 50
@@ -223,8 +236,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: vertical
-    x: 51
-    y: 155
+    x: 0
+    y: 2
     width: 50
     height: 50
     borderLeft: 0
@@ -236,8 +249,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: yellow
-    x: 0
-    y: 2
+    x: 51
+    y: 206
     width: 50
     height: 50
     borderLeft: 0

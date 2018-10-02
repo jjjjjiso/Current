@@ -1,6 +1,6 @@
-﻿using WonderBlast.Game.Common;
+﻿using WaterBlast.Game.Common;
 
-namespace WonderBlast.Game.Manager
+namespace WaterBlast.Game.Manager
 {
     public class GameMgr : MonoSingleton<GameMgr>
     {
@@ -22,18 +22,18 @@ namespace WonderBlast.Game.Manager
             stage = Stage.Create();
         }
 
-        public void StageUpdate(int x, int y, SpecialType specialType)
+        public void StageUpdate(int x, int y, BoosterType type)
         {
             if (stage == null) return;
-            if (stage.isSpecialWait) return;
-            stage.SpecialMatch(x, y);
+            if (stage.isBoosterWait) return;
+            stage.BoosterMatch(x, y);
         }
 
-        public void StageUpdate(int x, int y, BlockType blockType)
+        public void StageUpdate(int x, int y, BlockType type)
         {
             if (stage == null) return;
-            if (stage.isSpecialWait) return;
-            stage.NormMatch(x, y, blockType);
+            if (stage.isBoosterWait) return;
+            stage.NormMatch(x, y, type);
         }
 
         //Property

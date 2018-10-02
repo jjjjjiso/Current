@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
-    public partial class Special : BlockEntity
+    public partial class Booster : BlockEntity
     {
         //public field
 
         //private field
         [SerializeField]
-        protected SpecialType type = SpecialType.none;//폭탄 타입
+        protected BoosterType type = BoosterType.none;//폭탄 타입
 
         protected float delayTime = 0.3f;
 
@@ -32,7 +32,7 @@ namespace WonderBlast.Game.Common
 
         public void OnPressed()
         {
-            if (state == State.move || state == State.special_move) return;
+            if (state == State.move || state == State.booster_move) return;
             GameMgr.Get().StageUpdate(_X, _Y, type);
         }
 
@@ -60,7 +60,7 @@ namespace WonderBlast.Game.Common
         //coroutine Method
 
         //Property
-        public SpecialType _SpecialType
+        public BoosterType _BoosterType
         {
             get { return type; }
             set { type = value; }

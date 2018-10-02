@@ -1127,7 +1127,7 @@ GameObject:
   - component: {fileID: 1442206677}
   - component: {fileID: 1442206678}
   m_Layer: 9
-  m_Name: Ranbow
+  m_Name: Rainbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1210,7 +1210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1945912786}
   m_Layer: 9
-  m_Name: SpecialBlockPool
+  m_Name: BoostersPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1283,7 +1283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2041881271}
   m_Layer: 9
-  m_Name: ColorBlockPool
+  m_Name: ColorBlocksPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

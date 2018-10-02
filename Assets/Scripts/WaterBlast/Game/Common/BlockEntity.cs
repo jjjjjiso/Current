@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class BlockEntity : MonoBehaviour
     {
@@ -80,7 +80,7 @@ namespace WonderBlast.Game.Common
 
         protected IEnumerator Co_TargetMove(Vector2 endPos)
         {
-            state = State.special_move;
+            state = State.booster_move;
             UIWidget widget = gameObject.GetComponent<UIWidget>();
             widget.depth = 10;
 

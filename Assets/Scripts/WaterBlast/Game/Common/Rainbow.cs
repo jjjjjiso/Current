@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
-    public class Ranbow : Special
+    public class Rainbow : Booster
     {
         protected BlockType preType = BlockType.none;
 

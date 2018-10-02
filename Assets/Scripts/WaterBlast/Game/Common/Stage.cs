@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     //블럭 생성 & 배치
     public partial class Stage : MonoBehaviour

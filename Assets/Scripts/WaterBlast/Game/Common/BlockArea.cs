@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class BlockArea : MonoSingleton<BlockArea>
     {

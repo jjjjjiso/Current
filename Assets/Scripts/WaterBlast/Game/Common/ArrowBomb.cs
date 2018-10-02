@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public enum ArrowType
     {
@@ -12,7 +12,7 @@ namespace WonderBlast.Game.Common
         vertical,
     }
 
-    public class ArrowBomb : Special
+    public class ArrowBomb : Booster
     {
         protected ArrowType arrowType = ArrowType.horizontal;
 

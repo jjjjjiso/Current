@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-using WonderBlast.Game.Manager;
+using WaterBlast.Game.Manager;
 
-namespace WonderBlast.Game.Common
+namespace WaterBlast.Game.Common
 {
     public class Block : BlockEntity
     {
@@ -23,7 +23,7 @@ namespace WonderBlast.Game.Common
 
         public void OnPressed()
         {
-            if (state == State.move || state == State.special_move) return;
+            if (state == State.move || state == State.booster_move) return;
             GameMgr.Get().StageUpdate(_X, _Y, type);
         }
 
