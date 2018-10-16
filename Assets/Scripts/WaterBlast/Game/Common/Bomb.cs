@@ -48,5 +48,21 @@ namespace WaterBlast.Game.Common
 
             return blocks;
         }
+
+        public override void CreateParticle(bool isCombo)
+        {
+            GameObject particles = null;
+
+            if (!isCombo)
+            {
+                particles = GameMgr.Get().gamePools.bombParticlesPool.GetObject();
+            }
+            else
+            {
+                particles = GameMgr.Get().gamePools.bombComboParticlesPool.GetObject();
+            }
+
+            CreateParticle(particles, _LocalPosition);
+        }
     }
 }

@@ -8,13 +8,13 @@ namespace WaterBlast.Game.Common
 {
     public enum ArrowType
     {
-        horizontal,
+        horizon,
         vertical,
     }
 
     public class ArrowBomb : Booster
     {
-        protected ArrowType arrowType = ArrowType.horizontal;
+        protected ArrowType arrowType = ArrowType.horizon;
 
         public override List<BlockDef> Match(int x, int y)
         {
@@ -23,15 +23,9 @@ namespace WaterBlast.Game.Common
 
             switch (arrowType)
             {
-                case ArrowType.horizontal:
+                case ArrowType.horizon:
                     {
-                        //left
-                        for (int ix = x; ix >= 0; --ix)
-                        {
-                            AddBlock(blocks, ix, y);
-                        }
-                        //right
-                        for (int ix = x + 1; ix < s.width; ++ix)
+                        for(int ix = 0; ix < s.width; ++ix)
                         {
                             AddBlock(blocks, ix, y);
                         }
@@ -39,13 +33,7 @@ namespace WaterBlast.Game.Common
                     break;
                 case ArrowType.vertical:
                     {
-                        //up
-                        for (int iy = y; iy >= 0; --iy)
-                        {
-                            AddBlock(blocks, x, iy);
-                        }
-                        //down
-                        for (int iy = y + 1; iy < s.height; ++iy)
+                        for (int iy = 0; iy < s.height; ++iy)
                         {
                             AddBlock(blocks, x, iy);
                         }
@@ -61,28 +49,57 @@ namespace WaterBlast.Game.Common
             Stage s = GameMgr.Get()._Stage;
             List<BlockDef> blocks = new List<BlockDef>();
 
-            //left
-            for (int ix = x; ix >= 0; --ix)
+            for (int ix = 0; ix < s.width; ++ix)
             {
                 AddBlock(blocks, ix, y);
             }
-            //up
-            for (int iy = y; iy >= 0; --iy)
-            {
-                AddBlock(blocks, x, iy);
-            }
-            //right
-            for (int ix = x + 1; ix < s.width; ++ix)
-            {
-                AddBlock(blocks, ix, y);
-            }
-            //down
-            for (int iy = y + 1; iy < s.height; ++iy)
+            for (int iy = 0; iy < s.height; ++iy)
             {
                 AddBlock(blocks, x, iy);
             }
 
             return blocks;
+        }
+
+        public override void CreateParticle(bool isCombo)
+        {
+            GameObject particles = null;
+            Vector2 localPosition = Vector2.zero;
+
+            if(!isCombo)
+            {
+                switch (arrowType)
+                {
+                    case ArrowType.horizon:
+                        {
+                            particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
+                            localPosition = particles.transform.localPosition;
+                            localPosition.y = _LocalPosition.y;
+                        }
+                        break;
+                    case ArrowType.vertical:
+                        {
+                            particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
+                            localPosition = particles.transform.localPosition;
+                            localPosition.x = _LocalPosition.x;
+                        }
+                        break;
+                }
+
+                CreateParticle(particles, localPosition);
+            }
+            else
+            {
+                particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
+                localPosition = particles.transform.localPosition;
+                localPosition.y = _LocalPosition.y;
+                CreateParticle(particles, localPosition);
+
+                particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
+                localPosition = particles.transform.localPosition;
+                localPosition.x = _LocalPosition.x;
+                CreateParticle(particles, localPosition);
+            }
         }
 
         public void UpdateSprite(ArrowType type)

@@ -12,11 +12,13 @@ namespace WaterBlast.Game.Common
         protected State state = State.idle;
         protected BlockDef blockDef = null; //index
         protected UISprite uiSprite = null;
+        protected UIWidget uiWidget = null;
 
         //default Method
         protected void Awake()
         {
             uiSprite = gameObject.GetComponentInChildren<UISprite>();
+            uiWidget = gameObject.GetComponent<UIWidget>();
         }
 
         //public Method
@@ -53,8 +55,8 @@ namespace WaterBlast.Game.Common
 
         public void SetData()
         {
-            blockDef.x = (int)_LocalPosition.x;
-            blockDef.y = (int)_LocalPosition.y;
+            blockDef.x = (int)_LocalPosition.x / _SpriteWidthSize;
+            blockDef.y = (int)_LocalPosition.y / _SpriteHeightSize;
         }
 
         public void SetPosition(int x, int y)
@@ -119,12 +121,12 @@ namespace WaterBlast.Game.Common
 
         public int _SpriteWidthSize
         {
-            get { return (uiSprite != null) ? uiSprite.width : -1; }
+            get { return (uiWidget != null) ? uiWidget.width : -1; }
         }
 
         public int _SpriteHeightSize
         {
-            get { return (uiSprite != null) ? uiSprite.height : -1; }
+            get { return (uiWidget != null) ? uiWidget.height : -1; }
         }
 
         public BlockDef _BlockData

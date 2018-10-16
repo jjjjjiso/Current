@@ -8,7 +8,7 @@ namespace WaterBlast.Game.Common
 {
     public class Rainbow : Booster
     {
-        protected BlockType preType = BlockType.none;
+        protected BlockType preType = BlockType.empty;
 
         public override List<BlockDef> Match(int x, int y)
         {
@@ -22,10 +22,9 @@ namespace WaterBlast.Game.Common
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
-                    BlockEntity entity = s.blockEntities[ix, iy];
-                    Block block = entity.GetComponent<Block>();
+                    Block block = s.blockEntities[ix, iy] as Block;
                     if (block == null) continue;
-                    if (preType == BlockType.none || preType != block._BlockType) continue;
+                    if (preType == BlockType.empty || preType != block._BlockType) continue;
                     string strTemp = string.Format("{0}_{1}", type, preType);
                     UpdateSprite(strTemp);
                     AddBlock(blocks, ix, iy);

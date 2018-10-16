@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using WaterBlast.Game.Manager;
+using WaterBlast.Game.UI;
 
 namespace WaterBlast.Game.Common
 {
@@ -30,10 +31,15 @@ namespace WaterBlast.Game.Common
             return new List<BlockDef>();
         }
 
+        public virtual void CreateParticle(bool isCombo)
+        {
+
+        }
+
         public void OnPressed()
         {
             if (state == State.move || state == State.booster_move) return;
-            GameMgr.Get().StageUpdate(_X, _Y, type);
+            GameMgr.Get().StageUpdate(_X, _Y);
         }
 
         protected void AddBlock(List<BlockDef> blocks, int x, int y)
@@ -41,6 +47,9 @@ namespace WaterBlast.Game.Common
             GameMgr gameMgr = GameMgr.Get();
             if (x < 0 || x >= gameMgr._Stage.width ||
                 y < 0 || y >= gameMgr._Stage.height) return;
+
+            Block block = gameMgr._Stage.blockEntities[x, y] as Block;
+            if (block != null && block._BlockType == BlockType.empty) return;
 
             BlockDef def = new BlockDef(x, y);
             if (!blocks.Contains(def)) blocks.Add(def);
@@ -55,6 +64,12 @@ namespace WaterBlast.Game.Common
         public void UpdateSprite(string strName)
         {
             if (uiSprite != null) uiSprite.spriteName = strName;
+        }
+
+        protected void CreateParticle(GameObject particles, Vector2 localPosition)
+        {
+            particles.transform.localPosition = localPosition;
+            particles.GetComponent<BlockParticles>().Playing();
         }
 
         //coroutine Method

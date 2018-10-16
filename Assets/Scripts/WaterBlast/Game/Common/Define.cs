@@ -3,11 +3,12 @@
     public enum BlockerType
     {
         none,
+        ice,
     }
 
     public enum BlockType
     {
-        none,
+        empty,
         red,
         orange,
         yellow,
@@ -15,6 +16,16 @@
         blue,
         purple,
         random,
+    }
+
+    public enum ColorType
+    {
+        red,
+        orange,
+        yellow,
+        green,
+        blue,
+        purple,
     }
 
     public enum BoosterType
@@ -31,6 +42,14 @@
         arrowBombAndBomb,
         arrowBombAndRainbow,
         BombAndRainbow,
+    }
+
+    public enum ItemType
+    {
+        hammer,
+        horizon,
+        vertical,
+        mix,
     }
 
     public enum State

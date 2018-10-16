@@ -53,9 +53,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 696ffb0a1c6ab9c47ba54077e4e3b1e7, type: 2}
   mSprites:
+  - name: background
+    x: 202
+    y: 334
+    width: 77
+    height: 77
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: blue
-    x: 51
-    y: 104
+    x: 202
+    y: 283
     width: 50
     height: 50
     borderLeft: 0
@@ -67,21 +80,21 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bomb
-    x: 51
-    y: 53
-    width: 50
-    height: 50
+    x: 0
+    y: 374
+    width: 135
+    height: 138
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
+    paddingLeft: 1
+    paddingRight: 4
+    paddingTop: 1
+    paddingBottom: 1
   - name: green
-    x: 204
-    y: 206
+    x: 153
+    y: 20
     width: 50
     height: 50
     borderLeft: 0
@@ -92,9 +105,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: horizontal
-    x: 51
-    y: 155
+  - name: horizon
+    x: 202
+    y: 181
     width: 50
     height: 50
     borderLeft: 0
@@ -106,8 +119,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: orange
-    x: 153
-    y: 155
+    x: 202
+    y: 232
     width: 50
     height: 50
     borderLeft: 0
@@ -119,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: purple
-    x: 204
-    y: 155
+    x: 0
+    y: 20
     width: 50
     height: 50
     borderLeft: 0
@@ -132,10 +145,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow
-    x: 51
-    y: 2
-    width: 50
-    height: 50
+    x: 136
+    y: 412
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -145,10 +158,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_blue
-    x: 102
-    y: 155
-    width: 50
-    height: 50
+    x: 101
+    y: 172
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -158,10 +171,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_green
-    x: 0
-    y: 104
-    width: 50
-    height: 50
+    x: 101
+    y: 273
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -171,10 +184,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_orange
-    x: 0
-    y: 53
-    width: 50
-    height: 50
+    x: 101
+    y: 71
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -185,9 +198,9 @@ MonoBehaviour:
     paddingBottom: 0
   - name: rainbow_purple
     x: 0
-    y: 206
-    width: 50
-    height: 50
+    y: 71
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -198,9 +211,9 @@ MonoBehaviour:
     paddingBottom: 0
   - name: rainbow_red
     x: 0
-    y: 155
-    width: 50
-    height: 50
+    y: 273
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -210,10 +223,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_yellow
-    x: 102
-    y: 206
-    width: 50
-    height: 50
+    x: 0
+    y: 172
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -223,8 +236,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: red
-    x: 153
-    y: 206
+    x: 237
+    y: 462
     width: 50
     height: 50
     borderLeft: 0
@@ -236,8 +249,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: vertical
-    x: 0
-    y: 2
+    x: 102
+    y: 20
     width: 50
     height: 50
     borderLeft: 0
@@ -250,7 +263,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: yellow
     x: 51
-    y: 206
+    y: 20
     width: 50
     height: 50
     borderLeft: 0

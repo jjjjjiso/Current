@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.Assertions;
 
 using WaterBlast.Game.Manager;
@@ -8,9 +10,7 @@ namespace WaterBlast.Game.Common
     //블럭 생성 & 배치
     public partial class Stage : MonoBehaviour
     {
-        static private readonly string BLOCK_PATH = "Prefabs/Block/Block";
-
-        static public Stage Create()
+        static public Stage Create(Transform parent, UIAtlas atlas)
         {
             GameObject obj = new GameObject();
             if (obj == null) return null;
@@ -25,7 +25,7 @@ namespace WaterBlast.Game.Common
                 obj = null;
             }
 
-            temp.SetUp();
+            temp.SetUp(parent, atlas);
 
             return temp;
         }
@@ -35,13 +35,61 @@ namespace WaterBlast.Game.Common
         public int width  = 9;
         public int height = 9;
 
-        private BlockEntity blockPrefab = null;
+        private int blockSize = 0;
 
-        private void SetUp()
+        private void SetUp(Transform parent, UIAtlas atlas)
         {
-            blockPrefab = Resources.Load<BlockEntity>(BLOCK_PATH);
             BlockSetting();
+            CreateBackground(parent, atlas);
             CheckCanColorMatch();
+        }
+
+        private void BlockSetting()
+        {
+            //Block Object Create.
+            GameMgr gameMgr = GameMgr.Get();
+            blockEntities = new BlockEntity[width, height];
+            
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    var index = x * width + y;
+                    var temp = gameMgr.gamePools.GetBlockEntity(gameMgr.level.blocks[index]);
+                    Assert.IsNotNull(temp);
+                    temp.Show();
+                    temp.SetData(x, y);
+                    blockEntities[x, y] = temp;
+                }
+            }
+
+            //Position Setting.
+            blockSize = blockEntities[0,0]._SpriteWidthSize;
+            Vector2 pos = Vector2.zero;
+            for (int x = 0; x < width; ++x)
+            {
+                pos.x = Point(x, width);
+
+                for (int y = 0; y < height; ++y)
+                {
+                    pos.y = Point(y, height);
+
+                    blockEntities[x, y]._LocalPosition = pos;
+                }
+            }
+        }
+
+        private float Point(int index, int line)
+        {
+            float axis = -1;
+            int center = (int)(line * 0.5f);
+            bool isCenter = (index == center) ? true : false;
+            if (isCenter)
+                axis = 0;
+            else
+                axis = (index < center) ? -((center - index) * blockSize) : ((index - center) * blockSize);
+
+            return axis;
         }
 
         private BlockEntity CreateBlock()
@@ -53,48 +101,24 @@ namespace WaterBlast.Game.Common
             return entity;
         }
 
-        private void BlockSetting()
+        private void CreateBackground(Transform parent, UIAtlas atlas)
         {
-            if (blockPrefab == null) return;
-            //Block Object Create.
-            blockEntities = new BlockEntity[width, height];
-
-            for (int iX = 0; iX < width; ++iX)
-            {
-                for (int iY = 0; iY < height; ++iY)
-                {
-                    var temp = CreateBlock();
-                    Assert.IsNotNull(temp);
-                    temp.GetComponent<Block>().SetRandomColor(GameMgr.Get().Min, GameMgr.Get().Max);
-                    temp.SetData(iX, iY);
-                    BlockArea.Get().Attach(temp.transform);
-                    blockEntities[iX, iY] = temp;
-                }
-            }
-
-           // Position Setting.
-            int sizeX = blockEntities[0,0]._SpriteWidthSize;
-            int sizeY = blockEntities[0,0]._SpriteHeightSize;
-            Vector3 pos = Vector3.zero;
             for (int x = 0; x < width; ++x)
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    int iIndex = y * width + x;
-                    if (iIndex == 0) continue;
+                    Block block = blockEntities[x, y] as Block;
+                    if (block._BlockType == BlockType.empty) continue;
 
-                    if ((x % width) != 0)
-                    {
-                        pos = blockEntities[x - 1, y]._LocalPosition;
-                        pos.x += sizeX;
-                    }
-                    else//(iX % m_iWidth) == 0
-                    {
-                        pos.x = 0;
-                        pos.y -= sizeY;
-                    }
-
-                    blockEntities[x, y]._LocalPosition = pos;
+                    GameObject background = new GameObject("Background");
+                    background.layer = parent.gameObject.layer;
+                    UISprite sprite = background.AddComponent<UISprite>();
+                    sprite.atlas = atlas;
+                    sprite.spriteName = "background";
+                    sprite.color = new Color32(10, 10, 10, 255);//Color.black;
+                    background.transform.parent = parent;
+                    background.transform.Reset();
+                    background.transform.localPosition = block._LocalPosition;
                 }
             }
         }

@@ -1,0 +1,441 @@
+{
+    "id": 1,
+    "blocks": [
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "random",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        }
+    ],
+    "limit": 20,
+    "goals": [
+        {
+            "blockType": "red",
+            "amount": 5,
+            "$type": "WaterBlast.Game.Common.CollectBlockGoal"
+        },
+        {
+            "blockType": "green",
+            "amount": 7,
+            "$type": "WaterBlast.Game.Common.CollectBlockGoal"
+        }
+    ],
+    "availableColors": [
+        "red",
+        "orange",
+        "yellow",
+        "green"
+    ],
+    "score1": 100,
+    "score2": 200,
+    "score3": 500,
+    "awardBoostersWithRemainingMoves": false,
+    "awardedBoosterType": "none",
+    "collectableChance": 0,
+    "availableItem": {
+        "hammer": false,
+        "horizon": false,
+        "vertical": false,
+        "mix": false
+    }
+}
