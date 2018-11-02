@@ -8,6 +8,7 @@ namespace WaterBlast.Game.UI
     {
         public UISprite image = null;
         public UILabel number = null;
+        public UISprite tick = null;
         
         public void GoalUISetting(Goal goal)
         {
@@ -23,6 +24,12 @@ namespace WaterBlast.Game.UI
                 image.spriteName = blocker.blockerType.ToString();
                 number.text = blocker.amount.ToString();
             }
+        }
+
+        public void Complete(bool isComplete)
+        {
+            if (number != null) number.gameObject.SetActive(!isComplete);
+            if (tick != null) tick.gameObject.SetActive(isComplete);
         }
     }
 }

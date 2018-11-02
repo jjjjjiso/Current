@@ -48,8 +48,6 @@ namespace WaterBlast.Editor
         private ColorType curColorBlock;
 
         private Vector2 scrollPos;
-
-        private bool isOne = false;
         
         public LevelEditorTab(WaterBlastEditor editor) : base(editor)
         {
@@ -60,9 +58,6 @@ namespace WaterBlast.Editor
                 var filename = Path.GetFileNameWithoutExtension(file.Name);
                 tileTextures[filename] = Resources.Load("Game/" + filename) as Texture;
             }
-
-            width = 9;
-            height = 9;
         }
 
         /// <summary>
@@ -81,6 +76,9 @@ namespace WaterBlast.Editor
 
             if(curLevel != null)
             {
+                var level = curLevel;
+                width = level.width;
+
                 GUILayout.Space(15);
 
                 GUILayout.BeginVertical();
@@ -125,7 +123,6 @@ namespace WaterBlast.Editor
 
             if(GUILayout.Button("New", GUILayout.Width(100), GUILayout.Height(50)))
             {
-                isOne = false;
                 curLevel = new Level();
                 curGoal = null;
                 InitializeNewLevel();
@@ -135,7 +132,6 @@ namespace WaterBlast.Editor
 
             if (GUILayout.Button("Open", GUILayout.Width(100), GUILayout.Height(50)))
             {
-                isOne = true;
                 var path = EditorUtility.OpenFilePanel("Open level", Application.dataPath + "/Resources/Levels",
                     "json");
                 if(!string.IsNullOrEmpty(path))
@@ -338,6 +334,20 @@ namespace WaterBlast.Editor
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(new GUIContent("Width", "The width of this level. (이 레벨의 너비)"),
+                GUILayout.Width(EditorGUIUtility.labelWidth));
+            curLevel.width = EditorGUILayout.IntField(curLevel.width, GUILayout.Width(30));
+            GUILayout.EndHorizontal();
+
+            height = curLevel.height;
+
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(new GUIContent("Height", "The height of this level. (이 레벨의 높이)"),
+                GUILayout.Width(EditorGUIUtility.labelWidth));
+            curLevel.height = EditorGUILayout.IntField(curLevel.height, GUILayout.Width(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(new GUIContent("Brush type", "The current type of brush. (현재 브러시 유형)"),
                 GUILayout.Width(EditorGUIUtility.labelWidth));
             curBrushType = (BrushType)EditorGUILayout.EnumPopup(curBrushType, GUILayout.Width(100));
@@ -369,13 +379,12 @@ namespace WaterBlast.Editor
 
             GUILayout.Space(10);
             
-            if(!isOne)
+            if(width != curLevel.width || height != curLevel.height)
             {
-                isOne = true;
-                curLevel.blocks = new List<LevelBlock>(width * height);
-                for (var i = 0; i < width; i++)
+                curLevel.blocks = new List<LevelBlock>(curLevel.width * curLevel.height);
+                for (var i = 0; i < curLevel.width; i++)
                 {
-                    for (var j = 0; j < height; j++)
+                    for (var j = 0; j < curLevel.height; j++)
                     {
                         curLevel.blocks.Add(new LevelBlockType() { type = BlockType.random });
                     }
@@ -393,12 +402,12 @@ namespace WaterBlast.Editor
             //    GUILayout.EndHorizontal();
             //}
 
-            for (var i = 0; i < height; i++)
+            for (var i = curLevel.height - 1; i >= 0; --i)
             {
                 GUILayout.BeginHorizontal();
-                for (var j = 0; j < width; j++)
+                for (var j = 0; j < curLevel.width; j++)
                 {
-                    var tileIndex = (width * j) + i;
+                    var tileIndex = (curLevel.width * j) + i;
                     CreateButton(tileIndex);
                 }
                 GUILayout.EndHorizontal();

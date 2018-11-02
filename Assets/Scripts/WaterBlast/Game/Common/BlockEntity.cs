@@ -1,24 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using WaterBlast.Game.UI;
+
 namespace WaterBlast.Game.Common
 {
     public class BlockEntity : MonoBehaviour
     {
         //public field
+        
 
         //private field
         [SerializeField]
         protected State state = State.idle;
+        [SerializeField]
+        protected BlockIcon iconUI = null;
+
         protected BlockDef blockDef = null; //index
         protected UISprite uiSprite = null;
         protected UIWidget uiWidget = null;
+        protected Animator anim = null;
+
+        protected int animLayer = 0;
 
         //default Method
         protected void Awake()
         {
             uiSprite = gameObject.GetComponentInChildren<UISprite>();
             uiWidget = gameObject.GetComponent<UIWidget>();
+            anim = gameObject.GetComponent<Animator>();
         }
 
         //public Method
@@ -31,6 +41,11 @@ namespace WaterBlast.Game.Common
         public virtual void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        public void PlayAnim(string name)
+        {
+            anim.SetTrigger(name);
         }
 
         public void DownMove(Vector2 endPos, int x, int y)
@@ -55,8 +70,8 @@ namespace WaterBlast.Game.Common
 
         public void SetData()
         {
-            blockDef.x = (int)_LocalPosition.x / _SpriteWidthSize;
-            blockDef.y = (int)_LocalPosition.y / _SpriteHeightSize;
+            blockDef.x = (int)_LocalPosition.x / _BlockWidthSize;
+            blockDef.y = (int)_LocalPosition.y / _BlockHeightSize;
         }
 
         public void SetPosition(int x, int y)
@@ -66,6 +81,18 @@ namespace WaterBlast.Game.Common
             blockDef.y = y;
         }
 
+        public void SetDepth(int depth)
+        {
+            if (uiWidget != null) uiWidget.depth = depth;
+            if (uiSprite != null) uiSprite.depth = depth;
+            if (iconUI != null) iconUI.SetDepth(depth + 1);
+        }
+
+        public void SetIcon(string name)
+        {
+            iconUI.SpriteUpdate(name, _BlockDepth + 1);
+        }
+
         //private Method
 
         //coroutine Method
@@ -73,22 +100,24 @@ namespace WaterBlast.Game.Common
         {
             state = State.move;
 
-            yield return StartCoroutine(Co_Move(endPos, .35f));
+            yield return StartCoroutine(Co_Move(endPos, .3f));
 
             state = State.idle;
             SetData(x, y);
             _LocalPosition = endPos;
+            SetDepth(y + 11);
         }
 
         protected IEnumerator Co_TargetMove(Vector2 endPos)
         {
             state = State.booster_move;
             UIWidget widget = gameObject.GetComponent<UIWidget>();
-            widget.depth = 10;
+            int depth = _BlockDepth;
+            widget.depth = 30;
 
             yield return StartCoroutine(Co_Move(endPos, .2f));
 
-            widget.depth = 1;
+            widget.depth = depth;
             state = State.wait;
             Hide();
             _LocalPosition = endPos;
@@ -98,7 +127,6 @@ namespace WaterBlast.Game.Common
         {
             Vector2 startPos = this._LocalPosition;
             float startTime = Time.time;
-            //float duration = .35f;
             while (Time.time - startTime <= duration)
             {
                 _LocalPosition = Vector2.Lerp(startPos, endPos, (Time.time - startTime) / duration);
@@ -119,14 +147,20 @@ namespace WaterBlast.Game.Common
             set { transform.localScale = value; }
         }
 
-        public int _SpriteWidthSize
+        public int _BlockWidthSize
         {
             get { return (uiWidget != null) ? uiWidget.width : -1; }
         }
 
-        public int _SpriteHeightSize
+        public int _BlockHeightSize
         {
             get { return (uiWidget != null) ? uiWidget.height : -1; }
+        }
+
+        public int _BlockDepth
+        {
+            get { return (uiWidget != null) ? uiWidget.depth : -1; }
+            //set { uiWidget.depth = value; }
         }
 
         public BlockDef _BlockData

@@ -2,17 +2,19 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using WaterBlast.Game.Manager;
+
 namespace WaterBlast.Game.Common
 {
     public class GamePool : MonoBehaviour
     {
         public ObjectPool empty = null;
-        public ObjectPool blockPool = null;
-        //public ObjectPool orangeBlockPool = null;
-        //public ObjectPool yellowblockPool = null;
-        //public ObjectPool greenblockPool = null;
-        //public ObjectPool blueblockPool = null;
-        //public ObjectPool purpleblockPool = null;
+        public ObjectPool redBlockPool = null;
+        public ObjectPool orangeBlockPool = null;
+        public ObjectPool yellowBlockPool = null;
+        public ObjectPool greenBlockPool = null;
+        public ObjectPool blueBlockPool = null;
+        public ObjectPool purpleBlockPool = null;
 
         public ObjectPool arrowBombPool = null;
         public ObjectPool bombPool = null;
@@ -30,17 +32,18 @@ namespace WaterBlast.Game.Common
         public ObjectPool bombParticlesPool = null;
         public ObjectPool bombComboParticlesPool = null;
 
-        //List<ObjectPool> colorBlocks = new List<ObjectPool>();
+        List<ObjectPool> colorBlocks = new List<ObjectPool>();
 
         private void Awake()
         {
             Assert.IsNotNull(empty);
-            Assert.IsNotNull(blockPool);
-            //Assert.IsNotNull(orangeBlockPool);
-            //Assert.IsNotNull(yellowblockPool);
-            //Assert.IsNotNull(greenblockPool);
-            //Assert.IsNotNull(blueblockPool);
-            //Assert.IsNotNull(purpleblockPool);
+            Assert.IsNotNull(redBlockPool);
+            Assert.IsNotNull(orangeBlockPool);
+            Assert.IsNotNull(yellowBlockPool);
+            Assert.IsNotNull(greenBlockPool);
+            Assert.IsNotNull(blueBlockPool);
+            Assert.IsNotNull(purpleBlockPool);
+
             Assert.IsNotNull(arrowBombPool);
             Assert.IsNotNull(bombPool);
             Assert.IsNotNull(rainbowPool);
@@ -55,12 +58,12 @@ namespace WaterBlast.Game.Common
             Assert.IsNotNull(lineHorizontalParticlesPool);
             Assert.IsNotNull(lineVerticalParticlesPool);
 
-            //colorBlocks.Add(redBlockPool);
-            //colorBlocks.Add(orangeBlockPool);
-            //colorBlocks.Add(yellowblockPool);
-            //colorBlocks.Add(greenblockPool);
-            //colorBlocks.Add(blueblockPool);
-            //colorBlocks.Add(purpleblockPool);
+            colorBlocks.Add(redBlockPool);
+            colorBlocks.Add(orangeBlockPool);
+            colorBlocks.Add(yellowBlockPool);
+            colorBlocks.Add(greenBlockPool);
+            colorBlocks.Add(blueBlockPool);
+            colorBlocks.Add(purpleBlockPool);
         }
 
         public BlockEntity GetBlockEntity(LevelBlock block)
@@ -74,9 +77,34 @@ namespace WaterBlast.Game.Common
                         {
                             return empty.GetObject().GetComponent<BlockEntity>();
                         }
+                    case BlockType.red:
+                        {
+                            return redBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.orange:
+                        {
+                            return orangeBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.yellow:
+                        {
+                            return yellowBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.green:
+                        {
+                            return greenBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.blue:
+                        {
+                            return blueBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.purple:
+                        {
+                            return purpleBlockPool.GetObject().GetComponent<BlockEntity>();
+                        }
                     case BlockType.random:
                         {
-                            return blockPool.GetObject().GetComponent<BlockEntity>();
+                            int random = Random.Range(0, GameMgr.Get().Max);
+                            return colorBlocks[random].GetObject().GetComponent<BlockEntity>();
                         }
                 }
             }

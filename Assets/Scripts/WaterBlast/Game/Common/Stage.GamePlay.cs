@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,23 +18,33 @@ namespace WaterBlast.Game.Common
 
         private float delayTime = 0.35f;
 
-        public bool isBoosterWait = false;
-        
+        public bool isWait = false;
+
         public void NormMatch(int x, int y, LevelBlock levelBlock)
         {
             List<Vector2> matchList = GetMatches(x, y, levelBlock);
 
             //2개 이상 터트리기.
             if (matchList.Count >= 2)
+            {
+                //미션 체크.
+                AddCollectedBlock(matchList);
                 ExplodeBlockEntities(matchList);
+            } 
             else
+            {
+                blockEntities[x, y].PlayAnim("NoMatches");
                 blockEntities[x, y]._State = State.idle;
+            }
         }
 
         private void ExplodeBlockEntities(List<Vector2> matchList)
         {
             if(GameMgr.Get().level.limit > 0)
                 --GameMgr.Get().level.limit;
+
+            //임의 점수
+            AddScore(matchList.Count * 10);
 
             bool isBooster = (matchList.Count >= 5) ? true : false;
 
@@ -57,9 +68,6 @@ namespace WaterBlast.Game.Common
                     Vector2 v = blockEntities[(int)matchList[0].x, (int)matchList[0].y]._LocalPosition;
                     block.TargetMove(v);
                 }
-                 
-                if(GameMgr.Get()._GameStage.collectedBlocks.ContainsKey(block._BlockType))
-                    GameMgr.Get()._GameStage.collectedBlocks[block._BlockType] += 1;
             }
 
             if(!isBooster)
@@ -70,6 +78,36 @@ namespace WaterBlast.Game.Common
                 int pickY = (int)matchList[0].y;
                 StartCoroutine(Co_BoosterChange(pickX, pickY, matchList.Count));
             }
+        }
+
+        IEnumerator Co_BoosterChange(int x, int y, int count)
+        {
+            while (IsMoving(State.booster_move)) yield return null;
+            var hitBlock = blockEntities[x, y] as Block;
+            BlockType colorType = (hitBlock != null) ? hitBlock._BlockType : BlockType.empty;
+            ReturnObject(hitBlock.gameObject);
+
+            if (count == 5 || count == 6)
+            {
+                int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
+                CreateBooster(BoosterType.arrow, x, y);
+                blockEntities[x, y].gameObject.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
+            }
+            else if (count == 7 || count == 8)
+            {
+                CreateBooster(BoosterType.bomb, x, y);
+            }
+            else
+            {
+                CreateBooster(BoosterType.rainbow, x, y);
+                Rainbow rainbow = blockEntities[x, y] as Rainbow;
+                Assert.IsNotNull(rainbow);
+                rainbow._PreType = colorType;
+                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, colorType);
+                rainbow.UpdateSprite(strTemp);
+            }
+
+            MatchDown();
         }
 
         public void BoosterMatches(int x, int y, bool isComboCheck = true)
@@ -87,7 +125,10 @@ namespace WaterBlast.Game.Common
                 if (GameMgr.Get().level.limit > 0)
                     --GameMgr.Get().level.limit;
                 
-                List <Vector2> comboBoosters = GetMatches(x, y);
+                List <Vector2> comboBoosters = GetMatches(x, y, null);
+
+                //임의 점수
+                AddScore(comboBoosters.Count);
 
                 if (comboBoosters.Count > 1)
                 {
@@ -107,15 +148,69 @@ namespace WaterBlast.Game.Common
             }
 
             booster._IsCombo = false;
-            ReturnObject(booster.gameObject);
-            CreateNewBlock(x, y);
-
             comboBoosters.Clear();
 
             if (blockDefList != null)
             {
-                if(!isCombo) StartCoroutine(Co_CreateBoosterParticles(booster, false));
+                AddScore(blockDefList.Count * 15);
+                if (!isCombo) StartCoroutine(Co_CreateBoosterParticles(booster, false));
                 StartCoroutine(Co_BoosterMatch(blockDefList));
+            }
+        }
+
+        IEnumerator Co_BoosterMatch(List<BlockDef> blockDefList)
+        {
+            while (IsMoving(State.booster_move)) yield return null;
+            ComboBoostersClear();
+            int defCount = blockDefList.Count;
+            int count = 0;
+            if (defCount != 0)
+            {
+                while (count < defCount)
+                {
+                    int x = blockDefList[count].x;
+                    int y = blockDefList[count].y;
+                    var hitBlock = blockEntities[x, y];
+                    if(!hitBlock.gameObject.activeSelf)
+                    {
+                        ++count;
+                        continue;
+                    }
+
+                    hitBlock._State = State.wait;
+                    hitBlock.Hide();
+
+                    Booster booster = hitBlock as Booster;
+                    if (booster != null)
+                    {
+                        if (!booster._IsCombo)
+                        {
+                            BoosterMatches(x, y, false);
+                            continue;
+                        }
+                        else
+                        {
+                            booster._IsCombo = false;
+                            ReturnObject(booster.gameObject);
+                            CreateNewBlock(x, y);
+                        }
+                    }
+                    else
+                    {
+                        //미션 체크.
+                        AddCollectedBlock(hitBlock);
+                        var particles = GameMgr.Get().gamePools.GetParticles(hitBlock);
+                        if (particles != null) CreateParticle(particles, hitBlock._LocalPosition);
+                    }
+
+                    ++count;
+                }
+
+                yield return new WaitForSeconds(delayTime);
+
+
+                MatchDown();
+                GameMgr.Get().GameEnd();
             }
         }
 
@@ -179,6 +274,7 @@ namespace WaterBlast.Game.Common
             {
                 for (int iy = 0; iy < height; ++iy)
                 {
+                    if (comboBoosterIndex != null && comboBoosterIndex.Contains(new Vector2(ix, iy))) continue;
                     AddBlockEntity(blocks, ix, iy);
                 }
             }
@@ -187,9 +283,13 @@ namespace WaterBlast.Game.Common
             {
                 for (int ix = 0; ix < width; ++ix)
                 {
+                    if (comboBoosterIndex != null && comboBoosterIndex.Contains(new Vector2(ix, iy))) continue;
                     AddBlockEntity(blocks, ix, iy);
                 }
             }
+
+            //임의 점수.
+            AddScore((width + height) * 6);
 
             StartCoroutine(Co_ArrowBombAndBombParticles(x, y));
             StartCoroutine(Co_BoosterMatch(blocks));
@@ -209,10 +309,188 @@ namespace WaterBlast.Game.Common
                 }
             }
 
+            //임의 점수.
+            AddScore(blocks.Count);
+
             StartCoroutine(Co_RainbowAndAnotherBomb(blocks, type));
         }
+        
+        public void UseItem(ItemType type, int x = -1, int y = -1)
+        {
+            switch (type)
+            {
+                case ItemType.hammer:
+                    //임의 점수
+                    AddScore(10);
+                    //미션 체크.
+                    AddCollectedBlock(blockEntities[x, y]);
+                    StartCoroutine(Co_UseHammerItem(x, y));
+                    break;
+                case ItemType.horizon:
+                    {
+                        StartCoroutine(Co_UseMittHorizonItem(y));
+                        Vector2 start = new Vector2(-410f, blockEntities[x, y]._LocalPosition.y);
+                        Vector2 end = new Vector2(420f, blockEntities[x, y]._LocalPosition.y);
+                        StartCoroutine(Co_MittMove(start, end, x, y, (int)ItemType.horizon));
+                    }
+                    break;
+                case ItemType.vertical:
+                    {
+                        StartCoroutine(Co_UseMittVerticalItem(x));
+                        Vector2 start = new Vector2(blockEntities[x, y]._LocalPosition.x, -515f);
+                        Vector2 end = new Vector2(blockEntities[x, y]._LocalPosition.x, 545f);
+                        StartCoroutine(Co_MittMove(start, end, x, y, (int)ItemType.vertical));
+                    }
+                    break;
+                case ItemType.mix:
+                    AllMixBlocks();
+                    //AllBlockColorSet();
+                    StartCoroutine(Co_BlockIconSetting());
+                    break;
+            }
+        }
 
-        private List<Vector2> GetMatches(int x, int y, LevelBlock levelBlock = null)
+        IEnumerator Co_UseHammerItem(int x, int y)
+        {
+            while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
+
+            isWait = true;
+
+            GameObject hammer = GameMgr.Get().gameItemAnim[(int)ItemType.hammer];
+            hammer.transform.localPosition = new Vector2(80f, -650f);
+            hammer.SetActive(true);
+
+            Vector2 start = hammer.transform.localPosition;
+            Vector2 end = blockEntities[x, y]._LocalPosition;
+            end.x += 180;
+            end.y -= 50;
+
+            float speed = 1.5f;
+            float time = 0;
+            float totalTime = 1f / speed;
+            
+            while (time < totalTime)
+            {
+                time += Time.deltaTime;
+                hammer.transform.localPosition = Vector3.Lerp(start, end, time * speed);
+                yield return null;
+            }
+
+            hammer.transform.localPosition = end;
+            hammer.GetComponent<Animator>().SetTrigger("Plump");
+
+            yield return new WaitForSeconds(.6f);
+
+            isWait = false;
+
+            BlockEntity block = blockEntities[x, y];
+            block._State = State.wait;
+            block.Hide();
+
+            var particles = GameMgr.Get().gamePools.GetParticles(block);
+            if (particles != null) CreateParticle(particles, block._LocalPosition);
+
+            MatchDown();
+
+            yield return new WaitForSeconds(.1f);
+
+            hammer.transform.localScale = Vector2.one;
+            hammer.SetActive(false);
+        }
+
+        IEnumerator Co_UseMittHorizonItem(int y)
+        {
+            while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
+
+            isWait = true;
+
+            int x = 0;
+            while (x < width)
+            {
+                BlockEntity block = blockEntities[x, y];
+
+                //미션 체크.
+                AddCollectedBlock(block);
+
+                block._State = State.wait;
+                block.Hide();
+
+                var particles = GameMgr.Get().gamePools.GetParticles(block);
+                if (particles != null) CreateParticle(particles, block._LocalPosition);
+
+                ++x;
+                yield return new WaitForSeconds(.05f);
+            }
+
+            isWait = false;
+            //임의 점수
+            AddScore(width);
+            MatchDown();
+
+            GameMgr.Get().GameEnd();
+        }
+
+        IEnumerator Co_UseMittVerticalItem(int x)
+        {
+            while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
+
+            isWait = true;
+
+            int y = 0;
+            while (y < height)
+            {
+                BlockEntity block = blockEntities[x, y];
+
+                //미션 체크.
+                AddCollectedBlock(block);
+
+                block._State = State.wait;
+                block.Hide();
+
+                var particles = GameMgr.Get().gamePools.GetParticles(block);
+                if (particles != null) CreateParticle(particles, block._LocalPosition);
+
+                ++y;
+                yield return new WaitForSeconds(.03f);
+            }
+
+            isWait = false;
+
+            //임의 점수
+            AddScore(height);
+            MatchDown();
+
+            GameMgr.Get().GameEnd();
+        }
+
+        IEnumerator Co_MittMove(Vector2 startPos, Vector2 endPos,  int x, int y, int index)
+        {
+            while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
+
+            isWait = true;
+            GameObject mitt = GameMgr.Get().gameItemAnim[index];
+            mitt.transform.localPosition = startPos;
+            mitt.SetActive(true);
+
+            float speed = 1.8f;
+            float time = 0;
+            float totalTime = 1f / speed;
+
+            while (time < totalTime)
+            {
+                time += Time.deltaTime;
+                mitt.transform.localPosition = Vector3.Lerp(startPos, endPos, time * speed);
+                yield return null;
+            }
+
+            mitt.transform.localPosition = endPos;
+
+            mitt.SetActive(false);
+            isWait = false;
+        }
+
+        //수정해야함....ㅜㅜ
+        private List<Vector2> GetMatches(int x, int y, LevelBlock levelBlock, bool isColorMatch = true)
         {
             Queue<BlockDef> qTemp = new Queue<BlockDef>();
             List<Vector2> matchList = new List<Vector2>();
@@ -223,7 +501,7 @@ namespace WaterBlast.Game.Common
                 BlockDef l = qTemp.Dequeue();
                 BlockDef r = new BlockDef(l.x + 1, l.y);
 
-                while (IsValidIndex(l.x, width) && IsMatches(l, levelBlock))
+                while (IsValidIndex(l.x, width) && IsMatches(l, levelBlock, isColorMatch))
                 {
                     if (!matchList.Contains(new Vector2(l.x, l.y)))
                         matchList.Add(new Vector2(l.x, l.y));
@@ -233,19 +511,19 @@ namespace WaterBlast.Game.Common
 
                     if (!matchList.Contains(new Vector2(up.x, up.y)))
                     {
-                        if ((l.y > 0) && IsMatches(up, levelBlock))
+                        if ((l.y > 0) && IsMatches(up, levelBlock, isColorMatch))
                             qTemp.Enqueue(up);
                     }
 
                     if (!matchList.Contains(new Vector2(down.x, down.y)))
                     {
-                        if ((l.y < height - 1) && IsMatches(down, levelBlock))
+                        if ((l.y < height - 1) && IsMatches(down, levelBlock, isColorMatch))
                             qTemp.Enqueue(down);
                     }
                     l.x--;
                 }
                 
-                while (IsValidIndex(r.x, width) && IsMatches(r, levelBlock))
+                while (IsValidIndex(r.x, width) && IsMatches(r, levelBlock, isColorMatch))
                 {
                     if (!matchList.Contains(new Vector2(r.x, r.y)))
                         matchList.Add(new Vector2(r.x, r.y));
@@ -255,13 +533,13 @@ namespace WaterBlast.Game.Common
 
                     if (!matchList.Contains(new Vector2(up.x, up.y)))
                     {
-                        if ((r.y > 0) && IsMatches(up, levelBlock))
+                        if ((r.y > 0) && IsMatches(up, levelBlock, isColorMatch))
                             qTemp.Enqueue(up);
                     }
 
                     if (!matchList.Contains(new Vector2(down.x, down.y)))
                     {
-                        if ((r.y < height - 1) && IsMatches(down, levelBlock))
+                        if ((r.y < height - 1) && IsMatches(down, levelBlock, isColorMatch))
                             qTemp.Enqueue(down);
                     }
                     r.x++;
@@ -293,8 +571,12 @@ namespace WaterBlast.Game.Common
                     {
                         if (!stack.Contains(blockEntity))
                         {
+                            ReturnObject(blockEntity.gameObject);
+                            CreateNewBlock(x, y);
+                            blockEntity = blockEntities[x, y];
+
                             stack.Add(blockEntity);
-                            blockEntity._LocalPosition = new Vector2(Point(x, width), (15 * blockSize));
+                            blockEntity._LocalPosition = new Vector2(Point(x, width, wSize), (15 * hSize));
                         }
                     }
 
@@ -304,7 +586,7 @@ namespace WaterBlast.Game.Common
                         if (emptyIdx != -1 && emptyIdx < yy) emptyCnt = 0;
                         yy -= emptyCnt;
                         Swap(x, y, x, yy);
-                        Vector2 vEndPos = new Vector2(Point(x, width), Point(yy, height));
+                        Vector2 vEndPos = new Vector2(Point(x, width, wSize), Point(yy, height, hSize));
                         blockEntity.DownMove(vEndPos, x, yy);
                     }
                 }
@@ -316,68 +598,155 @@ namespace WaterBlast.Game.Common
                     y -= emptyCnt;
                     var blockEntity = blockEntities[x, y];
                     blockEntity.Show();
-                    Vector2 vEndPos = new Vector2(Point(x, width), Point(y, height));
+                    Vector2 vEndPos = new Vector2(Point(x, width, wSize), Point(y, height, hSize));
                     blockEntity.DownMove(vEndPos, x, y);
                 }
             }
 
-            CheckCanColorMatch();
+            //CheckCanColorMatch();
+            BlockIconSetting();
         }
 
-        private void CheckCanColorMatch()
+        private void BlockIconSetting()
         {
-            StopCoroutine("Co_CheckCanColorMatch");
-            StartCoroutine("Co_CheckCanColorMatch");
+            StopCoroutine("Co_BlockIconSetting");
+            StartCoroutine("Co_BlockIconSetting");
         }
 
-        private void MatchProcess()
+        //여기도 수정해야함. 
+        IEnumerator Co_BlockIconSetting()
         {
+            while (isWait)yield return null;
+            while (IsMoving(State.move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
+
+            List<Vector2> matchListCheck = new List<Vector2>();
+            ColorBlock block = null;
+            bool isMatches = false;
+
             for (int x = 0; x < width; ++x)
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    Block block = blockEntities[x, y] as Block;
-                    if (block == null) continue;
+                    if (matchListCheck.Contains(new Vector2(x, y))) continue;
 
-                    var left  = new BlockDef(x - 1, y);
-                    var right = new BlockDef(x + 1, y);
-                    var up    = new BlockDef(x, y - 1);
-                    var down  = new BlockDef(x, y + 1);
+                    for (int j = 0; j < (int)ColorType.purple + 1; ++j)
+                    {
+                        block = blockEntities[x, y] as ColorBlock;
+                        if (block == null) continue;
+                        if (block._BlockType == BlockType.empty) continue;
 
-                    if (IsValidIndex(left.x, width) ) if (IsColorComparison(left, block._BlockType) ) return;
-                    if (IsValidIndex(right.x, width)) if (IsColorComparison(right, block._BlockType)) return;
-                    if (IsValidIndex(up.y, height)  ) if (IsColorComparison(up, block._BlockType)   ) return;
-                    if (IsValidIndex(down.y, height)) if (IsColorComparison(down, block._BlockType) ) return;
+                        BlockType blockType = BlockType.red;
+                        switch ((ColorType)j)
+                        {
+                            case ColorType.red:
+                                blockType = BlockType.red;
+                                break;
+                            case ColorType.orange:
+                                blockType = BlockType.orange;
+                                break;
+                            case ColorType.yellow:
+                                blockType = BlockType.yellow;
+                                break;
+                            case ColorType.green:
+                                blockType = BlockType.green;
+                                break;
+                            case ColorType.blue:
+                                blockType = BlockType.blue;
+                                break;
+                            case ColorType.purple:
+                                blockType = BlockType.purple;
+                                break;
+                        }
+                        
+                        List<Vector2> matchList = GetMatches(x, y, new LevelBlockType() { type = blockType }, false);
+
+                        foreach(Vector2 match in matchList)
+                        {
+                            if(!matchListCheck.Contains(match))
+                                matchListCheck.Add(match);
+                        }
+
+                        int count = matchList.Count;
+                        if (count == 0) continue;
+                        if (count >= 5)
+                        {
+                            foreach (Vector2 vec in matchList)
+                            {
+                                int xx = (int)vec.x;
+                                int yy = (int)vec.y;
+                                block = blockEntities[xx, yy] as ColorBlock;
+                                if (block == null) continue;
+                                if (count == 5 || count == 6)
+                                {
+                                    block.SetIcon(string.Format("arrow_icon_{0}", block._BlockType));
+                                }
+                                else if (count == 7 || count == 8)
+                                {
+                                    block.SetIcon(string.Format("tnt_icon_{0}", block._BlockType));
+                                }
+                                else
+                                {
+                                    block.SetIcon(string.Format("rainbow_icon_{0}", block._BlockType));
+                                }
+
+                                isMatches = true;
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            if(count > 1) isMatches = true;
+
+                            foreach (Vector2 vec in matchList)
+                            {
+                                int xx = (int)vec.x;
+                                int yy = (int)vec.y;
+                                block = blockEntities[xx, yy] as ColorBlock;
+                                if (block == null) continue;
+                                block.SetIcon(string.Format("face_icon_{0}", block._BlockType));
+                            }
+                        }
+                    }
                 }
             }
 
-            AllBlockColorSet();
-        }
-
-        private void AllBlockColorSet()
-        {
-            foreach (var block in blockEntities)
+            if(!isMatches)
             {
-                if (block == null) continue;
-                block.Show();
+                AllMixBlocks();
             }
         }
 
-        private ObjectPool GetBoosterPool(BoosterType type)
+        private void AllMixBlocks()
         {
-            GamePool gamePools = GameMgr.Get().gamePools;
-            switch (type)
+            List<BlockEntity> tempEntities = MixBlocks();
+            for (int x = 0; x < width; ++x)
             {
-                case BoosterType.arrow:
-                    return gamePools.arrowBombPool;
-
-                case BoosterType.bomb:
-                    return gamePools.bombPool;
-
-                case BoosterType.rainbow:
-                    return gamePools.rainbowPool;
+                for(int y = 0; y < height; ++y)
+                {
+                    int idx = width * x + y;
+                    blockEntities[x, y].DownMove(tempEntities[idx]._LocalPosition, x, y);
+                }
             }
-            return null;
+        }
+
+        private List<BlockEntity> MixBlocks()
+        {
+            List<BlockEntity> list = new List<BlockEntity>();
+            foreach (BlockEntity temp in blockEntities)
+            {
+                list.Add(temp);
+            }
+
+            int count = list.Count;
+            while (count > 1)
+            {
+                int index = (Random.Range(0, count) % count);
+                count--;
+                Swap(list[index]._X, list[index]._Y, list[count]._X, list[count]._Y);
+            }
+
+            return list;
         }
 
         private void CreateBooster(BoosterType type, int x, int y)
@@ -409,6 +778,7 @@ namespace WaterBlast.Game.Common
             booster.transform.localPosition = blockEntities[x, y]._LocalPosition;
             BlockEntity entity = booster.GetComponent<BlockEntity>();
             Assert.IsNotNull(entity);
+            entity.SetDepth(blockEntities[x, y]._BlockDepth);
             blockEntities[x, y] = entity;
             blockEntities[x, y]._State = State.idle;
             blockEntities[x, y].SetData(x, y);
@@ -416,7 +786,7 @@ namespace WaterBlast.Game.Common
 
         private void CreateNewBlock(int x, int y)
         {
-            BlockEntity entity = GameMgr.Get().gamePools.blockPool.GetObject().GetComponent<BlockEntity>();
+            BlockEntity entity = GameMgr.Get().gamePools.GetBlockEntity(new LevelBlockType() { type = BlockType.random });
             Assert.IsNotNull(entity);
             entity.transform.localPosition = blockEntities[x, y]._LocalPosition;
             blockEntities[x, y] = entity;
@@ -498,14 +868,17 @@ namespace WaterBlast.Game.Common
             return true;
         }
 
-        private bool IsMatches(BlockDef blockDef, LevelBlock levelBlock)
+        private bool IsMatches(BlockDef blockDef, LevelBlock levelBlock, bool isColorMatch = true)
         {
             bool isMatch = false;
             if (levelBlock != null)
             {
                 if (levelBlock is LevelBlockType)
                 {
-                    isMatch = IsColorMatch(blockDef, (levelBlock as LevelBlockType).type);
+                    if(isColorMatch)
+                        isMatch = IsColorMatch(blockDef, (levelBlock as LevelBlockType).type);
+                    else
+                        isMatch = IsColorComparison(blockDef, (levelBlock as LevelBlockType).type);
                 }
             }
             else
@@ -527,7 +900,6 @@ namespace WaterBlast.Game.Common
             {
                 comboBoosters.Add(booster);
             }
-
 
             Rainbow rainbow = booster as Rainbow;
             if (rainbow != null) rainbowColor = rainbow._PreType;
@@ -608,97 +980,54 @@ namespace WaterBlast.Game.Common
             blockEntities[ax, ay] = blockEntities[bx, by];
             blockEntities[bx, by] = tmp;
         }
-        
-        IEnumerator Co_CheckCanColorMatch()
-        {
-            while (IsMoving(State.move)) yield return null;
-            //이부분은 나중에 수정..작아졌다 커지면서 바뀌기.
-            yield return new WaitForSeconds(2f);
-            MatchProcess();
-            CheckCanColorMatch();
-        }
-        
-        IEnumerator Co_BoosterChange(int x, int y, int count)
-        {
-            while (IsMoving(State.booster_move)) yield return null;
-            var hitBlock = blockEntities[x, y] as Block;
-            BlockType colorType = (hitBlock != null) ? hitBlock._BlockType : BlockType.empty;
-            ReturnObject(hitBlock.gameObject);
 
-            if (count == 5 || count == 6)
-            {
-                int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
-                CreateBooster(BoosterType.arrow, x, y);
-                blockEntities[x, y].gameObject.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
-            }
-            else if (count == 7 || count == 8)
-            {
-                CreateBooster(BoosterType.bomb, x, y);
-            }
-            else
-            {
-                CreateBooster(BoosterType.rainbow, x, y);
-                Rainbow rainbow = blockEntities[x, y] as Rainbow;
-                Assert.IsNotNull(rainbow);
-                rainbow._PreType = colorType;
-                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, colorType);
-                rainbow.UpdateSprite(strTemp);
-            }
-
-            MatchDown();
+        private void AddScore(int score)
+        {
+            GameMgr mgr = GameMgr.Get();
+            mgr._GameState.score += score;
+            mgr.progressBar.UpdateProgressBar(mgr._GameState.score);
         }
 
-        IEnumerator Co_BoosterMatch(List<BlockDef> blockDefList)
+        private void AddCollectedBlock(BlockEntity blockEntity)
         {
-            while (IsMoving(State.booster_move)) yield return null;
-            ComboBoostersClear();
-            int defCount = blockDefList.Count;
-            int count = 0;
-            if (defCount != 0)
+            Block block = blockEntity as Block;
+            if (block != null)
             {
-                while (count < defCount)
+                if (GameMgr.Get()._GameState.collectedBlocks.ContainsKey(block._BlockType))
                 {
-                    int x = blockDefList[count].x;
-                    int y = blockDefList[count].y;
-                    var hitBlock = blockEntities[x, y];
-                    hitBlock._State = State.wait;
-                    hitBlock.Hide();
+                    if(block._BlockType == BlockType.green)
+                        Debug.Log(block._BlockType);
 
-                    Booster booster = hitBlock as Booster;
-                    if (booster != null)
-                    {
-                        if (!booster._IsCombo)
-                        {
-                            BoosterMatches(x, y, false);
-                            continue;
-                        }
-                        else
-                        {
-                            booster._IsCombo = false;
-                            ReturnObject(booster.gameObject);
-                            CreateNewBlock(x, y);
-                        }
-                    }
-                    else
-                    {
-                        var particles = GameMgr.Get().gamePools.GetParticles(hitBlock);
-                        if (particles != null) CreateParticle(particles, hitBlock._LocalPosition);
-                    }
+                    GameMgr.Get()._GameState.collectedBlocks[block._BlockType] += 1;
+                }  
+            }
+            //blocker
+        }
 
-                    ++count;
-                }
+        private void AddCollectedBlock(List<Vector2> blockEntitys)
+        {
+            for(int i = 0; i < blockEntitys.Count; ++i)
+            {
+                int x = (int)blockEntitys[i].x;
+                int y = (int)blockEntitys[i].y;
+                AddCollectedBlock(blockEntities[x, y]);
+                //blocker
+            }
+        }
 
-                yield return new WaitForSeconds(delayTime);
-
-                
-                MatchDown();
+        private void AddCollectedBlock(List<BlockDef> blockEntitys)
+        {
+            for (int i = 0; i < blockEntitys.Count; ++i)
+            {
+                AddCollectedBlock(blockEntities[blockEntitys[i].x, blockEntitys[i].y]);
+                //blocker
             }
         }
 
         IEnumerator Co_RainbowAndAnotherBomb(List<BlockDef> blocks, BoosterType type)
         {
             while (IsMoving(State.booster_move)) yield return null;
-            isBoosterWait = true;
+            isWait = true;
 
             List<Booster> boosters = new List<Booster>();
             int count = 0;
@@ -720,7 +1049,7 @@ namespace WaterBlast.Game.Common
                 }
                 boosters.Add(block as Booster);
                 ++count;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
             }
 
             StartCoroutine(Co_RainbowAndAnotherBomb(boosters));
@@ -733,20 +1062,19 @@ namespace WaterBlast.Game.Common
             while(count < boosters.Count)
             {
                 while (IsMoving(State.move)) yield return null;
-                Booster booster = boosters[count];
-                booster = blockEntities[booster._X, booster._Y] as Booster;
+                Booster booster = blockEntities[boosters[count]._X, boosters[count]._Y] as Booster;
                 if (booster == null)
                 {
                     ++count;
                     continue;
                 }
                 blocks = booster.Match(booster._X, booster._Y);
-                
+
                 yield return StartCoroutine(Co_BoosterMatch(blocks));
                 ++count;
             }
 
-            isBoosterWait = false;
+            isWait = false;
         }
 
         IEnumerator Co_CreateBoosterParticles(Booster booster, bool isCombo)
@@ -768,7 +1096,7 @@ namespace WaterBlast.Game.Common
                 if (!IsValidIndex(iy, height)) continue;
                 particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
                 localPosition = particles.transform.localPosition;
-                localPosition.y = Point(iy, height);
+                localPosition.y = Point(iy, height, hSize);
                 CreateParticle(particles, localPosition);
             }
 
@@ -777,7 +1105,7 @@ namespace WaterBlast.Game.Common
                 if (!IsValidIndex(ix, width)) continue;
                 particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
                 localPosition = particles.transform.localPosition;
-                localPosition.x = Point(ix, width);
+                localPosition.x = Point(ix, width, wSize);
                 CreateParticle(particles, localPosition);
             }
         }

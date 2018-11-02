@@ -5,6 +5,9 @@ namespace WaterBlast.Game.Common
     public class Level
     {
         public int id;
+
+        public int width;
+        public int height;
         
         public List<LevelBlock> blocks = new List<LevelBlock>();
 

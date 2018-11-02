@@ -16,12 +16,11 @@ namespace WaterBlast.Game.Common
 
             Stage s = GameMgr.Get()._Stage;
 
-            AddBlock(blocks, x, y);
-
             for (int ix = 0; ix < s.width; ++ix)
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
+                    if (ix == x && iy == y) continue;
                     Block block = s.blockEntities[ix, iy] as Block;
                     if (block == null) continue;
                     if (preType == BlockType.empty || preType != block._BlockType) continue;
@@ -44,6 +43,7 @@ namespace WaterBlast.Game.Common
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
+                    if (ix == x && iy == y) continue;
                     AddBlock(blocks, ix, iy);
                 }
             }
