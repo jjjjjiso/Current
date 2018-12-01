@@ -12,6 +12,11 @@ namespace WaterBlast.Game.Common
     //블럭 매치
     public partial class Stage : MonoBehaviour
     {
+        private readonly string ARROW_ICON_FORMAT   = "arrow_icon_{0}";
+        private readonly string TNT_ICON_FORMAT     = "tnt_icon_{0}";
+        private readonly string RAINBOW_ICON_FORMAT = "rainbow_icon_{0}";
+        private readonly string FACE_ICON_FORMAT    = "face_icon_{0}";
+
         private List<Vector2> comboBoosterIndex = new List<Vector2>();
         private List<Booster> comboBoosters = new List<Booster>();
         private BlockType rainbowColor = BlockType.empty;
@@ -40,8 +45,8 @@ namespace WaterBlast.Game.Common
 
         private void ExplodeBlockEntities(List<Vector2> matchList)
         {
-            if(GameMgr.Get().level.limit > 0)
-                --GameMgr.Get().level.limit;
+            //제한 횟수 감소
+            GameMgr.Get().ReduceTheNumberOfLimitCount();
 
             //임의 점수
             AddScore(matchList.Count * 10);
@@ -122,9 +127,9 @@ namespace WaterBlast.Game.Common
 
             if (isComboCheck)
             {
-                if (GameMgr.Get().level.limit > 0)
-                    --GameMgr.Get().level.limit;
-                
+                //제한 횟수 감소
+                GameMgr.Get().ReduceTheNumberOfLimitCount();
+
                 List <Vector2> comboBoosters = GetMatches(x, y, null);
 
                 //임의 점수
@@ -210,6 +215,7 @@ namespace WaterBlast.Game.Common
 
 
                 MatchDown();
+
                 GameMgr.Get().GameEnd();
             }
         }
@@ -602,9 +608,8 @@ namespace WaterBlast.Game.Common
                     blockEntity.DownMove(vEndPos, x, y);
                 }
             }
-
-            //CheckCanColorMatch();
-            BlockIconSetting();
+            
+            if(!GameMgr.Get().isGameEnd) BlockIconSetting();
         }
 
         private void BlockIconSetting()
@@ -679,15 +684,15 @@ namespace WaterBlast.Game.Common
                                 if (block == null) continue;
                                 if (count == 5 || count == 6)
                                 {
-                                    block.SetIcon(string.Format("arrow_icon_{0}", block._BlockType));
+                                    block.SetIcon(string.Format(ARROW_ICON_FORMAT, block._BlockType));
                                 }
                                 else if (count == 7 || count == 8)
                                 {
-                                    block.SetIcon(string.Format("tnt_icon_{0}", block._BlockType));
+                                    block.SetIcon(string.Format(TNT_ICON_FORMAT, block._BlockType));
                                 }
                                 else
                                 {
-                                    block.SetIcon(string.Format("rainbow_icon_{0}", block._BlockType));
+                                    block.SetIcon(string.Format(RAINBOW_ICON_FORMAT, block._BlockType));
                                 }
 
                                 isMatches = true;
@@ -704,7 +709,7 @@ namespace WaterBlast.Game.Common
                                 int yy = (int)vec.y;
                                 block = blockEntities[xx, yy] as ColorBlock;
                                 if (block == null) continue;
-                                block.SetIcon(string.Format("face_icon_{0}", block._BlockType));
+                                block.SetIcon(string.Format(FACE_ICON_FORMAT, block._BlockType));
                             }
                         }
                     }
@@ -790,9 +795,12 @@ namespace WaterBlast.Game.Common
             Assert.IsNotNull(entity);
             entity.transform.localPosition = blockEntities[x, y]._LocalPosition;
             blockEntities[x, y] = entity;
-            blockEntities[x, y]._State = State.wait;
-            blockEntities[x, y].SetData(x, y);
-            blockEntities[x, y].Hide();
+            Block block = blockEntities[x, y] as Block;
+            if (block == null) return;
+            block._State = State.wait;
+            block.SetData(x, y);
+            block.SetIcon(string.Format(FACE_ICON_FORMAT, block._BlockType));
+            block.Hide();
         }
 
         private GameObject CreateBlock(GameObject go)
@@ -838,34 +846,6 @@ namespace WaterBlast.Game.Common
             }
 
             comboBoosterIndex.Clear();
-        }
-
-        private bool GetCombo(int x, int y)
-        {
-            var up = new BlockDef(x, y - 1);
-            var down = new BlockDef(x, y + 1);
-            var left = new BlockDef(x - 1, y);
-            var right = new BlockDef(x + 1, y);
-
-            bool isCombo = false;
-
-            if (IsCombo(up.x, up.y)) isCombo = true;
-            if (IsCombo(down.x, down.y)) isCombo = true;
-            if (IsCombo(left.x, left.y)) isCombo = true;
-            if (IsCombo(right.x, right.y)) isCombo = true;
-
-            return isCombo;
-        }
-
-        private bool IsCombo(int x, int y)
-        {
-            if (!IsValidBlockEntity(x, y)) return false;
-
-            Booster booster = blockEntities[x, y] as Booster;
-            if (booster == null) return false;
-            if (!booster.gameObject.activeSelf) return false;
-
-            return true;
         }
 
         private bool IsMatches(BlockDef blockDef, LevelBlock levelBlock, bool isColorMatch = true)
@@ -995,9 +975,6 @@ namespace WaterBlast.Game.Common
             {
                 if (GameMgr.Get()._GameState.collectedBlocks.ContainsKey(block._BlockType))
                 {
-                    if(block._BlockType == BlockType.green)
-                        Debug.Log(block._BlockType);
-
                     GameMgr.Get()._GameState.collectedBlocks[block._BlockType] += 1;
                 }  
             }
@@ -1022,6 +999,76 @@ namespace WaterBlast.Game.Common
                 AddCollectedBlock(blockEntities[blockEntitys[i].x, blockEntitys[i].y]);
                 //blocker
             }
+        }
+
+        public void FinalFinale(int count)
+        {
+            StartCoroutine(Co_FinalFinale(count));
+        }
+
+        IEnumerator Co_FinalFinale(int count)
+        {
+            while (isWait) yield return null;
+            while (IsMoving(State.move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
+
+            foreach (BlockEntity entity in blockEntities)
+            {
+                ColorBlock block = entity as ColorBlock;
+                if (block == null) continue;
+                block.SetIcon(string.Format(FACE_ICON_FORMAT, block._BlockType));
+            }
+
+            yield return new WaitForSeconds(.8f);
+
+            if(count > 0)
+            {
+                isWait = true;
+
+                List<BlockDef> blockDefs = new List<BlockDef>();
+                for (int i = 0; i < count; ++i)
+                {
+                    int random = Random.Range(0, blockEntities.Length);
+                    int x = random / width;
+                    int y = random % height;
+                    ColorBlock block = blockEntities[x, y] as ColorBlock;
+                    if (block == null)
+                    {
+                        if (i > 0) --i;
+                        continue;
+                    }
+                    if (!blockDefs.Contains(block._BlockData))
+                        blockDefs.Add(block._BlockData);
+                    else 
+                        if (i > 0) --i;
+                }
+                
+                StartCoroutine(Co_RainbowAndAnotherBomb(blockDefs, BoosterType.arrow));
+            }
+            
+            StartCoroutine(Co_FinalConfirmation());
+        }
+
+        IEnumerator Co_FinalConfirmation()
+        {
+            while (isWait) yield return null;
+            while (IsMoving(State.move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
+
+            isWait = true;
+
+            List<Booster> boosters = new List<Booster>();
+            foreach (BlockEntity block in blockEntities)
+            {
+                Booster booster = block as Booster;
+                if (booster == null) continue;
+                boosters.Add(booster);
+            }
+
+            if (boosters.Count > 0)
+                StartCoroutine(Co_RainbowAndAnotherBomb(boosters));
+            else
+                isWait = false;
         }
 
         IEnumerator Co_RainbowAndAnotherBomb(List<BlockDef> blocks, BoosterType type)
@@ -1049,9 +1096,16 @@ namespace WaterBlast.Game.Common
                 }
                 boosters.Add(block as Booster);
                 ++count;
-                yield return new WaitForSeconds(0.1f);
-            }
 
+                if(GameMgr.Get().isGameEnd)
+                {
+                    //제한 횟수 감소
+                    GameMgr.Get().ReduceTheNumberOfLimitCount();
+                }
+
+                yield return new WaitForSeconds(0.15f);
+            }
+            
             StartCoroutine(Co_RainbowAndAnotherBomb(boosters));
         }
 
@@ -1069,6 +1123,16 @@ namespace WaterBlast.Game.Common
                     continue;
                 }
                 blocks = booster.Match(booster._X, booster._Y);
+
+                if(GameMgr.Get().isGameEnd)
+                {
+                    Rainbow rainbow = booster as Rainbow;
+                    if(rainbow != null)
+                    {
+                        rainbow._State = State.wait;
+                        rainbow.Hide();
+                    }
+                }
 
                 yield return StartCoroutine(Co_BoosterMatch(blocks));
                 ++count;

@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.UI
 {
@@ -23,6 +23,14 @@ namespace WaterBlast.Game.UI
         {
             itemClicked.ResetInfo(false);
             itemUI.GetComponent<UISprite>().depth = 2;
+        }
+
+        public bool IsWhetherOrNotToUse()
+        {
+            if (GameMgr.Get().isGameEnd) return false;
+            if (GameMgr.Get()._Stage.isWait) return false;
+
+            return true;
         }
     }
 }

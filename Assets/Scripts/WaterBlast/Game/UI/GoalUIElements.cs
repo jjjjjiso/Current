@@ -13,14 +13,6 @@ namespace WaterBlast.Game.UI
 
         public Dictionary<Goal, GoalUI> goalUIList = new Dictionary<Goal, GoalUI>();
 
-        public void Attatch(BlockType type, GoalUI goalUI)
-        {
-            goalUI.transform.parent = grid.transform;
-            goalUI.transform.Reset();
-
-            //if (!goalUIList.ContainsKey(type)) goalUIList[type] = goalUI;
-        }
-
         public void CreateGoalUI(Goal goal)
         {
             GoalUI obj = Resources.Load<GoalUI>("Prefabs/GoalUI");
@@ -43,22 +35,27 @@ namespace WaterBlast.Game.UI
             }
         }
 
-        public void ChildDestroy()
+        public void SetLimit(int limit)
         {
-            while(transform.childCount > 0)
+            if(limitUI != null) limitUI.SetLimit(limit);
+        }
+
+        public void UpdateGoalUI(Level level, GameState gameState)
+        {
+            SetLimit(level.limit);
+
+            foreach (var goal in level.goals)
             {
-                Destroy(transform.GetChild(0));
+                goalUIList[goal].Complete(goal.IsComplete(gameState));
             }
         }
 
-        public void SetLimit(int limit)
+        public void DestroyChild()
         {
-            limitUI.SetLimit(limit);
-        }
-
-        public void UpdateGoalUI(Goal goal, bool isComplete)
-        {
-            goalUIList[goal].Complete(isComplete);
+            while (transform.childCount > 0)
+            {
+                Destroy(transform.GetChild(0));
+            }
         }
     }
 }

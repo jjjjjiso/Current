@@ -19,9 +19,9 @@ namespace WaterBlast.Game.UI
 
         public void OnPressed()
         {
-            int index = -1;
-            index = (type == MittType.horizon) ? (int)ItemType.horizon : (int)ItemType.vertical;
+            if (!IsWhetherOrNotToUse()) return;
 
+            int index = (type == MittType.horizon) ? (int)ItemType.horizon : (int)ItemType.vertical;
             if (GameDataMgr.Get().availableItemCount[index] > 0)
             {
                 GameDataMgr.Get().isUseItem[index] = !GameDataMgr.Get().isUseItem[index];

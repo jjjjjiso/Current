@@ -11,6 +11,8 @@ namespace WaterBlast.Game.UI
     {
         public void OnPressed()
         {
+            if (!IsWhetherOrNotToUse()) return;
+
             int index = (int)ItemType.hammer;
             if (GameDataMgr.Get().availableItemCount[index] > 0)
             {

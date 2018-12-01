@@ -11,7 +11,8 @@ namespace WaterBlast.Game.UI
     {
         public void OnPressed()
         {
-            //Debug.Log("Tornado");
+            if (!IsWhetherOrNotToUse()) return;
+
             int index = (int)ItemType.mix;
             if (GameDataMgr.Get().availableItemCount[index] > 0)
             {

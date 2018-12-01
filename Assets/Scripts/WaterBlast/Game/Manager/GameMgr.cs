@@ -23,6 +23,8 @@ namespace WaterBlast.Game.Manager
         [NonSerialized]
         public Level level = null;
 
+        public bool isGameEnd = false;
+
         [SerializeField]
         private Transform backgroundParent = null;
         [SerializeField]
@@ -70,14 +72,8 @@ namespace WaterBlast.Game.Manager
 
         private void GoalSetting()
         {
-            //GoalUI obj = Resources.Load<GoalUI>("Prefabs/GoalUI");
-            //if (obj == null) return;
             foreach(Goal goal in level.goals)
             {
-                //GoalUI ui = Instantiate(obj);
-                //ui.GoalUISetting(goal);
-                //goalUIElements.Attatch(block.blockType, ui);
-
                 goalUIElements.CreateGoalUI(goal);
 
                 if (goal is CollectBlockGoal)
@@ -112,7 +108,7 @@ namespace WaterBlast.Game.Manager
 
         public void StageUpdate(int x, int y, LevelBlock levelBlock = null)
         {
-            //if (level.limit == 0) return;
+            if (isGameEnd) return;
             if (stage == null) return;
             if (stage.isWait) return;
             GameDataMgr gameDataMgr = GameDataMgr.Get();
@@ -162,30 +158,52 @@ namespace WaterBlast.Game.Manager
                 if (gameDataMgr.IsUseItem()) return;
                 stage.BoosterMatches(x, y);
             }
-
-            goalUIElements.SetLimit(level.limit);
+            
+            goalUIElements.UpdateGoalUI(level, gameState);
 
             GameEnd();
         }
 
+        public void ReduceTheNumberOfLimitCount()
+        {
+            if (level.limit > 0)
+                --level.limit;
+
+            goalUIElements.SetLimit(level.limit);
+        }
+
         public void GameEnd()
         {
-            if (IsGameEnd())
+            if (!isGameEnd && IsGameEnd())
             {
-                //Debug.Log("Game End");
+                isGameEnd = true;
+                goalUIElements.UpdateGoalUI(level, gameState);
+                stage.FinalFinale(level.limit);
+            }
+
+            if (level.limit >= 0)
+            {
+                //success ending
+                if (isGameEnd)
+                {
+                }
+
+                //faild ending
+                if(level.limit == 0 && !isGameEnd)
+                {
+                    isGameEnd = true;
+                }
             }
         }
 
         public bool IsGameEnd()
         {
-            bool isGameEnd = false;
             foreach (var goal in level.goals)
             {
-                isGameEnd = goal.IsComplete(gameState);
-                goalUIElements.UpdateGoalUI(goal, isGameEnd);
+                if (!goal.IsComplete(gameState)) return false;
             }
 
-            return isGameEnd;
+            return true;
         }
 
         //Property
