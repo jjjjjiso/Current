@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace WaterBlast.Game.Popup
@@ -10,35 +12,31 @@ namespace WaterBlast.Game.Popup
 
         static protected Dictionary<string, Popup> popup = new Dictionary<string, Popup>();
 
-        protected string id = null;
-        
-        static public T Create<T>(string path, string id) where T : Popup
+        protected string ID = null;
+        public string GetID() { return ID; }
+
+        static public T Create<T>(string path, string ID) where T : Popup
         {
             T temp = Resources.Load<T>(path);
 
-            popup[id] = Instantiate(temp);
-            popup[id].id = id;
+            popup[ID] = Instantiate(temp);
+            popup[ID].ID = ID;
 
-            PopupRoot.Add(popup[id]);
+            PopupMgr.G.Add(popup[ID]);
 
-            return popup[id] as T;
+            return popup[ID] as T;
         }
 
-        static public Popup Find(string id)
+        static public Popup Find(string ID)
         {
-            if(popup.ContainsKey(id))
-            {
-                return popup[id];
-            }
-
-            return null;
+            return (popup.ContainsKey(ID)) ? popup[ID] : null;
         }
 
-        static public void Close(string id)
+        static public void Close(string ID)
         {
-            if(popup.ContainsKey(id))
+            if(popup.ContainsKey(ID))
             {
-                popup[id].Close();
+                popup[ID].Close();
             }
         }
 
@@ -61,9 +59,15 @@ namespace WaterBlast.Game.Popup
                 onClose();
             }
 
-            Popup temp = popup[id];
-            popup.Remove(id);
+            PopupMgr.G.Pop(ID);
+            Popup temp = popup[ID];
+            popup.Remove(ID);
             Destroy(temp.gameObject);
+        }
+
+        protected virtual void Delay(Action method, float time)
+        {
+            MonoExtension.Invoke(this, method, time);
         }
     }
 }

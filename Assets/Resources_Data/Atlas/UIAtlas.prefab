@@ -53,9 +53,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: c699d56b27407e04b84bf0cc39289bd7, type: 2}
   mSprites:
+  - name: BlueSquareButton
+    x: 217
+    y: 203
+    width: 216
+    height: 216
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
   - name: BoosterButtonLocked
     x: 0
-    y: 332
+    y: 22
     width: 180
     height: 180
     borderLeft: 0
@@ -66,9 +79,74 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: ExitIcon
+    x: 1168
+    y: 806
+    width: 101
+    height: 111
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 10
+    paddingTop: 4
+    paddingBottom: 5
+  - name: GreenButton
+    x: 0
+    y: 420
+    width: 508
+    height: 183
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: GreenSquareButton
+    x: 434
+    y: 73
+    width: 216
+    height: 216
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
+  - name: GreyRectangleButton
+    x: 0
+    y: 604
+    width: 508
+    height: 183
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: GreySquareButton
+    x: 509
+    y: 290
+    width: 216
+    height: 216
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
   - name: item_arrow
-    x: 282
-    y: 344
+    x: 269
+    y: 19
     width: 100
     height: 68
     borderLeft: 0
@@ -80,8 +158,8 @@ MonoBehaviour:
     paddingTop: 16
     paddingBottom: 16
   - name: item_hammer
-    x: 181
-    y: 412
+    x: 651
+    y: 189
     width: 100
     height: 100
     borderLeft: 0
@@ -93,8 +171,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: item_shuffle
-    x: 282
-    y: 413
+    x: 651
+    y: 89
     width: 100
     height: 99
     borderLeft: 0
@@ -105,9 +183,74 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 1
+  - name: LevelIcon
+    x: 726
+    y: 321
+    width: 100
+    height: 92
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 10
+    paddingTop: 14
+    paddingBottom: 14
+  - name: MoreIcon
+    x: 1168
+    y: 918
+    width: 112
+    height: 106
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 7
+    paddingBottom: 7
+  - name: MusicIcon
+    x: 1374
+    y: 831
+    width: 98
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 11
+    paddingTop: 8
+    paddingBottom: 8
+  - name: NextIcon
+    x: 752
+    y: 222
+    width: 80
+    height: 98
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 25
+    paddingRight: 15
+    paddingTop: 11
+    paddingBottom: 11
+  - name: PinkButton
+    x: 509
+    y: 507
+    width: 508
+    height: 183
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: ProgressBar
-    x: 0
-    y: 282
+    x: 913
+    y: 713
     width: 539
     height: 49
     borderLeft: 0
@@ -118,11 +261,63 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: Star
+  - name: RedSquareButton
+    x: 0
+    y: 203
+    width: 216
+    height: 216
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
+  - name: RepeatIcon
+    x: 292
+    y: 88
+    width: 106
+    height: 114
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 8
+    paddingTop: 3
+    paddingBottom: 3
+  - name: SettingsIcon
     x: 181
-    y: 349
-    width: 65
-    height: 62
+    y: 92
+    width: 110
+    height: 110
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 5
+    paddingTop: 5
+    paddingBottom: 5
+  - name: ShadowRectangleButton
+    x: 0
+    y: 788
+    width: 561
+    height: 236
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 6
+    paddingBottom: 6
+  - name: ShadowSquareButton
+    x: 913
+    y: 763
+    width: 254
+    height: 261
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -131,8 +326,21 @@ MonoBehaviour:
     paddingRight: 1
     paddingTop: 1
     paddingBottom: 1
+  - name: SoundIcon
+    x: 1281
+    y: 936
+    width: 118
+    height: 88
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 16
+    paddingBottom: 16
   - name: StarGrey
-    x: 471
+    x: 434
     y: 357
     width: 65
     height: 62
@@ -145,8 +353,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: StarShadow
-    x: 383
-    y: 420
+    x: 726
+    y: 414
     width: 100
     height: 92
     borderLeft: 0
@@ -157,9 +365,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 4
     paddingBottom: 4
+  - name: StarYellow
+    x: 562
+    y: 691
+    width: 350
+    height: 333
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 12
+    paddingBottom: 0
   - name: TickIcon
-    x: 383
-    y: 339
+    x: 181
+    y: 11
     width: 87
     height: 80
     borderLeft: 0
@@ -170,6 +391,19 @@ MonoBehaviour:
     paddingRight: 3
     paddingTop: 0
     paddingBottom: 0
+  - name: XIcon
+    x: 1270
+    y: 815
+    width: 103
+    height: 102
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 8
+    paddingRight: 9
+    paddingTop: 9
+    paddingBottom: 9
   mPixelSize: 1
   mReplacement: {fileID: 0}
   mCoordinates: 0

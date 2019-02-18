@@ -55,11 +55,11 @@ namespace WaterBlast.Game.Common
 
             if (!isCombo)
             {
-                particles = GameMgr.Get().gamePools.bombParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.bombParticlesPool.GetObj();
             }
             else
             {
-                particles = GameMgr.Get().gamePools.bombComboParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.bombComboParticlesPool.GetObj();
             }
 
             CreateParticle(particles, _LocalPosition);

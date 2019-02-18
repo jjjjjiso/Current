@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using WaterBlast.System;
+
 namespace WaterBlast.Game.Common
 {
     public class Level
@@ -25,6 +27,7 @@ namespace WaterBlast.Game.Common
 
         public int collectableChance;
 
-        public Dictionary<ItemType, bool> availableItem = new Dictionary<ItemType, bool>();
+        public Dictionary<BoosterType, bool> availableStartItem = new Dictionary<BoosterType, bool>();
+        public Dictionary<ItemType, bool> availableInGameItem = new Dictionary<ItemType, bool>();
     }
 }

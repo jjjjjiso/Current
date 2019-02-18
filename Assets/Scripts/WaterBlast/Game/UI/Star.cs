@@ -7,9 +7,9 @@ namespace WaterBlast.Game.UI
     public class Star : MonoBehaviour
     {
         [SerializeField]
-        private GameObject yellowStar = null;
-        [SerializeField]
-        private GameObject grayStart = null;
+        private UISprite uiStarImg = null;
+
+        public bool isActive = false;
 
         private void Awake()
         {
@@ -23,8 +23,12 @@ namespace WaterBlast.Game.UI
 
         private void Activate(bool isActive)
         {
-            yellowStar.SetActive(isActive);
-            grayStart.SetActive(!isActive);
+            this.isActive = isActive;
+
+            if (isActive)
+                uiStarImg.spriteName = "StarYellow";
+            else
+                uiStarImg.spriteName = "StarGrey";
         }
     }
 }

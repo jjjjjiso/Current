@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
+
 namespace WaterBlast.Game.Common
 {
     public class LevelBlock

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.Common
@@ -8,14 +9,14 @@ namespace WaterBlast.Game.Common
     {
         //public override void Show()
         //{
-        //    //SetRandomColor(GameMgr.Get().Min, GameMgr.Get().Max);
+        //    //SetRandomColor(GameMgr.G.Min, GameMgr.G.Max);
         //    base.Show();
         //}
 
         public void OnPressed()
         {
             if (state == State.move || state == State.booster_move) return;
-            GameMgr.Get().StageUpdate(_X, _Y, new LevelBlockType() { type = this.type});
+            GameMgr.G.StageUpdate(_X, _Y, new LevelBlockType() { type = this.type});
         }
 
         public bool ColorMatch(BlockType type)

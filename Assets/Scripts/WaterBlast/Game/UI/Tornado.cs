@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 using WaterBlast.Game.Common;
 
@@ -14,12 +15,19 @@ namespace WaterBlast.Game.UI
             if (!IsWhetherOrNotToUse()) return;
 
             int index = (int)ItemType.mix;
-            if (GameDataMgr.Get().availableItemCount[index] > 0)
+            if (UserDataMgr.G.availableInGameItemCount[index] > 0)
             {
-                GameDataMgr.Get().isUseItem[index] = !GameDataMgr.Get().isUseItem[index];
-                bool isUseItem = GameDataMgr.Get().isUseItem[index];
+                GameDataMgr.G.isUseItem[index] = !GameDataMgr.G.isUseItem[index];
+                bool isUseItem = GameDataMgr.G.isUseItem[index];
                 itemClicked.SetInfo(isUseItem, (ItemType)index);
-                itemUI.GetComponent<UISprite>().depth = (isUseItem == true) ? 6 : 2;
+                if (isUseItem)
+                {
+                    DepthSetting(6);
+                }
+                else
+                {
+                    ResetInfo();
+                }
             }
             else
             {

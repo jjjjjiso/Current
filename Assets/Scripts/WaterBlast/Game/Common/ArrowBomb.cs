@@ -18,7 +18,7 @@ namespace WaterBlast.Game.Common
 
         public override List<BlockDef> Match(int x, int y)
         {
-            Stage s = GameMgr.Get()._Stage;
+            Stage s = GameMgr.G._Stage;
             List<BlockDef> blocks = new List<BlockDef>();
 
             switch (arrowType)
@@ -46,7 +46,7 @@ namespace WaterBlast.Game.Common
 
         public override List<BlockDef> ComboMatch(int x, int y)
         {
-            Stage s = GameMgr.Get()._Stage;
+            Stage s = GameMgr.G._Stage;
             List<BlockDef> blocks = new List<BlockDef>();
 
             for (int ix = 0; ix < s.width; ++ix)
@@ -72,14 +72,14 @@ namespace WaterBlast.Game.Common
                 {
                     case ArrowType.horizon:
                         {
-                            particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
+                            particles = GameMgr.G.gamePools.lineHorizontalParticlesPool.GetObj();
                             localPosition = particles.transform.localPosition;
                             localPosition.y = _LocalPosition.y;
                         }
                         break;
                     case ArrowType.vertical:
                         {
-                            particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
+                            particles = GameMgr.G.gamePools.lineVerticalParticlesPool.GetObj();
                             localPosition = particles.transform.localPosition;
                             localPosition.x = _LocalPosition.x;
                         }
@@ -90,12 +90,12 @@ namespace WaterBlast.Game.Common
             }
             else
             {
-                particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.lineHorizontalParticlesPool.GetObj();
                 localPosition = particles.transform.localPosition;
                 localPosition.y = _LocalPosition.y;
                 CreateParticle(particles, localPosition);
 
-                particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.lineVerticalParticlesPool.GetObj();
                 localPosition = particles.transform.localPosition;
                 localPosition.x = _LocalPosition.x;
                 CreateParticle(particles, localPosition);

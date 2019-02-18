@@ -14,7 +14,7 @@ public static class TransformExtensions
         transform.localScale = Vector3.one;
     }
 
-    public static void OldReset(this Transform transform, Vector3 oldPosition)
+    public static void ResetExceptPosition(this Transform transform, Vector3 oldPosition)
     {
         if (transform == null)
         {

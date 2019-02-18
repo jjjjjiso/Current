@@ -6,6 +6,8 @@ using UnityEditor;
 
 #endif
 
+using WaterBlast.System;
+
 namespace WaterBlast.Game.Common
 {
     public abstract class Goal

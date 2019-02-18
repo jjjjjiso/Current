@@ -89,6 +89,8 @@ namespace WaterBlast.Editor
                 GUILayout.BeginVertical();
                 DrawGeneralSettings();
                 GUILayout.Space(15);
+                DrawStartItemSettings();
+                GUILayout.Space(15);
                 DrawInGameItemSettings();
                 GUILayout.EndVertical();
 
@@ -200,6 +202,39 @@ namespace WaterBlast.Editor
         }
 
         /// <summary>
+        /// 게임 시작 시 아이템 설정 그리기.
+        /// </summary>
+        private void DrawStartItemSettings()
+        {
+            var oldLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = 110;
+
+            GUILayout.BeginVertical();
+
+            EditorGUILayout.LabelField("Game Start item", EditorStyles.boldLabel);
+            GUILayout.BeginHorizontal(GUILayout.Width(400));
+            EditorGUILayout.HelpBox(
+                "Items you want to take when starting this game level.   (이 레벨의 게임 시작 시에 가지고 갈 아이템 설정)",
+                MessageType.Info);
+            GUILayout.EndHorizontal();
+
+            foreach (var item in Enum.GetValues(typeof(BoosterType)))
+            {
+                if ((BoosterType)item == BoosterType.none) continue;
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.PrefixLabel(StringUtils.DisplayCamelCaseString(item.ToString()));
+                var availableBoosters = curLevel.availableStartItem;
+                availableBoosters[(BoosterType)item] =
+                    EditorGUILayout.Toggle(availableBoosters[(BoosterType)item], GUILayout.Width(30));
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.EndVertical();
+
+            EditorGUIUtility.labelWidth = oldLabelWidth;
+        }
+
+        /// <summary>
         /// 게임 내 아이템 설정 그리기.
         /// </summary>
         private void DrawInGameItemSettings()
@@ -220,7 +255,7 @@ namespace WaterBlast.Editor
             {
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.PrefixLabel(StringUtils.DisplayCamelCaseString(item.ToString()));
-                var availableBoosters = curLevel.availableItem;
+                var availableBoosters = curLevel.availableInGameItem;
                 availableBoosters[(ItemType)item] =
                     EditorGUILayout.Toggle(availableBoosters[(ItemType)item], GUILayout.Width(30));
                 GUILayout.EndHorizontal();
@@ -424,9 +459,15 @@ namespace WaterBlast.Editor
                 curLevel.availableColors.Add((ColorType)type);
             }
 
+            foreach (var type in Enum.GetValues(typeof(BoosterType)))
+            {
+                if ((BoosterType)type == BoosterType.none) continue;
+                curLevel.availableStartItem.Add((BoosterType)type, true);
+            }
+
             foreach (var type in Enum.GetValues(typeof(ItemType)))
             {
-                curLevel.availableItem.Add((ItemType)type, true);
+                curLevel.availableInGameItem.Add((ItemType)type, true);
             }
         }
 

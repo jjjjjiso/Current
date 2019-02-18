@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 using WaterBlast.Game.UI;
 
@@ -23,7 +24,8 @@ namespace WaterBlast.Game.Common
 
         private float delayTime = 0.35f;
 
-        public bool isWait = false;
+        public bool isWait   = false;
+        public bool isFinale = false;
 
         public void NormMatch(int x, int y, LevelBlock levelBlock)
         {
@@ -46,7 +48,7 @@ namespace WaterBlast.Game.Common
         private void ExplodeBlockEntities(List<Vector2> matchList)
         {
             //제한 횟수 감소
-            GameMgr.Get().ReduceTheNumberOfLimitCount();
+            GameMgr.G.ReduceTheNumberOfLimitCount();
 
             //임의 점수
             AddScore(matchList.Count * 10);
@@ -62,7 +64,7 @@ namespace WaterBlast.Game.Common
 
                 if (!isBooster)
                 {
-                    var particles = GameMgr.Get().gamePools.GetParticles(block);
+                    var particles = GameMgr.G.gamePools.GetParticles(block);
                     if (particles != null) CreateParticle(particles, block._LocalPosition);
 
                     block.Hide();
@@ -128,7 +130,7 @@ namespace WaterBlast.Game.Common
             if (isComboCheck)
             {
                 //제한 횟수 감소
-                GameMgr.Get().ReduceTheNumberOfLimitCount();
+                GameMgr.G.ReduceTheNumberOfLimitCount();
 
                 List <Vector2> comboBoosters = GetMatches(x, y, null);
 
@@ -204,7 +206,7 @@ namespace WaterBlast.Game.Common
                     {
                         //미션 체크.
                         AddCollectedBlock(hitBlock);
-                        var particles = GameMgr.Get().gamePools.GetParticles(hitBlock);
+                        var particles = GameMgr.G.gamePools.GetParticles(hitBlock);
                         if (particles != null) CreateParticle(particles, hitBlock._LocalPosition);
                     }
 
@@ -216,7 +218,7 @@ namespace WaterBlast.Game.Common
 
                 MatchDown();
 
-                GameMgr.Get().GameEnd();
+                GameMgr.G.GameEnd();
             }
         }
 
@@ -362,7 +364,7 @@ namespace WaterBlast.Game.Common
 
             isWait = true;
 
-            GameObject hammer = GameMgr.Get().gameItemAnim[(int)ItemType.hammer];
+            GameObject hammer = GameMgr.G.gameItemAnim[(int)ItemType.hammer];
             hammer.transform.localPosition = new Vector2(80f, -650f);
             hammer.SetActive(true);
 
@@ -393,7 +395,7 @@ namespace WaterBlast.Game.Common
             block._State = State.wait;
             block.Hide();
 
-            var particles = GameMgr.Get().gamePools.GetParticles(block);
+            var particles = GameMgr.G.gamePools.GetParticles(block);
             if (particles != null) CreateParticle(particles, block._LocalPosition);
 
             MatchDown();
@@ -421,7 +423,7 @@ namespace WaterBlast.Game.Common
                 block._State = State.wait;
                 block.Hide();
 
-                var particles = GameMgr.Get().gamePools.GetParticles(block);
+                var particles = GameMgr.G.gamePools.GetParticles(block);
                 if (particles != null) CreateParticle(particles, block._LocalPosition);
 
                 ++x;
@@ -431,9 +433,9 @@ namespace WaterBlast.Game.Common
             isWait = false;
             //임의 점수
             AddScore(width);
-            MatchDown();
+            //MatchDown();
 
-            GameMgr.Get().GameEnd();
+            GameMgr.G.GameEnd();
         }
 
         IEnumerator Co_UseMittVerticalItem(int x)
@@ -453,7 +455,7 @@ namespace WaterBlast.Game.Common
                 block._State = State.wait;
                 block.Hide();
 
-                var particles = GameMgr.Get().gamePools.GetParticles(block);
+                var particles = GameMgr.G.gamePools.GetParticles(block);
                 if (particles != null) CreateParticle(particles, block._LocalPosition);
 
                 ++y;
@@ -464,9 +466,9 @@ namespace WaterBlast.Game.Common
 
             //임의 점수
             AddScore(height);
-            MatchDown();
+            //MatchDown();
 
-            GameMgr.Get().GameEnd();
+            GameMgr.G.GameEnd();
         }
 
         IEnumerator Co_MittMove(Vector2 startPos, Vector2 endPos,  int x, int y, int index)
@@ -474,7 +476,7 @@ namespace WaterBlast.Game.Common
             while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
 
             isWait = true;
-            GameObject mitt = GameMgr.Get().gameItemAnim[index];
+            GameObject mitt = GameMgr.G.gameItemAnim[index];
             mitt.transform.localPosition = startPos;
             mitt.SetActive(true);
 
@@ -493,6 +495,8 @@ namespace WaterBlast.Game.Common
 
             mitt.SetActive(false);
             isWait = false;
+
+            MatchDown();
         }
 
         //수정해야함....ㅜㅜ
@@ -609,7 +613,7 @@ namespace WaterBlast.Game.Common
                 }
             }
             
-            if(!GameMgr.Get().isGameEnd) BlockIconSetting();
+            if(!GameMgr.G.isGameEnd) BlockIconSetting();
         }
 
         private void BlockIconSetting()
@@ -725,12 +729,21 @@ namespace WaterBlast.Game.Common
         private void AllMixBlocks()
         {
             List<BlockEntity> tempEntities = MixBlocks();
+            int empty = 0;
             for (int x = 0; x < width; ++x)
             {
-                for(int y = 0; y < height; ++y)
+                for (int y = 0; y < height; ++y)
                 {
-                    int idx = width * x + y;
-                    blockEntities[x, y].DownMove(tempEntities[idx]._LocalPosition, x, y);
+                    Block block = blockEntities[x, y] as Block;
+                    if (block != null && block._BlockType == BlockType.empty)
+                    {
+                        ++empty;
+                        continue;
+                    }
+
+
+                    int idx = (width * x + y) - empty;
+                    blockEntities[x, y].MixMove(tempEntities[idx]._LocalPosition, x, y);
                 }
             }
         }
@@ -740,6 +753,8 @@ namespace WaterBlast.Game.Common
             List<BlockEntity> list = new List<BlockEntity>();
             foreach (BlockEntity temp in blockEntities)
             {
+                Block block = temp as Block;
+                if (block != null && block._BlockType == BlockType.empty) continue;
                 list.Add(temp);
             }
 
@@ -756,7 +771,7 @@ namespace WaterBlast.Game.Common
 
         private void CreateBooster(BoosterType type, int x, int y)
         {
-            GamePool gamePools = GameMgr.Get().gamePools;
+            GamePool gamePools = GameMgr.G.gamePools;
             ObjectPool boosterPool = null;
             switch (type)
             {
@@ -774,7 +789,7 @@ namespace WaterBlast.Game.Common
             }
 
             Assert.IsNotNull(boosterPool);
-            var booster = CreateBlock(boosterPool.GetObject());
+            var booster = CreateBlock(boosterPool.GetObj());
             CreateBooster(booster, x, y);
         }
 
@@ -791,7 +806,7 @@ namespace WaterBlast.Game.Common
 
         private void CreateNewBlock(int x, int y)
         {
-            BlockEntity entity = GameMgr.Get().gamePools.GetBlockEntity(new LevelBlockType() { type = BlockType.random });
+            BlockEntity entity = GameMgr.G.gamePools.GetBlockEntity(new LevelBlockType() { type = BlockType.random });
             Assert.IsNotNull(entity);
             entity.transform.localPosition = blockEntities[x, y]._LocalPosition;
             blockEntities[x, y] = entity;
@@ -963,9 +978,9 @@ namespace WaterBlast.Game.Common
 
         private void AddScore(int score)
         {
-            GameMgr mgr = GameMgr.Get();
+            GameMgr mgr = GameMgr.G;
             mgr._GameState.score += score;
-            mgr.progressBar.UpdateProgressBar(mgr._GameState.score);
+            mgr.gameUI.progressBar.UpdateProgressBar(mgr._GameState.score);
         }
 
         private void AddCollectedBlock(BlockEntity blockEntity)
@@ -973,12 +988,14 @@ namespace WaterBlast.Game.Common
             Block block = blockEntity as Block;
             if (block != null)
             {
-                if (GameMgr.Get()._GameState.collectedBlocks.ContainsKey(block._BlockType))
+                if (GameMgr.G._GameState.collectedBlocks.ContainsKey(block._BlockType))
                 {
-                    GameMgr.Get()._GameState.collectedBlocks[block._BlockType] += 1;
+                    GameMgr.G._GameState.collectedBlocks[block._BlockType] += 1;
                 }  
             }
             //blocker
+
+            GameMgr.G.UpdateGoalUI();
         }
 
         private void AddCollectedBlock(List<Vector2> blockEntitys)
@@ -1003,6 +1020,7 @@ namespace WaterBlast.Game.Common
 
         public void FinalFinale(int count)
         {
+            isFinale = true;
             StartCoroutine(Co_FinalFinale(count));
         }
 
@@ -1039,16 +1057,22 @@ namespace WaterBlast.Game.Common
                     }
                     if (!blockDefs.Contains(block._BlockData))
                         blockDefs.Add(block._BlockData);
-                    else 
-                        if (i > 0) --i;
+                    else
+                        if (i > 0)
+                        {
+                            --i;
+                            continue;
+                        }
                 }
-                
+
+                //남은 횟수만큼 화살폭탄 랜덤으로 뿌리기.
                 StartCoroutine(Co_RainbowAndAnotherBomb(blockDefs, BoosterType.arrow));
             }
             
             StartCoroutine(Co_FinalConfirmation());
         }
 
+        //마지막 피날래 끝나고 남은 부스터 터트리기.
         IEnumerator Co_FinalConfirmation()
         {
             while (isWait) yield return null;
@@ -1066,12 +1090,15 @@ namespace WaterBlast.Game.Common
             }
 
             if (boosters.Count > 0)
-                StartCoroutine(Co_RainbowAndAnotherBomb(boosters));
+                StartCoroutine(Co_RainbowAndAnotherBomb(boosters, true));
             else
+            {
                 isWait = false;
+                isFinale = false;
+            }
         }
 
-        IEnumerator Co_RainbowAndAnotherBomb(List<BlockDef> blocks, BoosterType type)
+        IEnumerator Co_RainbowAndAnotherBomb(List<BlockDef> blocks, BoosterType type, bool isFinale = false)
         {
             while (IsMoving(State.booster_move)) yield return null;
             isWait = true;
@@ -1097,19 +1124,22 @@ namespace WaterBlast.Game.Common
                 boosters.Add(block as Booster);
                 ++count;
 
-                if(GameMgr.Get().isGameEnd)
+                if(GameMgr.G.isGameEnd)
                 {
                     //제한 횟수 감소
-                    GameMgr.Get().ReduceTheNumberOfLimitCount();
+                    GameMgr.G.ReduceTheNumberOfLimitCount();
                 }
 
                 yield return new WaitForSeconds(0.15f);
             }
-            
+
+            yield return new WaitForSeconds(0.3f);
+
             StartCoroutine(Co_RainbowAndAnotherBomb(boosters));
         }
 
-        IEnumerator Co_RainbowAndAnotherBomb(List<Booster> boosters)
+        // 폭탄 터트리기.
+        IEnumerator Co_RainbowAndAnotherBomb(List<Booster> boosters, bool isFinale = false)
         {
             List<BlockDef> blocks = new List<BlockDef>();
             int count = 0;
@@ -1124,7 +1154,7 @@ namespace WaterBlast.Game.Common
                 }
                 blocks = booster.Match(booster._X, booster._Y);
 
-                if(GameMgr.Get().isGameEnd)
+                if(GameMgr.G.isGameEnd)
                 {
                     Rainbow rainbow = booster as Rainbow;
                     if(rainbow != null)
@@ -1139,6 +1169,7 @@ namespace WaterBlast.Game.Common
             }
 
             isWait = false;
+            if(isFinale) this.isFinale = false;
         }
 
         IEnumerator Co_CreateBoosterParticles(Booster booster, bool isCombo)
@@ -1158,7 +1189,7 @@ namespace WaterBlast.Game.Common
             for (int iy = y - 1; iy <= y + 1; ++iy)
             {
                 if (!IsValidIndex(iy, height)) continue;
-                particles = GameMgr.Get().gamePools.lineHorizontalParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.lineHorizontalParticlesPool.GetObj();
                 localPosition = particles.transform.localPosition;
                 localPosition.y = Point(iy, height, hSize);
                 CreateParticle(particles, localPosition);
@@ -1167,7 +1198,7 @@ namespace WaterBlast.Game.Common
             for (int ix = x - 1; ix <= x + 1; ++ix)
             {
                 if (!IsValidIndex(ix, width)) continue;
-                particles = GameMgr.Get().gamePools.lineVerticalParticlesPool.GetObject();
+                particles = GameMgr.G.gamePools.lineVerticalParticlesPool.GetObj();
                 localPosition = particles.transform.localPosition;
                 localPosition.x = Point(ix, width, wSize);
                 CreateParticle(particles, localPosition);

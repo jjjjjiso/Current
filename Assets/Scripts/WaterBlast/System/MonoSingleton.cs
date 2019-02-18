@@ -4,16 +4,24 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     static protected T instance = null;
 
-    static public T Get()
+    static public T G
     {
-        return (T)instance;
+        get
+        {
+            return (T)instance;
+        }
     }
 
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this as T;
+            OnAwake();
+        }
     }
+
+    protected virtual void OnAwake() { }
 
     private void OnDestroy()
     {

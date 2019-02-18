@@ -4,19 +4,24 @@ public class MonoDontDestroySingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     static protected T instance = null;
 
-    static public T Get()
+    static public T G
     {
-        return (T)instance;
+        get
+        {
+            return (T)instance;
+        }
     }
 
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this as T;
 
-        DontDestroyOnLoad(transform.root.gameObject);
+            DontDestroyOnLoad(this);
 
-        OnAwake();
+            OnAwake();
+        }
     }
 
     protected virtual void OnAwake() { }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Common;
 
 namespace WaterBlast.Game.UI
@@ -13,12 +14,15 @@ namespace WaterBlast.Game.UI
 
         public void ItemSetting(ItemType type, bool isEnable)
         {
-            items[(int)type].LockUI(isEnable);
+            int index = (int)type;
+            items[index].UnLockUI(index, isEnable);
         }
 
-        public void ItemReset(ItemType type)
+        public void UpdateInGameItem(ItemType type)
         {
-            items[(int)type].ResetInfo();
+            int index = (int)type;
+            items[index].UpdateInGameItemCount(index);
+            items[index].ResetInfo();
         }
     }
 }

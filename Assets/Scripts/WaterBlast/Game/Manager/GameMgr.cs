@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -8,14 +9,15 @@ using FullSerializer;
 using WaterBlast.System;
 using WaterBlast.Game.Common;
 using WaterBlast.Game.UI;
+using WaterBlast.Game.Popup;
 
 namespace WaterBlast.Game.Manager
 {
     public class GameMgr : MonoSingleton<GameMgr>
     {
+        public SceneFadeInOut sceneFade = null;
         public GamePool gamePools = null;
-        public GoalUIElements goalUIElements = null;
-        public ProgressBar progressBar = null;
+        public GameUI gameUI = null;
         public ItemUIElements itemUIElements = null;
 
         public GameObject[] gameItemAnim = null;
@@ -23,19 +25,20 @@ namespace WaterBlast.Game.Manager
         [NonSerialized]
         public Level level = null;
 
+        private int currentLimit;
+
         public bool isGameEnd = false;
 
         [SerializeField]
         private Transform backgroundParent = null;
         [SerializeField]
-        private UIAtlas backgroundAtlas= null;
+        private Sprite backgroundSprite = null;
 
         private Stage stage = null;
 
         private GameState gameState = null;
 
-        private int min = 0;
-        private int max = 0;
+        public List<ColorType> availableColors = new List<ColorType>();
 
         private void Start()
         {
@@ -45,37 +48,28 @@ namespace WaterBlast.Game.Manager
             //    Screen.SetResolution(720, 1280, true);
             //}
 
-            gameState = new GameState();
+            
             var serializer = new fsSerializer();
-            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + 1/*GameDataMgr.Get().endLevelNumber*/);
-            min = (int)BlockType.red;
-            max = level.availableColors.Count;
-            progressBar.Init(level.score1, level.score2, level.score3);
+            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + 1/*GameDataMgr.G.endLevelNumber*/);
+            availableColors = level.availableColors;
+            gameUI.progressBar.Init(level.score1, level.score2, level.score3);
+            Reset();
+        }
+
+        private void Reset()
+        {
+            isGameEnd = false;
+            gameState = new GameState();
+            gameUI.progressBar.UpdateProgressBar(0);
             GoalSetting();
             ItemSetting();
             CreateStage();
-        }
-
-        //임시방편.
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-#if (UNITY_ANDROID && UNITY_EDITOR)
-                UnityEditor.EditorApplication.isPlaying = false;
-
-#elif (UNITY_ANDROID)
-                    Application.Quit();
-#endif
-            }
         }
 
         private void GoalSetting()
         {
             foreach(Goal goal in level.goals)
             {
-                goalUIElements.CreateGoalUI(goal);
-
                 if (goal is CollectBlockGoal)
                 {
                     CollectBlockGoal block = goal as CollectBlockGoal;
@@ -89,13 +83,16 @@ namespace WaterBlast.Game.Manager
                 }
             }
 
-            goalUIElements.grid.Reposition();
-            goalUIElements.SetLimit(level.limit);
+            currentLimit = level.limit;
+            UpdateLimitCount();
+
+            GameObject obj = Resources.Load<GoalUIElement>("Prefabs/GoalUIElement").gameObject;
+            gameUI.SetGoals(level.goals, obj);
         }
 
         private void ItemSetting()
         {
-            foreach (KeyValuePair<ItemType, bool> keyValue in level.availableItem)
+            foreach (KeyValuePair<ItemType, bool> keyValue in level.availableInGameItem)
             {
                 itemUIElements.ItemSetting(keyValue.Key, keyValue.Value);
             }
@@ -103,7 +100,12 @@ namespace WaterBlast.Game.Manager
 
         private void CreateStage()
         {
-            stage = Stage.Create(backgroundParent, backgroundAtlas, level.width, level.height);
+            if (stage != null)
+            {
+                stage.Reset();
+                Destroy(stage.gameObject);
+            }
+            stage = Stage.Create(backgroundParent, backgroundSprite, level.width, level.height);
         }
 
         public void StageUpdate(int x, int y, LevelBlock levelBlock = null)
@@ -111,7 +113,7 @@ namespace WaterBlast.Game.Manager
             if (isGameEnd) return;
             if (stage == null) return;
             if (stage.isWait) return;
-            GameDataMgr gameDataMgr = GameDataMgr.Get();
+            GameDataMgr gameDataMgr = GameDataMgr.G;
 
             if(levelBlock != null)
             {
@@ -140,11 +142,11 @@ namespace WaterBlast.Game.Manager
                     {
                         gameDataMgr.isUseItem[index] = false;
 
-                        if (gameDataMgr.availableItemCount[index] > 0)
-                            --gameDataMgr.availableItemCount[index];
+                        if (UserDataMgr.G.availableInGameItemCount[index] > 0)
+                            --UserDataMgr.G.availableInGameItemCount[index];
 
                         stage.UseItem((ItemType)index, x, y);
-                        itemUIElements.ItemReset((ItemType)index);
+                        itemUIElements.UpdateInGameItem((ItemType)index);
                     }
                     else
                     {
@@ -158,41 +160,60 @@ namespace WaterBlast.Game.Manager
                 if (gameDataMgr.IsUseItem()) return;
                 stage.BoosterMatches(x, y);
             }
+
             
-            goalUIElements.UpdateGoalUI(level, gameState);
 
             GameEnd();
         }
 
         public void ReduceTheNumberOfLimitCount()
         {
-            if (level.limit > 0)
-                --level.limit;
+            --currentLimit;
+            if (currentLimit < 0)
+            {
+                currentLimit = 0;
+            }
+            
+            UpdateLimitCount();
+        }
 
-            goalUIElements.SetLimit(level.limit);
+        public void UpdateLimitCount()
+        {
+            gameUI.UpdateLimitText(currentLimit.ToString());
+
+            if (currentLimit > 5)
+                gameUI.SetLimitTextColor(Color.white);
+            else
+                gameUI.SetLimitTextColor(Color.red);
+        }
+
+        public void UpdateGoalUI()
+        {
+            gameUI.goalUI.UpdateGoalUI(gameState);
         }
 
         public void GameEnd()
         {
-            if (!isGameEnd && IsGameEnd())
+            if (isGameEnd) return;
+            if (IsGameEnd())
             {
                 isGameEnd = true;
-                goalUIElements.UpdateGoalUI(level, gameState);
-                stage.FinalFinale(level.limit);
+                gameUI.goalUI.UpdateGoalUI(gameState);
+                stage.FinalFinale(currentLimit);
+
+                if (currentLimit >= 0)
+                {
+                    //success ending
+                    ++GameDataMgr.G.endLevel;
+                    StartCoroutine(Co_Success());
+                }
             }
 
-            if (level.limit >= 0)
+            //faild ending
+            if (currentLimit == 0 && !isGameEnd)
             {
-                //success ending
-                if (isGameEnd)
-                {
-                }
-
-                //faild ending
-                if(level.limit == 0 && !isGameEnd)
-                {
-                    isGameEnd = true;
-                }
+                isGameEnd = true;
+                StartCoroutine(Co_Failed());
             }
         }
 
@@ -206,10 +227,79 @@ namespace WaterBlast.Game.Manager
             return true;
         }
 
+        IEnumerator Co_Success()
+        {
+            while (stage.isFinale) yield return null;
+            yield return new WaitForSecondsRealtime(.5f);
+
+            string level = string.Format("Level {0}", (GameDataMgr.G.endLevel-1).ToString());
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "SuccessPopup", level, null, "Continue");
+            temp.GetComponent<GamePopup>().OnPopup(GamePopupState.success);
+            temp.GetComponentInChildren<SuccessPopup>().SetInfo(gameState.score, gameUI.progressBar.GetStars(), gameUI.goalUI.group);
+
+            temp.onConfirm += () =>
+            {
+                sceneFade.delayTime = 0.15f;
+                sceneFade.fadeTime = 0.3f;
+                sceneFade.OnPressed();
+            };
+
+            temp.onEixt += () =>
+            {
+                sceneFade.delayTime = 0.15f;
+                sceneFade.fadeTime = 0.3f;
+                sceneFade.OnPressed();
+            };
+        }
+
+        IEnumerator Co_Failed()
+        {
+            yield return new WaitForSecondsRealtime(.5f);
+
+            PopupConfirm noMoves = PopupConfirm.Open("Prefabs/Popup/NoMovesPopup", "Failed Moves Popup", null, null, "Play On");
+            noMoves.onConfirm += () =>
+            {
+                currentLimit = 5;
+                UpdateLimitCount();
+                isGameEnd = false;
+            };
+
+            noMoves.onEixt += () =>
+            {
+                noMoves.Close();
+
+                Failed();
+            };
+        }
+
+        public void Failed()
+        {
+            string level = string.Format("Level {0}", GameDataMgr.G.endLevel.ToString());
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "FailedPopup", level, null, "Try Again");
+
+            temp.GetComponent<GamePopup>().OnPopup(GamePopupState.failed);
+            GamePopupItemCount item = temp.GetComponentInChildren<GamePopupItemCount>();
+            if (item != null)
+            {
+                item.SetItemCount(UserDataMgr.G.availableStartItemCount);
+                item.gameObject.GetComponent<UIWidget>().topAnchor.absolute = -150;
+            }
+
+            temp.onConfirm += () =>
+            {
+                Reset();
+            };
+
+            temp.onEixt += () =>
+            {
+                sceneFade.delayTime = 0.15f;
+                sceneFade.fadeTime = 0.3f;
+                sceneFade.OnPressed();
+            };
+        }
+
         //Property
         public Stage _Stage { get { return (instance == null) ? null : instance.stage; } }
         public GameState _GameState { get { return (instance == null) ? null : instance.gameState; } }
-        public int Min { get { return min; } }
-        public int Max { get { return max; } }
     }
 }

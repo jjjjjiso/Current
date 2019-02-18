@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.UI;
 
 namespace WaterBlast.Game.Common
@@ -46,6 +47,11 @@ namespace WaterBlast.Game.Common
         public void PlayAnim(string name)
         {
             anim.SetTrigger(name);
+        }
+
+        public void MixMove(Vector2 endPos, int x, int y)
+        {
+            StartCoroutine(Co_MixMove(endPos, x, y));
         }
 
         public void DownMove(Vector2 endPos, int x, int y)
@@ -96,16 +102,29 @@ namespace WaterBlast.Game.Common
         //private Method
 
         //coroutine Method
-        protected IEnumerator Co_DownMove(Vector2 endPos, int x, int y)
+        protected IEnumerator Co_MixMove(Vector2 endPos, int x, int y)
         {
             state = State.move;
 
-            yield return StartCoroutine(Co_Move(endPos, .3f));
+            yield return StartCoroutine(Co_Move2(endPos, .3f));
 
             state = State.idle;
             SetData(x, y);
             _LocalPosition = endPos;
             SetDepth(y + 11);
+        }
+
+        protected IEnumerator Co_DownMove(Vector2 endPos, int x, int y)
+        {
+            state = State.move;
+
+            yield return StartCoroutine(Co_Move(endPos, 3.5f));
+
+            state = State.idle;
+            SetData(x, y);
+            _LocalPosition = endPos;
+            SetDepth(y + 11);
+            if(anim != null) anim.SetTrigger("Falling");
         }
 
         protected IEnumerator Co_TargetMove(Vector2 endPos)
@@ -115,7 +134,7 @@ namespace WaterBlast.Game.Common
             int depth = _BlockDepth;
             widget.depth = 30;
 
-            yield return StartCoroutine(Co_Move(endPos, .2f));
+            yield return StartCoroutine(Co_Move(endPos, 4f));
 
             widget.depth = depth;
             state = State.wait;
@@ -126,7 +145,22 @@ namespace WaterBlast.Game.Common
         protected IEnumerator Co_Move(Vector2 endPos, float duration)
         {
             Vector2 startPos = this._LocalPosition;
+            float time = 0;
+            float totalTime = 1f / duration;
+
+            while (time < totalTime)
+            {
+                time += Time.deltaTime;
+                _LocalPosition = Vector3.Lerp(startPos, endPos, time * duration);
+                yield return null;
+            }
+        }
+
+        protected IEnumerator Co_Move2(Vector2 endPos, float duration)
+        {
+            Vector2 startPos = this._LocalPosition;
             float startTime = Time.time;
+
             while (Time.time - startTime <= duration)
             {
                 _LocalPosition = Vector2.Lerp(startPos, endPos, (Time.time - startTime) / duration);

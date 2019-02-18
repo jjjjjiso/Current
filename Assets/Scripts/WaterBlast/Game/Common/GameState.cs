@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using WaterBlast.System;
+
 namespace WaterBlast.Game.Common
 {
     public class GameState

@@ -54,8 +54,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 8bf5e764904f5d14c934dc26b9efbebc, type: 2}
   mSprites:
   - name: Bg
-    x: 0
-    y: 23
+    x: 501
+    y: 267
     width: 500
     height: 500
     borderLeft: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: black
-    x: 501
-    y: 872
+    x: 0
+    y: 114
     width: 261
     height: 152
     borderLeft: 0
@@ -79,11 +79,50 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: lobby
+    x: 0
+    y: 768
+    width: 720
+    height: 1280
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: logo
+    x: 721
+    y: 768
+    width: 720
+    height: 1280
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Panel
     x: 0
-    y: 524
+    y: 267
     width: 500
     height: 500
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: title
+    x: 1442
+    y: 768
+    width: 720
+    height: 1280
     borderLeft: 0
     borderRight: 0
     borderTop: 0

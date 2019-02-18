@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 using WaterBlast.Game.UI;
 
@@ -39,12 +40,12 @@ namespace WaterBlast.Game.Common
         public void OnPressed()
         {
             if (state == State.move || state == State.booster_move) return;
-            GameMgr.Get().StageUpdate(_X, _Y);
+            GameMgr.G.StageUpdate(_X, _Y);
         }
 
         protected void AddBlock(List<BlockDef> blocks, int x, int y)
         {
-            GameMgr gameMgr = GameMgr.Get();
+            GameMgr gameMgr = GameMgr.G;
             if (x < 0 || x >= gameMgr._Stage.width ||
                 y < 0 || y >= gameMgr._Stage.height) return;
 
@@ -57,7 +58,7 @@ namespace WaterBlast.Game.Common
 
         protected bool IsValidBlock(int x, int y)
         {
-            GameMgr gameMgr = GameMgr.Get();
+            GameMgr gameMgr = GameMgr.G;
             return x >= 0 && x < gameMgr._Stage.width && y >= 0 && y < gameMgr._Stage.height;
         }
 

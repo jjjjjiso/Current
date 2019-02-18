@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.Common
@@ -75,36 +76,59 @@ namespace WaterBlast.Game.Common
                 {
                     case BlockType.empty:
                         {
-                            return empty.GetObject().GetComponent<BlockEntity>();
+                            return empty.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.red:
                         {
-                            return redBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return redBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.orange:
                         {
-                            return orangeBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return orangeBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.yellow:
                         {
-                            return yellowBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return yellowBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.green:
                         {
-                            return greenBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return greenBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.blue:
                         {
-                            return blueBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return blueBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.purple:
                         {
-                            return purpleBlockPool.GetObject().GetComponent<BlockEntity>();
+                            return purpleBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                     case BlockType.random:
                         {
-                            int random = Random.Range(0, GameMgr.Get().Max);
-                            return colorBlocks[random].GetObject().GetComponent<BlockEntity>();
+                            int random = Random.Range(0, GameMgr.G.availableColors.Count);
+                            ColorType colorType = GameMgr.G.availableColors[random];
+                            ObjectPool temp = null;
+                            switch (colorType)
+                            {
+                                case ColorType.red:
+                                    temp = redBlockPool;
+                                    break;
+                                case ColorType.orange:
+                                    temp = orangeBlockPool;
+                                    break;
+                                case ColorType.yellow:
+                                    temp = yellowBlockPool;
+                                    break;
+                                case ColorType.green:
+                                    temp = greenBlockPool;
+                                    break;
+                                case ColorType.blue:
+                                    temp = blueBlockPool;
+                                    break;
+                                case ColorType.purple:
+                                    temp = purpleBlockPool;
+                                    break;
+                            }
+                            return temp.GetObj().GetComponent<BlockEntity>();
                         }
                 }
             }
@@ -114,11 +138,11 @@ namespace WaterBlast.Game.Common
                 switch (type.type)
                 {
                     case BoosterType.arrow:
-                        return arrowBombPool.GetObject().GetComponent<BlockEntity>();
+                        return arrowBombPool.GetObj().GetComponent<BlockEntity>();
                     case BoosterType.bomb:
-                        return bombPool.GetObject().GetComponent<BlockEntity>();
+                        return bombPool.GetObj().GetComponent<BlockEntity>();
                     case BoosterType.rainbow:
-                        return rainbowPool.GetObject().GetComponent<BlockEntity>();
+                        return rainbowPool.GetObj().GetComponent<BlockEntity>();
                 }
             }
 
@@ -133,17 +157,17 @@ namespace WaterBlast.Game.Common
                 switch(block._BlockType)
                 {
                     case BlockType.red:
-                        return redBlockParticlesPool.GetObject();
+                        return redBlockParticlesPool.GetObj();
                     case BlockType.orange:
-                        return orangeBlockParticlesPool.GetObject();
+                        return orangeBlockParticlesPool.GetObj();
                     case BlockType.yellow:
-                        return yellowBlockParticlesPool.GetObject();
+                        return yellowBlockParticlesPool.GetObj();
                     case BlockType.green:
-                        return greenBlockParticlesPool.GetObject();
+                        return greenBlockParticlesPool.GetObj();
                     case BlockType.blue:
-                        return blueBlockParticlesPool.GetObject();
+                        return blueBlockParticlesPool.GetObj();
                     case BlockType.purple:
-                        return purpleBlockParticlesPool.GetObject();
+                        return purpleBlockParticlesPool.GetObj();
                 }
             }
 

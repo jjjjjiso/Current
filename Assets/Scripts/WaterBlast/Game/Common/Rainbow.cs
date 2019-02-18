@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.Common
@@ -14,7 +15,7 @@ namespace WaterBlast.Game.Common
         {
             List<BlockDef> blocks = new List<BlockDef>();
 
-            Stage s = GameMgr.Get()._Stage;
+            Stage s = GameMgr.G._Stage;
 
             for (int ix = 0; ix < s.width; ++ix)
             {
@@ -37,7 +38,7 @@ namespace WaterBlast.Game.Common
         {
             List<BlockDef> blocks = new List<BlockDef>();
 
-            Stage s = GameMgr.Get()._Stage;
+            Stage s = GameMgr.G._Stage;
 
             for (int ix = 0; ix < s.width; ++ix)
             {

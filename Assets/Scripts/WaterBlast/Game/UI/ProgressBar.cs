@@ -70,5 +70,15 @@ namespace WaterBlast.Game.UI
             int newValue = (((value - oldMin) * newRange) / oldRange) + newMin;
             return newValue;
         }
+
+        public int GetStars()
+        {
+            int count = 0;
+            if (star1.isActive) ++count;
+            if (star2.isActive) ++count;
+            if (star3.isActive) ++count;
+
+            return count;
+        }
     }
 }

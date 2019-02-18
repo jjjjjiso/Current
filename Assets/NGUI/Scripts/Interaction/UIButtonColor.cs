@@ -31,19 +31,19 @@ public class UIButtonColor : UIWidgetContainer
 	/// Color to apply on hover event (mouse only).
 	/// </summary>
 
-	public Color hover = new Color(225f / 255f, 200f / 255f, 150f / 255f, 1f);
+	public Color hover = new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
 
 	/// <summary>
 	/// Color to apply on the pressed event.
 	/// </summary>
 
-	public Color pressed = new Color(183f / 255f, 163f / 255f, 123f / 255f, 1f);
+	public Color pressed = new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
 
 	/// <summary>
 	/// Color that will be applied when the button is disabled.
 	/// </summary>
 
-	public Color disabledColor = Color.grey;
+	public Color disabledColor = Color.white;
 
 	/// <summary>
 	/// Duration of the tween process.
