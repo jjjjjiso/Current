@@ -43,12 +43,12 @@ namespace WaterBlast.Game.Manager
             data.availableStartItemsCount  = availableStartItemCount;
             data.availableInGameItemsCount = availableInGameItemCount;
 
-            SaveMgr.G.Save<USER_SAVE>(data, SAVEDATA_FILE);
+            SaveMgr.Save<USER_SAVE>(data, SAVEDATA_FILE);
         }
 
         private void Load()
         {
-            USER_SAVE data = SaveMgr.G.Load<USER_SAVE>(SAVEDATA_FILE);
+            USER_SAVE data = SaveMgr.Load<USER_SAVE>(SAVEDATA_FILE);
             availableStartItemCount  = data.availableStartItemsCount;
             availableInGameItemCount = data.availableInGameItemsCount;
             life = data.life;

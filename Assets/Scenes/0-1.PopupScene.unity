@@ -116,8 +116,7 @@ NavMeshSettings:
 --- !u!1 &510157040
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1208332456811766, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -133,8 +132,7 @@ GameObject:
 --- !u!114 &510157041
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114752962239381742, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 510157040}
   m_Enabled: 1
@@ -175,7 +173,7 @@ MonoBehaviour:
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
-  mDepth: 300
+  mDepth: 301
   mSortingOrder: 0
   mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
@@ -183,8 +181,7 @@ MonoBehaviour:
 --- !u!4 &510157042
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4620392262767462, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 510157040}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -441,8 +438,7 @@ Camera:
 --- !u!1 &1290691775
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1448575263981396, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -459,8 +455,7 @@ GameObject:
 --- !u!4 &1290691776
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4856440288073432, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290691775}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -473,8 +468,7 @@ Transform:
 --- !u!114 &1290691777
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114493145289658970, guid: 85aebbc7aab5d2140831b3d35e080f28,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290691775}
   m_Enabled: 1
@@ -503,7 +497,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 1300
   mHeight: 1800
-  mDepth: 300
+  mDepth: 302
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0

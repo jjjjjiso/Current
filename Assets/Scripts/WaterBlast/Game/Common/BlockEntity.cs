@@ -41,6 +41,7 @@ namespace WaterBlast.Game.Common
 
         public virtual void Hide()
         {
+            state = State.wait;
             gameObject.SetActive(false);
         }
 
@@ -134,10 +135,9 @@ namespace WaterBlast.Game.Common
             int depth = _BlockDepth;
             widget.depth = 30;
 
-            yield return StartCoroutine(Co_Move(endPos, 4f));
+            yield return StartCoroutine(Co_Move(endPos, 5.5f));
 
             widget.depth = depth;
-            state = State.wait;
             Hide();
             _LocalPosition = endPos;
         }
@@ -194,7 +194,6 @@ namespace WaterBlast.Game.Common
         public int _BlockDepth
         {
             get { return (uiWidget != null) ? uiWidget.depth : -1; }
-            //set { uiWidget.depth = value; }
         }
 
         public BlockDef _BlockData

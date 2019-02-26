@@ -8,9 +8,11 @@ namespace WaterBlast.Game.Common
 {
     public class Bomb : Booster
     {
-        public override List<BlockDef> Match(int x, int y)
+        public override int BonusScore() { return 30; }
+
+        public override List<BlockEntity> Match(int x, int y)
         {
-            List<BlockDef> blocks = new List<BlockDef>();
+            List<BlockEntity> blocks = new List<BlockEntity>();
 
             AddBlock(blocks, x, y);
             AddBlock(blocks, x - 1, y);
@@ -25,9 +27,9 @@ namespace WaterBlast.Game.Common
             return blocks;
         }
 
-        public override List<BlockDef> ComboMatch(int x, int y)
+        public override List<BlockEntity> ComboMatch(int x, int y)
         {
-            List<BlockDef> blocks = Match(x, y);
+            List<BlockEntity> blocks = Match(x, y);
 
             AddBlock(blocks, x, y - 2);
             AddBlock(blocks, x, y + 2);

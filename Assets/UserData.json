@@ -2,13 +2,13 @@
     "life": 0,
     "coin": 0,
     "availableStartItemsCount": [
-        0,
-        0,
-        0
+        1,
+        1,
+        1
     ],
     "availableInGameItemsCount": [
         1,
-        2,
+        0,
         0,
         0
     ]

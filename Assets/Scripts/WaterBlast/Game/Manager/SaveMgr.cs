@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace WaterBlast.Game.Manager
 {
-    public class SaveMgr : MonoDontDestroySingleton<SaveMgr>
+    public class SaveMgr
     {
         static private readonly string SAVEDATA_PATH_FORMAT = "{0}/{1}";
 
-        public T Load<T>(string fileName) where T : class
+        static public T Load<T>(string fileName) where T : class
         {
             string dataPath = string.Empty;
 
@@ -29,7 +29,7 @@ namespace WaterBlast.Game.Manager
             return temp as T;
         }
 
-        public void Save<T>(T data, string fileName) where T : class
+        static public void Save<T>(T data, string fileName) where T : class
         {
             string dataPath = string.Empty;
 

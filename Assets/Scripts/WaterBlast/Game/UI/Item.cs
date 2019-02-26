@@ -17,6 +17,8 @@ namespace WaterBlast.Game.UI
         [SerializeField]
         protected ItemClicked itemClicked = null;
 
+        protected bool isLock = false;
+
         public void UnLockUI(int index, bool isUnLock)
         {
             if(isUnLock)
@@ -34,6 +36,7 @@ namespace WaterBlast.Game.UI
                 itemIconUI.color = col;
             }
 
+            isLock = !isUnLock;
             lockUI.SetActive(!isUnLock);
 
             UpdateInGameItemCount(index);

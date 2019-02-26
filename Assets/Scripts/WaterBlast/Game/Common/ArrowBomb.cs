@@ -16,10 +16,12 @@ namespace WaterBlast.Game.Common
     {
         protected ArrowType arrowType = ArrowType.horizon;
 
-        public override List<BlockDef> Match(int x, int y)
+        public override int BonusScore() { return 20; }
+
+        public override List<BlockEntity> Match(int x, int y)
         {
             Stage s = GameMgr.G._Stage;
-            List<BlockDef> blocks = new List<BlockDef>();
+            List<BlockEntity> blocks = new List<BlockEntity>();
 
             switch (arrowType)
             {
@@ -44,10 +46,10 @@ namespace WaterBlast.Game.Common
             return blocks;
         }
 
-        public override List<BlockDef> ComboMatch(int x, int y)
+        public override List<BlockEntity> ComboMatch(int x, int y)
         {
             Stage s = GameMgr.G._Stage;
-            List<BlockDef> blocks = new List<BlockDef>();
+            List<BlockEntity> blocks = new List<BlockEntity>();
 
             for (int ix = 0; ix < s.width; ++ix)
             {

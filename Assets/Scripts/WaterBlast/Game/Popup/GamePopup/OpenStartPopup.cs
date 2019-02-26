@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using WaterBlast.System;
 using WaterBlast.Game.Manager;
@@ -15,10 +13,10 @@ namespace WaterBlast.Game.Popup
             PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "StartPopup", level, null, "Play");
 
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.start);
-            GamePopupItemCount item = temp.GetComponentInChildren<GamePopupItemCount>();
+            GamePopupItemGroup item = temp.GetComponentInChildren<GamePopupItemGroup>();
             if(item != null)
             {
-                item.SetItemCount(UserDataMgr.G.availableStartItemCount);
+                item.BoosterItemSetting();
                 item.gameObject.GetComponent<UIWidget>().topAnchor.absolute = -65;
             }
 

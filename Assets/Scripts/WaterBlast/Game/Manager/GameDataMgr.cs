@@ -2,6 +2,11 @@
 
 using UnityEngine;
 
+using FullSerializer;
+
+using WaterBlast.System;
+using WaterBlast.Game.Common;
+
 namespace WaterBlast.Game.Manager
 {
     [Serializable]
@@ -19,26 +24,53 @@ namespace WaterBlast.Game.Manager
         [Tooltip("마지막으로 끝난 레벨 단계")]
         public int endLevel = 1;
 
+        [Tooltip("시작 아이템 사용 했는지 index : 0 arrow, 1 bomb, 2 rainbow")]
+        [NonSerialized]
+        public bool[] isUseStartItem = { false, false, false };
+
         [Tooltip("아이템 사용 중인지 index : 0 hammer, 1 horizon, 2 vertical, 3 mix")]
         [NonSerialized]
-        public bool[] isUseItem = { false, false, false, false };
+        public bool[] isUseInGameItem = { false, false, false, false };
 
         public bool isBGM    = true;
         public bool isEffect = true;
+        
+        [NonSerialized]
+        public Level level = null;
 
-        public bool IsUseItem()
+        protected override void OnAwake()
         {
-            foreach(bool isValue in isUseItem)
-            {
-                if (isValue) return true;
-            }
-
-            return false;
+            //Load();
+            UpdateLevel();
         }
 
         private void OnApplicationQuit()
         {
             Save();
+        }
+
+        public void Reset()
+        {
+            for(int i=0; i<isUseStartItem.Length; ++i)
+            {
+                isUseStartItem[i] = false;
+            }
+        }
+
+        public void UpdateLevel()
+        {
+            var serializer = new fsSerializer();
+            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + 1/*endLevel*/);
+        }
+
+        public bool IsUseInGameItem()
+        {
+            foreach(bool isValue in isUseInGameItem)
+            {
+                if (isValue) return true;
+            }
+
+            return false;
         }
 
         private void Save()
@@ -48,15 +80,18 @@ namespace WaterBlast.Game.Manager
             data.isBGM    = isBGM;
             data.isEffect = isEffect;
 
-            SaveMgr.G.Save<GAMEDATA_SAVE>(data, SAVEDATA_FILE);
+            SaveMgr.Save<GAMEDATA_SAVE>(data, SAVEDATA_FILE);
         }
 
         private void Load()
         {
-            GAMEDATA_SAVE data = SaveMgr.G.Load<GAMEDATA_SAVE>(SAVEDATA_FILE);
-            endLevel = data.endLevel;
-            isBGM    = data.isBGM;
-            isEffect = data.isEffect;
+            GAMEDATA_SAVE data = SaveMgr.Load<GAMEDATA_SAVE>(SAVEDATA_FILE);
+            if(data != null)
+            {
+                endLevel = data.endLevel;
+                isBGM = data.isBGM;
+                isEffect = data.isEffect;
+            }
         }
     }
 }

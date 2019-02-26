@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 using WaterBlast.System;
 using WaterBlast.Game.Manager;
@@ -11,20 +9,19 @@ namespace WaterBlast.Game.Common
     {
         protected BlockType preType = BlockType.empty;
 
-        public override List<BlockDef> Match(int x, int y)
-        {
-            List<BlockDef> blocks = new List<BlockDef>();
+        public override int BonusScore() { return 50; }
 
+        public override List<BlockEntity> Match(int x, int y)
+        {
+            List<BlockEntity> blocks = new List<BlockEntity>();
             Stage s = GameMgr.G._Stage;
 
             for (int ix = 0; ix < s.width; ++ix)
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
-                    if (ix == x && iy == y) continue;
                     Block block = s.blockEntities[ix, iy] as Block;
-                    if (block == null) continue;
-                    if (preType == BlockType.empty || preType != block._BlockType) continue;
+                    if (block != null && (preType == BlockType.empty || preType != block._BlockType)) continue;
                     string strTemp = string.Format("{0}_{1}", type, preType);
                     UpdateSprite(strTemp);
                     AddBlock(blocks, ix, iy);
@@ -34,17 +31,15 @@ namespace WaterBlast.Game.Common
             return blocks;
         }
 
-        public override List<BlockDef> ComboMatch(int x, int y)
+        public override List<BlockEntity> ComboMatch(int x, int y)
         {
-            List<BlockDef> blocks = new List<BlockDef>();
-
+            List<BlockEntity> blocks = new List<BlockEntity>();
             Stage s = GameMgr.G._Stage;
 
             for (int ix = 0; ix < s.width; ++ix)
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
-                    if (ix == x && iy == y) continue;
                     AddBlock(blocks, ix, iy);
                 }
             }

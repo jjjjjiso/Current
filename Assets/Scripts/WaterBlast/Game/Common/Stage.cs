@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -55,6 +56,8 @@ namespace WaterBlast.Game.Common
             BlockSetting();
             CreateBackground(parent, texture);
             BlockIconSetting();
+
+            StartCoroutine(Co_StartItem());
         }
 
         private void BlockSetting()
@@ -132,6 +135,43 @@ namespace WaterBlast.Game.Common
                     background.transform.localPosition = block._LocalPosition;
                 }
             }
+        }
+
+        IEnumerator Co_StartItem()
+        {
+            isWait = true;
+            yield return new WaitForSecondsRealtime(1.8f);
+
+            List<BlockDef> oldDef = new List<BlockDef>();
+            for (int i = 0; i < GameDataMgr.G.isUseStartItem.Length; ++i)
+            {
+                if (GameDataMgr.G.isUseStartItem[i])
+                {
+                    BlockDef newDef = new BlockDef(Random.Range(0, width), Random.Range(0, height));
+                    if(oldDef.Contains(newDef))
+                    {
+                        if(i > 0) --i;
+                        continue;
+                    }
+                    else
+                    {
+                        oldDef.Add(newDef);
+                    }
+                    
+                    Block block = blockEntities[newDef.x, newDef.y] as Block;
+                    if (block._BlockType == BlockType.empty)
+                    {
+                        if (i > 0) --i;
+                        continue;
+                    }
+
+                    StartCoroutine(Co_BoosterChange(newDef.x, newDef.y, ((i * 2) + 5), true));
+                    yield return new WaitForSecondsRealtime(0.5f);
+                }
+            }
+
+            isWait = false;
+            GameDataMgr.G.Reset();
         }
     }
 }

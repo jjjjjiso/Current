@@ -10,6 +10,7 @@ namespace WaterBlast.Game.Popup
     {
         [SerializeField] GameObject[] contents = null;
         [SerializeField] GameObject itemGroup = null;
+        [SerializeField] GameObject stars = null;
 
         private void Awake()
         {
@@ -22,8 +23,12 @@ namespace WaterBlast.Game.Popup
         public void OnPopup(GamePopupState state)
         {
             contents[(int)state].SetActive(true);
+
             if (state == GamePopupState.success) itemGroup.SetActive(false);
             else itemGroup.SetActive(true);
+
+            if (state == GamePopupState.failed) stars.SetActive(false);
+            else stars.SetActive(true);
         }
     }
 }

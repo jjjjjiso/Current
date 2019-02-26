@@ -27,7 +27,7 @@ namespace WaterBlast.Game.Popup
 
             if (title   != null && temp.uiTitle   != null) { temp.uiTitle.text   = title/*DataMgr.G.GetIndexUIText(204)*/; }
             if (message != null && temp.uiMessage != null) { temp.uiMessage.text = message/*DataMgr.G.GetIndexUIText(204)*/; }
-            if (temp.uiBtn     != null) { temp.uiBtn.text     = btn/*DataMgr.G.GetIndexUIText(204)*/; }
+            if (temp.uiBtn != null) { temp.uiBtn.text     = btn/*DataMgr.G.GetIndexUIText(204)*/; }
 
             return temp;
         }

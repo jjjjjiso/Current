@@ -22,14 +22,19 @@ namespace WaterBlast.Game.Common
         //default Method
 
         //public Method
-        public virtual List<BlockDef> Match(int x, int y)
+        public virtual int BonusScore()
         {
-            return new List<BlockDef>();
+            return 0;
         }
 
-        public virtual List<BlockDef> ComboMatch(int x, int y)
+        public virtual List<BlockEntity> Match(int x, int y)
         {
-            return new List<BlockDef>();
+            return new List<BlockEntity>();
+        }
+
+        public virtual List<BlockEntity> ComboMatch(int x, int y)
+        {
+            return new List<BlockEntity>();
         }
 
         public virtual void CreateParticle(bool isCombo)
@@ -40,20 +45,25 @@ namespace WaterBlast.Game.Common
         public void OnPressed()
         {
             if (state == State.move || state == State.booster_move) return;
-            GameMgr.G.StageUpdate(_X, _Y);
+            GameMgr.G.StageUpdate(this);
         }
 
-        protected void AddBlock(List<BlockDef> blocks, int x, int y)
+        protected void AddBlock(List<BlockEntity> blocks, int x, int y)
         {
-            GameMgr gameMgr = GameMgr.G;
-            if (x < 0 || x >= gameMgr._Stage.width ||
-                y < 0 || y >= gameMgr._Stage.height) return;
+            Stage stage = GameMgr.G._Stage;
+            if (x < 0 || x >= stage.width ||
+                y < 0 || y >= stage.height) return;
 
-            Block block = gameMgr._Stage.blockEntities[x, y] as Block;
-            if (block != null && block._BlockType == BlockType.empty) return;
+            var entity = stage.blockEntities[x, y];
+            if(entity != null)
+            {
+                if (!entity.gameObject.activeSelf) return;
+                var block = entity as Block;
+                if (block != null && block._BlockType == BlockType.empty) return;
+                if (blocks.Contains(entity)) return;
 
-            BlockDef def = new BlockDef(x, y);
-            if (!blocks.Contains(def)) blocks.Add(def);
+                blocks.Add(entity);
+            }
         }
 
         protected bool IsValidBlock(int x, int y)

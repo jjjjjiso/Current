@@ -15,19 +15,20 @@ namespace WaterBlast.Game.UI
         public void SetGoals(List<Goal> goals, GameObject prefab)
         {
             var childrenToRemove = goalUI.group.GetComponentsInChildren<GoalUIElement>();
-            foreach(var child in childrenToRemove)
+            foreach (var child in childrenToRemove)
             {
                 Destroy(child.gameObject);
             }
+            goalUI.group.transform.DetachChildren();
 
-            foreach(var goal in goals)
+            foreach (var goal in goals)
             {
                 if (!(goal is CollectBlockGoal) && !(goal is CollectBlockerGoal)) continue;
                 var goalObj = Instantiate(prefab);
                 goalObj.transform.SetParent(goalUI.group.transform, false);
                 goalObj.GetComponent<GoalUIElement>().GoalUISetting(goal);
             }
-
+            
             goalUI.group.Reposition();
         }
 

@@ -19,7 +19,7 @@ namespace WaterBlast.Game.UI
 
         private void Awake()
         {
-            tickImage.gameObject.SetActive(false);
+            if(tickImage != null) tickImage.gameObject.SetActive(false);
         }
 
         public virtual void GoalUISetting(Goal goal)
@@ -80,7 +80,8 @@ namespace WaterBlast.Game.UI
             amountText.gameObject.SetActive(false);
             if (completed)
             {
-                tickImage.gameObject.SetActive(true);
+                if(tickImage != null)
+                    tickImage.gameObject.SetActive(true);
             }
             else
             {
