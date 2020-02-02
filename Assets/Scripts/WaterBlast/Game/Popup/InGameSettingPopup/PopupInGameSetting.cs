@@ -19,8 +19,8 @@ namespace WaterBlast.Game.Popup
         private Animator anim = null;
 
         private const string path = "Prefabs/Popup/InGameSettingsPopup";
-        private const string blue = "BlueSquareButton";
-        private const string gray = "GreySquareButton";
+        private const string blue = "button_circle_blue";
+        private const string gray = "button_circle_grey";
 
         static public PopupInGameSetting Open(string ID)
         {

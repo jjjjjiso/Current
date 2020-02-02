@@ -25,16 +25,21 @@ namespace WaterBlast.Game.Common
         private BlockType rainbowColor = BlockType.empty;
 
         private float delayTime = 0.35f;
-        
+
+        private bool isOne = false;
         public bool isWait   = false;
         public bool isFinale = false;
-        
+
+        int tmpCount;
         public void NormMatch(BlockEntity pickBlock)
         {
             int x = pickBlock._X;
             int y = pickBlock._Y;
             List<BlockEntity> matchedBlocks = new List<BlockEntity>();
             GetMatches(pickBlock, matchedBlocks);
+            
+            currRadiationBlockCount = oldRadiationBlockCount;
+
             if (matchedBlocks.Count >= 2) //2개 이상 터트리기.
             {
                 AddCollectedBlock(matchedBlocks);               //미션 체크.
@@ -45,31 +50,102 @@ namespace WaterBlast.Game.Common
                 {
                     for (int i = 0; i < matchedBlocks.Count; ++i)
                     {
-                        Block block = blockEntities[matchedBlocks[i]._X, matchedBlocks[i]._Y] as Block;
+                        Block block = matchedBlocks[i] as Block;
                         var particles = GameMgr.G.gamePools.GetParticles(block);
                         if (particles != null) CreateParticle(particles, block._LocalPosition);
                         block.Hide();
+                        
+                        CheckMissionBlock(block);
                     }
                     MatchDown();
                 }
                 else
                 {
+                    CheckMissionBlock((matchedBlocks[0] as Block));
+
                     for (int i = 1; i < matchedBlocks.Count; ++i)
                     {
-                        Block block = blockEntities[matchedBlocks[i]._X, matchedBlocks[i]._Y] as Block;
+                        Block block = matchedBlocks[i] as Block;
                         Vector2 vTarget = pickBlock._LocalPosition;
                         block.TargetMove(vTarget);
+                        
+                        CheckMissionBlock(block);
                     }
                     StartCoroutine(Co_BoosterChange(x, y, matchedBlocks.Count));
                 }
             }
             else
             {
+                isOne = true;
                 pickBlock.PlayAnim("NoMatches");
                 pickBlock._State = State.idle;
             }
+            
+            StartCoroutine(Co_CheckRadiationBlock());
         }
-        
+
+        // 전염 블록 개수에 따라 추가 전염 시키거나 가만히 있거나
+        IEnumerator Co_CheckRadiationBlock()
+        {
+            while (isWait) yield return null;
+            while (IsMoving(State.move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
+            if (oldRadiationBlockCount <= 0) yield break;
+            if (oldRadiationBlockCount > currRadiationBlockCount) // 없앴다.
+            {
+                oldRadiationBlockCount = currRadiationBlockCount;
+            }
+            else // 그대로다.
+            {
+                if(isOne)
+                {
+                    isOne = false;
+                    yield break;
+                }
+
+                foreach(BlockEntity entity in blockEntities)
+                {
+                    Block block = entity as Block;
+                    if (block == null) continue;
+                    if (block._BlockType != BlockType.radiation) continue;
+
+                    var topBlock = new BlockDef(block._X, block._Y + 1);
+                    var bottomBlock = new BlockDef(block._X, block._Y - 1);
+                    var leftBlock = new BlockDef(block._X - 1, block._Y);
+                    var rightBlock = new BlockDef(block._X + 1, block._Y);
+
+                    var surroundingBlocks = new List<BlockDef> { topBlock, bottomBlock, leftBlock, rightBlock };
+                    
+                    foreach (var temp in surroundingBlocks)
+                    {
+                        if (IsValidBlockEntity(temp))
+                        {
+                            Block blockTemp = blockEntities[temp.x, temp.y] as Block;
+                            if (blockTemp == null) continue;
+                            if (!blockTemp.gameObject.activeSelf) continue;
+                            if (blockTemp._BlockType == BlockType.radiation) continue;
+                            ++oldRadiationBlockCount;
+                            currRadiationBlockCount = oldRadiationBlockCount;
+                            Debug.Log("+ " + oldRadiationBlockCount);
+                            int x = blockTemp._X;
+                            int y = blockTemp._Y;
+                            ReturnObject(blockTemp.gameObject);
+                            CreateRadiationBlock(x, y);
+                            yield break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CheckMissionBlock(Block block)
+        {
+            CheckMissionBlock(block, BlockType.bubble);
+            CheckMissionBlock(block, BlockType.box1);
+            CheckMissionBlock(block, BlockType.box2);
+            CheckMissionBlock(block, BlockType.radiation);
+        }
+
         IEnumerator Co_BoosterChange(int x, int y, int count, bool isStartItem = false)
         {
             while (IsMoving(State.booster_move)) yield return null;
@@ -118,55 +194,62 @@ namespace WaterBlast.Game.Common
             }
         }
         
+        //레인보우 터트릴때도 옆에 전염블록있는지 검사하고 터트려야함.
         public void BoosterMatches(BlockEntity pickBlock, bool isComboCheck = true)
         {
+            if(isComboCheck) currRadiationBlockCount = oldRadiationBlockCount;
+
             Booster pickBooster = pickBlock as Booster;
             comboBoosters.Add(pickBooster);
-            List<BlockEntity> boosters = null;
-            boosters = pickBooster.Match(pickBooster._X, pickBooster._Y);
+            List<BlockEntity> matchedBlocks = null;
+            matchedBlocks = pickBooster.Match(pickBooster._X, pickBooster._Y, ref currRadiationBlockCount);
 
             bool isCombo = false;
-            int score = (boosters.Count * basicScore) + pickBooster.BonusScore();
+            int score = (matchedBlocks.Count * basicScore) + pickBooster.BonusScore();
             if (isComboCheck)
             {
                 //제한 횟수 감소
                 GameMgr.G.ReduceTheNumberOfLimitCount();
-
                 List<BlockEntity> tempComboBoosters = new List<BlockEntity>();
                 GetMatches(pickBooster, tempComboBoosters, false);
                 if (tempComboBoosters.Count > 1)
                 {
+                    currRadiationBlockCount = oldRadiationBlockCount;
                     foreach (Booster comboBooster in tempComboBoosters)
                     {
                         comboBooster.TargetMove(pickBooster._LocalPosition);
                     }
 
-                    boosters.Clear();
+                    matchedBlocks.Clear();
                     score = 0;
                     if (pickBooster._BoosterType == BoosterType.rainbow) rainbowColor = pickBooster.GetComponent<Rainbow>()._PreType;
-                    boosters = BoosterCombo(pickBooster._X, pickBooster._Y, ref isCombo, ref score);
+                    matchedBlocks = BoosterCombo(pickBooster._X, pickBooster._Y, ref isCombo, ref score);
                 }
             }
 
             pickBooster._IsCombo = false;
             comboBoosters.Clear();
-            if (boosters != null)
+            if (matchedBlocks != null)
             {
+                AddCollectedBlock(matchedBlocks);
                 //점수
                 UpdateScore(score);
 
                 if (!isCombo)
                     StartCoroutine(Co_CreateBoosterParticles(pickBooster, false));
-                StartCoroutine(Co_BoosterMatch(boosters));
+                
+                StartCoroutine(Co_BoosterMatch(matchedBlocks));
             }
         }
 
+        bool isBooFirst = false;
         IEnumerator Co_BoosterMatch(List<BlockEntity> boosters)
         {
             while (IsMoving(State.booster_move)) yield return null;
             ComboBoostersClear();
             int defCount = boosters.Count;
             int count = 0;
+            int booCount = 0;
             if (defCount != 0)
             {
                 while (count < defCount)
@@ -183,17 +266,23 @@ namespace WaterBlast.Game.Common
                     Booster booster = hitBlock as Booster;
                     if (booster != null)
                     {
-                        if (!booster._IsCombo)
+                        if(booCount != 0)
                         {
-                            BoosterMatches(booster, false);
-                            continue;
+                            if (!booster._IsCombo)
+                            {
+                                BoosterMatches(booster, false);
+                                isBooFirst = true;
+                                continue;
+                            }
+                            else
+                            {
+                                booster._IsCombo = false;
+                                ReturnObject(booster.gameObject);
+                                CreateNewBlock(x, y);
+                            }
                         }
-                        else
-                        {
-                            booster._IsCombo = false;
-                            ReturnObject(booster.gameObject);
-                            CreateNewBlock(x, y);
-                        }
+
+                        ++booCount;
                     }
                     else
                     {
@@ -205,9 +294,16 @@ namespace WaterBlast.Game.Common
                     ++count;
                 }
                 yield return new WaitForSeconds(delayTime);
-                MatchDown();
-                GameMgr.G.GameEnd();
+                
+                if (!isBooFirst)
+                {
+                    StartCoroutine(Co_CheckRadiationBlock());
+                    MatchDown();
+                    GameMgr.G.GameEnd();
+                }
             }
+
+            isBooFirst = false;
         }
 
         private List<BlockEntity> BoosterCombo(int x, int y, ref bool isCombo, ref int score)
@@ -219,11 +315,10 @@ namespace WaterBlast.Game.Common
             if (comboBoosters[0]._BoosterType == comboBoosters[1]._BoosterType)
             {
                 isCombo = true;
-                blocks = comboBoosters[0].ComboMatch(x, y);
+                blocks = comboBoosters[0].ComboMatch(x, y, ref currRadiationBlockCount);
                 StartCoroutine(Co_CreateBoosterParticles(comboBoosters[0], isCombo));
 
                 score = (blocks.Count * basicScore) + bonusScore;
-                DebugX.Log(string.Format("{0}, {1} 합성 점수 : {2}", comboBoosters[0]._BoosterType, comboBoosters[1]._BoosterType, bonusScore));
             }
             else
             {
@@ -286,12 +381,15 @@ namespace WaterBlast.Game.Common
                     AddBlockEntity(blocks, ix, iy);
                 }
             }
+            
+            AddCollectedBlock(blocks);
 
             //점수
             int score = (blocks.Count * basicScore) + bonusScore;
             UpdateScore(score);
 
             StartCoroutine(Co_ArrowBombAndBombParticles(x, y));
+            
             StartCoroutine(Co_BoosterMatch(blocks));
         }
 
@@ -308,6 +406,8 @@ namespace WaterBlast.Game.Common
                     blocks.Add(block);
                 }
             }
+
+            AddCollectedBlock(blocks);
 
             //점수
             int score = (blocks.Count * basicScore) + bonusScore;
@@ -491,14 +591,17 @@ namespace WaterBlast.Game.Common
                 if (IsValidBlockEntity(surroundingBlock))
                 {
                     var tempBlockEntity = blockEntities[surroundingBlock.x, surroundingBlock.y];
-                    if (tempBlockEntity != null)
+                    if (tempBlockEntity != null && tempBlockEntity.gameObject.activeSelf)
                     {
                         var block = tempBlockEntity.GetComponent<Block>();
                         if (isColorMatch)
                         {
-                            if(block != null && block._BlockType == blockEntity.GetComponent<Block>()._BlockType)
+                            if(block != null)
                             {
-                                hasMatch = true;
+                                if (block._BlockType == blockEntity.GetComponent<Block>()._BlockType)
+                                {
+                                    hasMatch = true;
+                                }
                             }
                         }
                         else
@@ -528,7 +631,7 @@ namespace WaterBlast.Game.Common
                 if (IsValidBlockEntity(surroundingBlock))
                 {
                     var tempBlockEntity = blockEntities[surroundingBlock.x, surroundingBlock.y];
-                    if (tempBlockEntity != null)
+                    if (tempBlockEntity != null && tempBlockEntity.gameObject.activeSelf)
                     {
                         if(!matchedBlocks.Contains(tempBlockEntity))
                         {
@@ -554,6 +657,37 @@ namespace WaterBlast.Game.Common
             }
         }
 
+        List<BlockDef> tmp = new List<BlockDef>();
+        private void CheckMissionBlock(Block block, BlockType type)
+        {
+            tmp.Clear();
+
+            var topBlock = new BlockDef(block._X, block._Y + 1);
+            var bottomBlock = new BlockDef(block._X, block._Y - 1);
+            var leftBlock = new BlockDef(block._X - 1, block._Y);
+            var rightBlock = new BlockDef(block._X + 1, block._Y);
+
+            var surroundingBlocks = new List<BlockDef> { topBlock, bottomBlock, leftBlock, rightBlock };
+
+            int count = 0;
+            foreach (var temp in surroundingBlocks)
+            {
+                if (IsValidBlockEntity(temp))
+                {
+                    //if (tmp.Count > 0 && tmp[count].x == temp.x && tmp[count].y == temp.y) continue;
+                    Block entity = blockEntities[temp.x, temp.y] as Block;
+                    if (entity == null) continue;
+                    if (!entity.gameObject.activeSelf) continue;
+                    if (entity._BlockType != type) continue;
+                    if (type == BlockType.radiation) --currRadiationBlockCount;
+
+                    tmp.Add(temp);
+                    entity.Hide();
+                    ++count;
+                }
+            }
+        }
+
         private void MatchDown()
         {
             for (int x = 0; x < width; ++x)
@@ -565,7 +699,7 @@ namespace WaterBlast.Game.Common
                 for (int y = 0; y < height; ++y)
                 {
                     var blockEntity = blockEntities[x, y];
-                    if (IsEmptyBlock(blockEntity))
+                    if (IsCheckBlock(blockEntity, BlockType.empty))
                     {
                         if (stack.Count != 0) ++emptyCnt;
                         emptyIdx = y;
@@ -584,15 +718,27 @@ namespace WaterBlast.Game.Common
                             blockEntity._LocalPosition = new Vector2(Point(x, width, wSize), (15 * hSize));
                         }
                     }
-
                     else if (stack.Count != 0)
                     {
+                        if (IsCheckBlock(blockEntity, BlockType.box1) ||
+                            IsCheckBlock(blockEntity, BlockType.box2) ||
+                            IsCheckBlock(blockEntity, BlockType.radiation))
+                        {
+                            stack.Clear();
+                            continue;
+                        }
+                        
                         int yy = (y - stack.Count);
                         if (emptyIdx != -1 && emptyIdx < yy) emptyCnt = 0;
                         yy -= emptyCnt;
                         Swap(x, y, x, yy);
                         Vector2 vEndPos = new Vector2(Point(x, width, wSize), Point(yy, height, hSize));
                         blockEntity.DownMove(vEndPos, x, yy);
+
+                        if(yy == 0 && (IsCheckBlock(blockEntity, BlockType.can) || IsCheckBlock(blockEntity, BlockType.paper)))
+                        {
+                            StartCoroutine(Co_MoveMission(blockEntity));
+                        }
                     }
                 }
 
@@ -609,6 +755,16 @@ namespace WaterBlast.Game.Common
             }
             
             if(!GameMgr.G.isGameEnd) BlockIconSetting();
+        }
+
+        IEnumerator Co_MoveMission(BlockEntity block)
+        {
+            while (IsMoving(State.move)) yield return null;
+            while (IsMoving(State.booster_move)) yield return null;
+
+            // 이펙트 뿌려주면서 사라진다.
+            block.Hide();
+            MatchDown();
         }
 
         private void BlockIconSetting()
@@ -634,6 +790,7 @@ namespace WaterBlast.Game.Common
                     if (block == null) continue;
                     if (oldMatchedBlocks.Contains(block)) continue;
                     if (block._BlockType == BlockType.empty) continue;
+                    if (!block.gameObject.activeSelf) continue;
 
                     List<BlockEntity> matchedBlocks = new List<BlockEntity>();
                     matchedBlocks.Add(block);
@@ -765,6 +922,17 @@ namespace WaterBlast.Game.Common
             blockEntities[x, y].SetData(x, y);
         }
 
+        private void CreateRadiationBlock(int x, int y)
+        {
+            BlockEntity entity = GameMgr.G.gamePools.GetBlockEntity(new LevelBlockType() { type = BlockType.radiation });
+            Assert.IsNotNull(entity);
+            entity.Show();
+            entity.transform.localPosition = blockEntities[x, y]._LocalPosition;
+            entity.SetDepth(blockEntities[x, y]._BlockDepth);
+            blockEntities[x, y] = entity;
+            blockEntities[x, y].SetData(x, y);
+        }
+
         private void CreateNewBlock(int x, int y)
         {
             BlockEntity entity = GameMgr.G.gamePools.GetBlockEntity(new LevelBlockType() { type = BlockType.random });
@@ -806,7 +974,11 @@ namespace WaterBlast.Game.Common
                 if (!entity.gameObject.activeSelf) return;
                 var block = entity as Block;
                 if (block != null && block._BlockType == BlockType.empty) return;
+                if (block != null && block._BlockType == BlockType.can) return;
+                if (block != null && block._BlockType == BlockType.paper) return;
                 if (blocks.Contains(entity)) return;
+
+                if (block != null && block._BlockType == BlockType.radiation) --currRadiationBlockCount;
 
                 blocks.Add(entity);
             }
@@ -874,10 +1046,10 @@ namespace WaterBlast.Game.Common
             return index >= 0 && index < line;
         }
 
-        private bool IsEmptyBlock(BlockEntity blockEntity)
+        private bool IsCheckBlock(BlockEntity blockEntity, BlockType type)
         {
             Block block = blockEntity as Block;
-            if (block != null && block._BlockType == BlockType.empty) return true;
+            if (block != null && block._BlockType == type) return true;
             return false;
         }
 
@@ -1060,7 +1232,7 @@ namespace WaterBlast.Game.Common
                     ++count;
                     continue;
                 }
-                blocks = booster.Match(booster._X, booster._Y);
+                blocks = booster.Match(booster._X, booster._Y, ref currRadiationBlockCount);
                 if(GameMgr.G.isGameEnd)
                 {
                     Rainbow rainbow = booster as Rainbow;
@@ -1069,7 +1241,7 @@ namespace WaterBlast.Game.Common
                         rainbow.Hide();
                     }
                 }
-
+                
                 yield return StartCoroutine(Co_BoosterMatch(blocks));
                 ++count;
             }

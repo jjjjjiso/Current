@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using WaterBlast.System;
-using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.Common
 {

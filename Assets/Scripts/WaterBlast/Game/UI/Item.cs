@@ -23,7 +23,7 @@ namespace WaterBlast.Game.UI
         {
             if(isUnLock)
             {
-                itemBtnUI.normalSprite = "BlueSquareButton";
+                itemBtnUI.normalSprite = "green_square_button";
                 Color col = itemIconUI.color;
                 col.a = 1;
                 itemIconUI.color = col;

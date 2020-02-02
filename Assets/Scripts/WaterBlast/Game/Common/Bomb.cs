@@ -10,43 +10,43 @@ namespace WaterBlast.Game.Common
     {
         public override int BonusScore() { return 30; }
 
-        public override List<BlockEntity> Match(int x, int y)
+        public override List<BlockEntity> Match(int x, int y, ref int count)
         {
             List<BlockEntity> blocks = new List<BlockEntity>();
 
-            AddBlock(blocks, x, y);
-            AddBlock(blocks, x - 1, y);
-            AddBlock(blocks, x + 1, y);
-            AddBlock(blocks, x, y - 1);
-            AddBlock(blocks, x, y + 1);
-            AddBlock(blocks, x - 1, y - 1);
-            AddBlock(blocks, x + 1, y - 1);
-            AddBlock(blocks, x - 1, y + 1);
-            AddBlock(blocks, x + 1, y + 1);
+            AddBlock(blocks, x, y, ref count);
+            AddBlock(blocks, x - 1, y, ref count);
+            AddBlock(blocks, x + 1, y, ref count);
+            AddBlock(blocks, x, y - 1, ref count);
+            AddBlock(blocks, x, y + 1, ref count);
+            AddBlock(blocks, x - 1, y - 1, ref count);
+            AddBlock(blocks, x + 1, y - 1, ref count);
+            AddBlock(blocks, x - 1, y + 1, ref count);
+            AddBlock(blocks, x + 1, y + 1, ref count);
 
             return blocks;
         }
 
-        public override List<BlockEntity> ComboMatch(int x, int y)
+        public override List<BlockEntity> ComboMatch(int x, int y, ref int count)
         {
-            List<BlockEntity> blocks = Match(x, y);
+            List<BlockEntity> blocks = Match(x, y, ref count);
 
-            AddBlock(blocks, x, y - 2);
-            AddBlock(blocks, x, y + 2);
-            AddBlock(blocks, x - 1, y - 2);
-            AddBlock(blocks, x - 1, y + 2);
-            AddBlock(blocks, x - 2, y - 2);
-            AddBlock(blocks, x - 2, y - 1);
-            AddBlock(blocks, x - 2, y);
-            AddBlock(blocks, x - 2, y + 1);
-            AddBlock(blocks, x - 2, y + 2);
-            AddBlock(blocks, x + 1, y - 2);
-            AddBlock(blocks, x + 1, y + 2);
-            AddBlock(blocks, x + 2, y - 2);
-            AddBlock(blocks, x + 2, y - 1);
-            AddBlock(blocks, x + 2, y);
-            AddBlock(blocks, x + 2, y + 1);
-            AddBlock(blocks, x + 2, y + 2);
+            AddBlock(blocks, x, y - 2, ref count);
+            AddBlock(blocks, x, y + 2, ref count);
+            AddBlock(blocks, x - 1, y - 2, ref count);
+            AddBlock(blocks, x - 1, y + 2, ref count);
+            AddBlock(blocks, x - 2, y - 2, ref count);
+            AddBlock(blocks, x - 2, y - 1, ref count);
+            AddBlock(blocks, x - 2, y, ref count);
+            AddBlock(blocks, x - 2, y + 1, ref count);
+            AddBlock(blocks, x - 2, y + 2, ref count);
+            AddBlock(blocks, x + 1, y - 2, ref count);
+            AddBlock(blocks, x + 1, y + 2, ref count);
+            AddBlock(blocks, x + 2, y - 2, ref count);
+            AddBlock(blocks, x + 2, y - 1, ref count);
+            AddBlock(blocks, x + 2, y, ref count);
+            AddBlock(blocks, x + 2, y + 1, ref count);
+            AddBlock(blocks, x + 2, y + 2, ref count);
 
             return blocks;
         }

@@ -45,7 +45,7 @@ namespace WaterBlast.Game.Popup
                     GameDataMgr.G.isUseStartItem[idx] = false;
                     ++UserDataMgr.G.availableStartItemCount[idx];
 
-                    uiBtnImg.normalSprite = "GreenSquareButton";
+                    uiBtnImg.normalSprite = "green_square_button";
                     CheckImg.SetActive(false);
                     uiItemCnt.gameObject.SetActive(true);
                 }

@@ -594,9 +594,9 @@ namespace WaterBlast.Editor
                 var boosterTile = (LevelBoosterType)curLevel.blocks[tileIndex];
                 tileTypeName = boosterTile.type.ToString();
             }
-            if (curLevel.blocks[tileIndex].blockerType == BlockerType.ice)
+            if (curLevel.blocks[tileIndex].blockerType == BlockerType.muddywater)
             {
-                tileTypeName += "Ice";
+                tileTypeName += "muddywater";
             }
             if (tileTextures.ContainsKey(tileTypeName))
             {

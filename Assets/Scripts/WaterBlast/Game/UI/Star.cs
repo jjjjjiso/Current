@@ -26,9 +26,9 @@ namespace WaterBlast.Game.UI
             this.isActive = isActive;
 
             if (isActive)
-                uiStarImg.spriteName = "StarYellow";
+                uiStarImg.spriteName = "star_yellow";
             else
-                uiStarImg.spriteName = "StarGrey";
+                uiStarImg.spriteName = "star_grey";
         }
     }
 }

@@ -19,7 +19,7 @@ namespace WaterBlast.Game.UI
                 itemClicked.SetInfo(isUseItem, (ItemType)index);
                 if (isUseItem)
                 {
-                    DepthSetting(6);
+                    DepthSetting(12);
                 }
                 else
                 {

@@ -54,6 +54,8 @@ GameObject:
   - component: {fileID: 114451345441580314}
   - component: {fileID: 65750773995282666}
   - component: {fileID: 114223237816494420}
+  - component: {fileID: 95953263842243610}
+  - component: {fileID: 114674735418066744}
   m_Layer: 9
   m_Name: Close Btn
   m_TagString: Untagged
@@ -170,6 +172,8 @@ GameObject:
   - component: {fileID: 114408306934101180}
   - component: {fileID: 65121373461140510}
   - component: {fileID: 114648228285587290}
+  - component: {fileID: 95985607460010206}
+  - component: {fileID: 114105435851196962}
   m_Layer: 9
   m_Name: Buy Btn
   m_TagString: Untagged
@@ -249,7 +253,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626735935055604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 51, z: 0}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4370650781131596}
@@ -305,7 +309,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1939943737009632}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -193, z: 0}
+  m_LocalPosition: {x: 0, y: -246, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4720781691714614}
@@ -387,7 +391,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1146566370244972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 220, y: 287, z: 0}
+  m_LocalPosition: {x: 255, y: 287, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4837030088621216}
@@ -459,7 +463,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 100, y: 100, z: 0}
+  m_Size: {x: 80, y: 80, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65782757860392556
 BoxCollider:
@@ -473,6 +477,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1300, y: 1800, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95953263842243610
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146566370244972}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!95 &95985607460010206
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1939943737009632}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114020196736943896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -527,6 +567,17 @@ MonoBehaviour:
   mAtlas: {fileID: 114743773373915856, guid: a32c0ba28dc99b24fb2908cd3ca49f5a, type: 2}
   mSpriteName: bomb
   mFillCenter: 1
+--- !u!114 &114105435851196962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1939943737009632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114110121175304910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -571,14 +622,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 530
-  mHeight: 350
+  mWidth: 590
+  mHeight: 372
   mDepth: 506
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.5142857
+  aspectRatio: 1.5860215
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -593,7 +644,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 114280640278196470, guid: c65ad5a9a46cceb40a3ae65b0d06d5be, type: 2}
-  mSpriteName: InfoBackground
+  mSpriteName: popup_inground
   mFillCenter: 1
 --- !u!114 &114139302170036882
 MonoBehaviour:
@@ -742,6 +793,10 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
+  - mTarget: {fileID: 114674735418066744}
+    mMethodName: OnPressed
+    mParameters: []
+    oneShot: 0
   - mTarget: {fileID: 114296376470297786}
     mMethodName: OnExit
     mParameters: []
@@ -852,7 +907,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3000
+  startingRenderQueue: 3003
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -929,7 +984,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 114577312711637630, guid: 98445c3785740f54598d5d03fe99c95d, type: 2}
-  mSpriteName: PinkButton
+  mSpriteName: pink_rectangle_button
   mFillCenter: 1
 --- !u!114 &114451345441580314
 MonoBehaviour:
@@ -961,8 +1016,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 100
-  mHeight: 100
+  mWidth: 80
+  mHeight: 80
   mDepth: 503
   mMat: {fileID: 0}
   autoResizeBoxCollider: 1
@@ -982,8 +1037,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 114280640278196470, guid: c65ad5a9a46cceb40a3ae65b0d06d5be, type: 2}
-  mSpriteName: ButtonClose
+  mAtlas: {fileID: 114577312711637630, guid: 98445c3785740f54598d5d03fe99c95d, type: 2}
+  mSpriteName: icon_x
   mFillCenter: 1
 --- !u!114 &114462238919137790
 MonoBehaviour:
@@ -1015,14 +1070,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 754
+  mWidth: 658
   mHeight: 722
   mDepth: 502
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.0443213
+  aspectRatio: 0.91135734
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -1037,7 +1092,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 114280640278196470, guid: c65ad5a9a46cceb40a3ae65b0d06d5be, type: 2}
-  mSpriteName: PopupBackgroundSimple
+  mSpriteName: popup_background
   mFillCenter: 1
 --- !u!114 &114648228285587290
 MonoBehaviour:
@@ -1064,10 +1119,25 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
+  - mTarget: {fileID: 114105435851196962}
+    mMethodName: OnPressed
+    mParameters: []
+    oneShot: 0
   - mTarget: {fileID: 114296376470297786}
     mMethodName: OnConfirm
     mParameters: []
     oneShot: 0
+--- !u!114 &114674735418066744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146566370244972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114761418299470520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1106,7 +1176,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3001
+  startingRenderQueue: 3004
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -1199,7 +1269,7 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
   mWidth: 432
   mHeight: 90

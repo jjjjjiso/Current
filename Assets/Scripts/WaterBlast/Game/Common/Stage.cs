@@ -40,6 +40,9 @@ namespace WaterBlast.Game.Common
         private int wSize = 0;
         private int hSize = 0;
 
+        private int oldRadiationBlockCount = 0;
+        public int currRadiationBlockCount = 0;
+
         public void Reset()
         {
             foreach(BlockEntity block in blockEntities)
@@ -73,6 +76,7 @@ namespace WaterBlast.Game.Common
                     var index = x * width + y;
                     var temp = gameMgr.gamePools.GetBlockEntity(gameMgr.level.blocks[index]);
                     Assert.IsNotNull(temp);
+                    if ((temp as Block)._BlockType == BlockType.radiation) ++oldRadiationBlockCount;
                     temp.SetDepth(y + 11);
                     temp.Show();
                     temp.SetData(x, y);

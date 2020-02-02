@@ -27,12 +27,12 @@ namespace WaterBlast.Game.Common
             return 0;
         }
 
-        public virtual List<BlockEntity> Match(int x, int y)
+        public virtual List<BlockEntity> Match(int x, int y, ref int count)
         {
             return new List<BlockEntity>();
         }
 
-        public virtual List<BlockEntity> ComboMatch(int x, int y)
+        public virtual List<BlockEntity> ComboMatch(int x, int y, ref int count)
         {
             return new List<BlockEntity>();
         }
@@ -48,7 +48,7 @@ namespace WaterBlast.Game.Common
             GameMgr.G.StageUpdate(this);
         }
 
-        protected void AddBlock(List<BlockEntity> blocks, int x, int y)
+        protected void AddBlock(List<BlockEntity> blocks, int x, int y, ref int count)
         {
             Stage stage = GameMgr.G._Stage;
             if (x < 0 || x >= stage.width ||
@@ -60,8 +60,15 @@ namespace WaterBlast.Game.Common
                 if (!entity.gameObject.activeSelf) return;
                 var block = entity as Block;
                 if (block != null && block._BlockType == BlockType.empty) return;
+                if (block != null && block._BlockType == BlockType.can) return;
+                if (block != null && block._BlockType == BlockType.paper) return;
                 if (blocks.Contains(entity)) return;
 
+                if (block != null && block._BlockType == BlockType.radiation)
+                {
+                    //--stage.currRadiationBlockCount;
+                    --count;
+                }
                 blocks.Add(entity);
             }
         }

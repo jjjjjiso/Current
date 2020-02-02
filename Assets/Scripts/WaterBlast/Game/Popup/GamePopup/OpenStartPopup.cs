@@ -17,7 +17,7 @@ namespace WaterBlast.Game.Popup
             if(item != null)
             {
                 item.BoosterItemSetting();
-                item.gameObject.GetComponent<UIWidget>().topAnchor.absolute = -65;
+                item.gameObject.GetComponent<UIWidget>().bottomAnchor.absolute = 50;
             }
 
             temp.onConfirm += () =>

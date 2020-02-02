@@ -120,7 +120,7 @@ namespace WaterBlast.Game.Common
             state = State.move;
 
             yield return StartCoroutine(Co_Move(endPos, 3.5f));
-
+            
             state = State.idle;
             SetData(x, y);
             _LocalPosition = endPos;

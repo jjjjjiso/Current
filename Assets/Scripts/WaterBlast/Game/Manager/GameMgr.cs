@@ -286,7 +286,7 @@ namespace WaterBlast.Game.Manager
             if (item != null)
             {
                 item.BoosterItemSetting();
-                item.gameObject.GetComponent<UIWidget>().topAnchor.absolute = -150;
+                item.gameObject.GetComponent<UIWidget>().bottomAnchor.absolute = -4;
             }
 
             temp.onConfirm += () =>

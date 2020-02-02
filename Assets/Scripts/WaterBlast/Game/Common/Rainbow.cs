@@ -11,27 +11,29 @@ namespace WaterBlast.Game.Common
 
         public override int BonusScore() { return 50; }
 
-        public override List<BlockEntity> Match(int x, int y)
+        public override List<BlockEntity> Match(int x, int y, ref int count)
         {
             List<BlockEntity> blocks = new List<BlockEntity>();
             Stage s = GameMgr.G._Stage;
 
+            AddBlock(blocks, x, y, ref count);
             for (int ix = 0; ix < s.width; ++ix)
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
                     Block block = s.blockEntities[ix, iy] as Block;
-                    if (block != null && (preType == BlockType.empty || preType != block._BlockType)) continue;
+                    if (block == null) continue;
+                    if (preType == BlockType.empty || preType != block._BlockType) continue;
                     string strTemp = string.Format("{0}_{1}", type, preType);
                     UpdateSprite(strTemp);
-                    AddBlock(blocks, ix, iy);
+                    AddBlock(blocks, ix, iy, ref count);
                 }
             }
 
             return blocks;
         }
 
-        public override List<BlockEntity> ComboMatch(int x, int y)
+        public override List<BlockEntity> ComboMatch(int x, int y, ref int count)
         {
             List<BlockEntity> blocks = new List<BlockEntity>();
             Stage s = GameMgr.G._Stage;
@@ -40,7 +42,7 @@ namespace WaterBlast.Game.Common
             {
                 for (int iy = 0; iy < s.height; ++iy)
                 {
-                    AddBlock(blocks, ix, iy);
+                    AddBlock(blocks, ix, iy, ref count);
                 }
             }
 

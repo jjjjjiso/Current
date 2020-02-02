@@ -17,6 +17,13 @@ namespace WaterBlast.Game.Common
         public ObjectPool blueBlockPool = null;
         public ObjectPool purpleBlockPool = null;
 
+        public ObjectPool bubbleBlockPool = null;
+        public ObjectPool canBlockPool = null;
+        public ObjectPool paperBlockPool = null;
+        public ObjectPool box1BlockPool = null;
+        public ObjectPool box2BlockPool = null;
+        public ObjectPool radiationBlockPool = null;
+
         public ObjectPool arrowBombPool = null;
         public ObjectPool bombPool = null;
         public ObjectPool rainbowPool = null;
@@ -44,6 +51,13 @@ namespace WaterBlast.Game.Common
             Assert.IsNotNull(greenBlockPool);
             Assert.IsNotNull(blueBlockPool);
             Assert.IsNotNull(purpleBlockPool);
+
+            Assert.IsNotNull(bubbleBlockPool);
+            Assert.IsNotNull(canBlockPool);
+            Assert.IsNotNull(paperBlockPool);
+            Assert.IsNotNull(box1BlockPool);
+            Assert.IsNotNull(box2BlockPool);
+            Assert.IsNotNull(radiationBlockPool);
 
             Assert.IsNotNull(arrowBombPool);
             Assert.IsNotNull(bombPool);
@@ -129,6 +143,30 @@ namespace WaterBlast.Game.Common
                                     break;
                             }
                             return temp.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.bubble:
+                        {
+                            return bubbleBlockPool.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.can:
+                        {
+                            return canBlockPool.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.paper:
+                        {
+                            return paperBlockPool.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.box1:
+                        {
+                            return box1BlockPool.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.box2:
+                        {
+                            return box2BlockPool.GetObj().GetComponent<BlockEntity>();
+                        }
+                    case BlockType.radiation:
+                        {
+                            return radiationBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                 }
             }

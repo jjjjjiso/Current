@@ -3,7 +3,7 @@
     public enum BlockerType
     {
         none,
-        ice,
+        muddywater,
     }
 
     public enum BlockType
@@ -16,6 +16,12 @@
         blue,
         purple,
         random,
+        bubble,
+        can,
+        paper,
+        box1,
+        box2,
+        radiation,
     }
 
     public enum ColorType

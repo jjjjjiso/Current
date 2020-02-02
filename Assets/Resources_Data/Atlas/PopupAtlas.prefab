@@ -54,8 +54,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: d838d581dea0eb24883e6c2f198a89a1, type: 2}
   mSprites:
   - name: BigLife
-    x: 3480
-    y: 1679
+    x: 0
+    y: 1732
     width: 506
     height: 369
     borderLeft: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 8
   - name: BlueHeadlineBackground
-    x: 3034
-    y: 844
+    x: 3608
+    y: 2055
     width: 450
     height: 165
     borderLeft: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
     paddingTop: 6
     paddingBottom: 6
   - name: BrokenLife
-    x: 3034
-    y: 1725
+    x: 3680
+    y: 3773
     width: 391
     height: 323
     borderLeft: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
     paddingTop: 29
     paddingBottom: 19
   - name: ButtonClose
-    x: 3880
-    y: 1029
+    x: 3963
+    y: 2643
     width: 120
     height: 120
     borderLeft: 0
@@ -106,8 +106,8 @@ MonoBehaviour:
     paddingTop: 11
     paddingBottom: 11
   - name: BuyButton
-    x: 3034
-    y: 693
+    x: 2679
+    y: 2237
     width: 340
     height: 150
     borderLeft: 0
@@ -119,8 +119,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: Coins1
-    x: 3905
-    y: 1294
+    x: 3835
+    y: 2541
     width: 165
     height: 96
     borderLeft: 0
@@ -132,8 +132,8 @@ MonoBehaviour:
     paddingTop: 2
     paddingBottom: 2
   - name: CoinsAmountBackground
-    x: 3034
-    y: 1010
+    x: 3097
+    y: 2064
     width: 510
     height: 156
     borderLeft: 0
@@ -145,8 +145,8 @@ MonoBehaviour:
     paddingTop: 2
     paddingBottom: 2
   - name: CoinsChest
-    x: 3713
-    y: 1391
+    x: 2679
+    y: 2388
     width: 351
     height: 287
     borderLeft: 0
@@ -158,8 +158,8 @@ MonoBehaviour:
     paddingTop: 2
     paddingBottom: 3
   - name: CoinWhiteBorder
-    x: 3880
-    y: 1150
+    x: 3835
+    y: 2638
     width: 127
     height: 125
     borderLeft: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
     paddingTop: 8
     paddingBottom: 7
   - name: FalseIcon
-    x: 3738
-    y: 1027
+    x: 3977
+    y: 2804
     width: 74
     height: 74
     borderLeft: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
     paddingTop: 8
     paddingBottom: 8
   - name: InfoBackground
-    x: 2414
-    y: 267
+    x: 1613
+    y: 2315
     width: 1065
     height: 360
     borderLeft: 0
@@ -197,8 +197,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: LifeSmallGrey
-    x: 3763
-    y: 1276
+    x: 3680
+    y: 3365
     width: 141
     height: 114
     borderLeft: 0
@@ -210,8 +210,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 1
   - name: LifeSmallRed
-    x: 3738
-    y: 1102
+    x: 3835
+    y: 2764
     width: 141
     height: 114
     borderLeft: 0
@@ -223,8 +223,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 1
   - name: LifeSmallShadow
-    x: 3545
-    y: 1011
+    x: 3835
+    y: 3053
     width: 192
     height: 164
     borderLeft: 0
@@ -236,8 +236,8 @@ MonoBehaviour:
     paddingTop: 34
     paddingBottom: 41
   - name: LightBlueBackground
-    x: 3485
-    y: 900
+    x: 3097
+    y: 1954
     width: 437
     height: 109
     borderLeft: 0
@@ -249,8 +249,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: ListBackground
-    x: 2414
-    y: 40
+    x: 554
+    y: 2088
     width: 1062
     height: 226
     borderLeft: 0
@@ -262,8 +262,8 @@ MonoBehaviour:
     paddingTop: 7
     paddingBottom: 7
   - name: LoadingPopupBackground
-    x: 3034
-    y: 1167
+    x: 3680
+    y: 3480
     width: 292
     height: 292
     borderLeft: 0
@@ -275,8 +275,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: MovesIcon
-    x: 3327
-    y: 1176
+    x: 1287
+    y: 2316
     width: 265
     height: 283
     borderLeft: 0
@@ -288,8 +288,8 @@ MonoBehaviour:
     paddingTop: 15
     paddingBottom: 13
   - name: PlayButton
-    x: 3034
-    y: 1460
+    x: 2418
+    y: 2002
     width: 678
     height: 218
     borderLeft: 0
@@ -301,8 +301,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: PlayButtonShadow
-    x: 801
-    y: 281
+    x: 554
+    y: 2329
     width: 732
     height: 270
     borderLeft: 0
@@ -313,9 +313,35 @@ MonoBehaviour:
     paddingRight: 6
     paddingTop: 6
     paddingBottom: 6
+  - name: popup_background
+    x: 3034
+    y: 3273
+    width: 645
+    height: 823
+    borderLeft: 150
+    borderRight: 150
+    borderTop: 150
+    borderBottom: 150
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 5
+    paddingBottom: 3
+  - name: popup_inground
+    x: 0
+    y: 2102
+    width: 553
+    height: 497
+    borderLeft: 150
+    borderRight: 150
+    borderTop: 150
+    borderBottom: 150
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
   - name: PopupBackgroundFull
-    x: 1613
-    y: 77
+    x: 3034
+    y: 2722
     width: 800
     height: 550
     borderLeft: 350
@@ -327,8 +353,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: PopupBackgroundHeadline
-    x: 801
-    y: 80
+    x: 1617
+    y: 2114
     width: 800
     height: 200
     borderLeft: 0
@@ -340,8 +366,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: PopupBackgroundSimple
-    x: 0
-    y: 51
+    x: 3034
+    y: 2221
     width: 800
     height: 500
     borderLeft: 220
@@ -354,7 +380,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: RadialShine1
     x: 1613
-    y: 628
+    y: 2676
     width: 1420
     height: 1420
     borderLeft: 0
@@ -367,7 +393,7 @@ MonoBehaviour:
     paddingBottom: 196
   - name: RadialShine2
     x: 0
-    y: 552
+    y: 2600
     width: 1612
     height: 1496
     borderLeft: 0
@@ -379,8 +405,8 @@ MonoBehaviour:
     paddingTop: 172
     paddingBottom: 132
   - name: RainParticle
-    x: 3426
-    y: 1682
+    x: 4072
+    y: 3730
     width: 15
     height: 366
     borderLeft: 0
@@ -392,8 +418,8 @@ MonoBehaviour:
     paddingTop: 17
     paddingBottom: 17
   - name: ShadowRectangleButton
-    x: 3477
-    y: 30
+    x: 1617
+    y: 1877
     width: 561
     height: 236
     borderLeft: 0
@@ -405,8 +431,8 @@ MonoBehaviour:
     paddingTop: 6
     paddingBottom: 6
   - name: ShadowSquareButton
-    x: 3480
-    y: 582
+    x: 3835
+    y: 3218
     width: 254
     height: 261
     borderLeft: 0
@@ -418,8 +444,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 1
   - name: StickerStar
-    x: 3593
-    y: 1217
+    x: 3835
+    y: 2879
     width: 169
     height: 173
     borderLeft: 0

@@ -54,7 +54,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 8bf5e764904f5d14c934dc26b9efbebc, type: 2}
   mSprites:
   - name: Bg
-    x: 501
+    x: 0
     y: 267
     width: 500
     height: 500
@@ -67,7 +67,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: black
-    x: 0
+    x: 257
     y: 114
     width: 261
     height: 152
@@ -79,8 +79,34 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: hammer
+    x: 459
+    y: 13
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: horizon
+    x: 358
+    y: 45
+    width: 100
+    height: 68
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 16
+    paddingBottom: 16
   - name: lobby
-    x: 0
+    x: 1442
     y: 768
     width: 720
     height: 1280
@@ -93,7 +119,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: logo
-    x: 721
+    x: 0
     y: 768
     width: 720
     height: 1280
@@ -105,8 +131,21 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: mix
+    x: 257
+    y: 14
+    width: 100
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 1
   - name: Panel
-    x: 0
+    x: 501
     y: 267
     width: 500
     height: 500
@@ -119,10 +158,36 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: title
-    x: 1442
+    x: 721
     y: 768
     width: 720
     height: 1280
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: vertical
+    x: 519
+    y: 166
+    width: 68
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 16
+    paddingTop: 0
+    paddingBottom: 0
+  - name: white
+    x: 0
+    y: 10
+    width: 256
+    height: 256
     borderLeft: 0
     borderRight: 0
     borderTop: 0
