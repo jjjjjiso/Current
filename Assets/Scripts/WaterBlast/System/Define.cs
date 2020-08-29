@@ -3,7 +3,8 @@
     public enum BlockerType
     {
         none,
-        muddywater,
+        bubble,
+        radiation,
     }
 
     public enum BlockType
@@ -16,12 +17,10 @@
         blue,
         purple,
         random,
-        bubble,
         can,
         paper,
-        box1,
-        box2,
-        radiation,
+        box,
+        sticky,
     }
 
     public enum ColorType
@@ -64,6 +63,7 @@
         move,
         wait,
         booster_move,//특수블럭쪽으로 움직이는 상태.
+        blocker,
     }
 
     public enum GamePopupState

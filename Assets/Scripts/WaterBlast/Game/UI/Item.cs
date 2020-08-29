@@ -30,7 +30,7 @@ namespace WaterBlast.Game.UI
             }
             else
             {
-                itemBtnUI.normalSprite = "GreySquareButton";
+                itemBtnUI.normalSprite = "grey_button";
                 Color col = itemIconUI.color;
                 col.a = 0.45f;
                 itemIconUI.color = col;

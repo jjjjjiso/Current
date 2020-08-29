@@ -20,11 +20,12 @@ namespace WaterBlast.Editor
         {
             block, 
             blocker,
+            booster,
         }
 
         private BrushType curBrushType;
         private BlockType curBlockType;
-        private ItemType curItemType;
+        private BoosterType curBoosterType;
         private BlockerType curBlockerType;
 
         private enum BrushMode
@@ -405,6 +406,15 @@ namespace WaterBlast.Editor
                     (BlockerType)EditorGUILayout.EnumPopup(curBlockerType, GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             }
+            else if (curBrushType == BrushType.booster)
+            {
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(new GUIContent("Booster", "The current type of booster."),
+                    GUILayout.Width(EditorGUIUtility.labelWidth));
+                curBoosterType =
+                    (BoosterType)EditorGUILayout.EnumPopup(curBoosterType, GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
 
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(new GUIContent("Brush mode", "The current brush mode.    (현재 브러시 모드)"),
@@ -594,10 +604,18 @@ namespace WaterBlast.Editor
                 var boosterTile = (LevelBoosterType)curLevel.blocks[tileIndex];
                 tileTypeName = boosterTile.type.ToString();
             }
-            if (curLevel.blocks[tileIndex].blockerType == BlockerType.muddywater)
+            if (curLevel.blocks[tileIndex].blockerType == BlockerType.bubble || curLevel.blocks[tileIndex].blockerType == BlockerType.radiation)
             {
-                tileTypeName += "muddywater";
+                if (curLevel.blocks[tileIndex].blockerType == BlockerType.bubble)
+                {
+                    tileTypeName += string.Format("_{0}", curLevel.blocks[tileIndex].blockerType.ToString());
+                }
+                else if (curLevel.blocks[tileIndex].blockerType == BlockerType.radiation)
+                {
+                    tileTypeName = curLevel.blocks[tileIndex].blockerType.ToString();
+                }
             }
+            
             if (tileTextures.ContainsKey(tileTypeName))
             {
                 if (GUILayout.Button(tileTextures[tileTypeName], GUILayout.Width(60), GUILayout.Height(60)))
@@ -653,6 +671,42 @@ namespace WaterBlast.Editor
                             {
                                 var idx = j + (i * height);
                                 curLevel.blocks[idx] = new LevelBlockType { type = curBlockType };
+                            }
+                        }
+                        break;
+                }
+            }
+            else if (curBrushType == BrushType.booster)
+            {
+                switch (curBrushMode)
+                {
+                    case BrushMode.tile:
+                        curLevel.blocks[tileIndex] = new LevelBoosterType { type = curBoosterType };
+                        break;
+
+                    case BrushMode.horizon:
+                        for (var i = 0; i < width; i++)
+                        {
+                            var idx = y + (i * width);
+                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
+                        }
+                        break;
+
+                    case BrushMode.vertical:
+                        for (var j = 0; j < height; j++)
+                        {
+                            var idx = j + (x * height);
+                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
+                        }
+                        break;
+
+                    case BrushMode.fill:
+                        for (var i = 0; i < width; i++)
+                        {
+                            for (var j = 0; j < height; j++)
+                            {
+                                var idx = j + (i * height);
+                                curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
                             }
                         }
                         break;

@@ -74,7 +74,7 @@ namespace WaterBlast.System
             yield return base.Co_FadeOut();
 
             isFadeCheck = false;
-            gameObject.SendMessage("NextScene", SendMessageOptions.RequireReceiver);
+            gameObject.GetComponent<SceneLoader>().NextScene();
         }
 
         protected IEnumerator Co_FadeInOut()

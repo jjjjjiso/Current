@@ -25,7 +25,7 @@ namespace WaterBlast.System
             uiFadeImg.alpha = 0;
             currentTime = 0;
 
-            yield return new WaitForSecondsRealtime(0.35f);
+            yield return new WaitForSeconds(0.35f);
         }
 
         protected virtual IEnumerator Co_FadeOut()
@@ -43,7 +43,7 @@ namespace WaterBlast.System
             uiFadeImg.alpha = 1;
             currentTime = 0;
 
-            yield return new WaitForSecondsRealtime(0.35f);
+            yield return new WaitForSeconds(0.35f);
         }
     }
 }

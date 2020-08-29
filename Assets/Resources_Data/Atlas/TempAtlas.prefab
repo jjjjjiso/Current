@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1585915348990752}
-  m_IsPrefabAsset: 1
 --- !u!1 &1585915348990752
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4946658704299466}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4946658704299466
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585915348990752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,9 +33,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114558682597699628
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1585915348990752}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -53,11 +45,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 8bf5e764904f5d14c934dc26b9efbebc, type: 2}
   mSprites:
-  - name: Bg
+  - name: background_ingame_1
     x: 0
-    y: 267
-    width: 500
-    height: 500
+    y: 2816
+    width: 720
+    height: 1280
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: background_ingame_2
+    x: 721
+    y: 2816
+    width: 720
+    height: 1280
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -67,10 +72,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: black
-    x: 257
-    y: 114
-    width: 261
-    height: 152
+    x: 1929
+    y: 3510
+    width: 50
+    height: 50
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -79,76 +84,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: hammer
-    x: 459
-    y: 13
-    width: 100
-    height: 100
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: horizon
-    x: 358
-    y: 45
-    width: 100
-    height: 68
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 16
-    paddingBottom: 16
   - name: lobby
-    x: 1442
-    y: 768
-    width: 720
-    height: 1280
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: logo
     x: 0
-    y: 768
+    y: 1535
     width: 720
     height: 1280
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: mix
-    x: 257
-    y: 14
-    width: 100
-    height: 99
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 1
-  - name: Panel
-    x: 501
-    y: 267
-    width: 500
-    height: 500
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -159,7 +99,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: title
     x: 721
-    y: 768
+    y: 1535
     width: 720
     height: 1280
     borderLeft: 0
@@ -170,24 +110,37 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: vertical
-    x: 519
-    y: 166
-    width: 68
-    height: 100
+  - name: Title_name_effect
+    x: 1442
+    y: 3561
+    width: 572
+    height: 535
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 16
-    paddingRight: 16
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: WaterBlast_title
+    x: 1442
+    y: 3314
+    width: 486
+    height: 246
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: white
-    x: 0
-    y: 10
-    width: 256
-    height: 256
+    x: 1980
+    y: 3510
+    width: 50
+    height: 50
     borderLeft: 0
     borderRight: 0
     borderTop: 0

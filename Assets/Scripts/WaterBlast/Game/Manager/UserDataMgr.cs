@@ -25,6 +25,8 @@ namespace WaterBlast.Game.Manager
         [Tooltip("시작 아이템 개수 index : 0 arrow, 1 bomb, 2 rainbow")]
         //[NonSerialized]
         public int[] availableStartItemCount = new int[3];
+        [HideInInspector]
+        public int[] userStartItemCount = new int[3];
 
         [Tooltip("인 게임 아이템 개수 index : 0 hammer, 1 horizon, 2 vertical, 3 mix")]
         //[NonSerialized]
@@ -33,6 +35,16 @@ namespace WaterBlast.Game.Manager
         private void OnApplicationQuit()
         {
             Save();
+        }
+
+        public void SetUseStartItem()
+        {
+            for (int i = 0; i < availableStartItemCount.Length; ++i)
+            {
+                availableStartItemCount[i] -= userStartItemCount[i];
+                if (availableStartItemCount[i] < 0) availableStartItemCount[i] = 0;
+                userStartItemCount[i] = 0;
+            }
         }
 
         private void Save()

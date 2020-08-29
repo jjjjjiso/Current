@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using WaterBlast.Game.Common;
+using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.UI
 {
@@ -11,6 +12,8 @@ namespace WaterBlast.Game.UI
         public UILabel uiLimitText = null;
         public GoalUI goalUI = null;
         public ProgressBar progressBar = null;
+        public UISprite sprite = null;
+        public UISprite sprBG = null;
 
         public void SetGoals(List<Goal> goals, GameObject prefab)
         {
@@ -40,6 +43,16 @@ namespace WaterBlast.Game.UI
         public void SetLimitTextColor(Color col)
         {
             uiLimitText.color = col;
+        }
+
+        public void SetSprite(bool isSuccess)
+        {
+            if (sprite != null) sprite.spriteName = isSuccess ? "bitmuri2" : "bitmuri";
+        }
+
+        public void SetBG(int stageLv)
+        {
+            if (sprBG != null) sprBG.spriteName = stageLv < 50 ? "background_ingame_1" : "background_ingame_2";
         }
     }
 }

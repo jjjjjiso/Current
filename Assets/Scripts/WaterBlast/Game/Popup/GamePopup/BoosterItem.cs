@@ -33,9 +33,9 @@ namespace WaterBlast.Game.Popup
                 if (!GameDataMgr.G.isUseStartItem[idx])
                 {
                     GameDataMgr.G.isUseStartItem[idx] = true;
-                    --UserDataMgr.G.availableStartItemCount[idx];
+                    ++UserDataMgr.G.userStartItemCount[idx];
 
-                    uiBtnImg.normalSprite = "BlueSquareButton";
+                    uiBtnImg.normalSprite = "blue_square_button";
                     CheckImg.SetActive(true);
                     uiItemCnt.gameObject.SetActive(false);
                     
@@ -43,7 +43,7 @@ namespace WaterBlast.Game.Popup
                 else
                 {
                     GameDataMgr.G.isUseStartItem[idx] = false;
-                    ++UserDataMgr.G.availableStartItemCount[idx];
+                    --UserDataMgr.G.userStartItemCount[idx];
 
                     uiBtnImg.normalSprite = "green_square_button";
                     CheckImg.SetActive(false);
@@ -53,9 +53,9 @@ namespace WaterBlast.Game.Popup
             else
             {
                 TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
-                string boosterName = myTI.ToTitleCase(type.ToString());
+                string boosterName = myTI.ToTitleCase(type.ToString()).ToUpper();
                 string msg = string.Format("Start the level with a {0}!", boosterName);
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Booster Item Popup", boosterName, msg, "Buy");
+                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Booster Item Popup", boosterName, msg, "BUY");
                 temp.GetComponent<PopupItem>().ItemSetting(type, 150);
 
                 temp.onConfirm += () =>

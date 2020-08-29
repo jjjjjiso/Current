@@ -6,6 +6,8 @@ namespace WaterBlast.Game.Common
 {
     public class Blocker : BlockEntity
     {
+        public UISprite sprite;
+
         [SerializeField]
         protected BlockerType type = BlockerType.none;
 

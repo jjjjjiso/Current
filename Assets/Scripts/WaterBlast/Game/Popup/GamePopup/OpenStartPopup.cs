@@ -9,8 +9,8 @@ namespace WaterBlast.Game.Popup
     {
         public void OnPressed()
         {
-            string level = string.Format("Level {0}", GameDataMgr.G.endLevel.ToString());
-            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "StartPopup", level, null, "Play");
+            string level = string.Format("LEVEL {0}", GameDataMgr.G.endLevel.ToString());
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "StartPopup", level, null, "PLAY");
 
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.start);
             GamePopupItemGroup item = temp.GetComponentInChildren<GamePopupItemGroup>();

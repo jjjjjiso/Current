@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   iconUI: {fileID: 0}
-  type: 9
+  type: 8
 --- !u!114 &114547555772836056
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,6 +17,8 @@ namespace WaterBlast.Game.UI
         private int targetAmount;
         private int currentAmount;
 
+        private Vector3 vec3;
+
         private void Awake()
         {
             if(tickImage != null) tickImage.gameObject.SetActive(false);
@@ -78,6 +80,11 @@ namespace WaterBlast.Game.UI
         {
             isCompleted = completed;
             amountText.gameObject.SetActive(false);
+
+            vec3 = transform.localPosition;
+            vec3.y = -10;
+            transform.localPosition = vec3;
+
             if (completed)
             {
                 if(tickImage != null)

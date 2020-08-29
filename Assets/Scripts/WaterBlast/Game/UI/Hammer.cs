@@ -30,7 +30,7 @@ namespace WaterBlast.Game.UI
             {
                 //아이템 샵 팝업.
                 string msg = string.Format("Removes any cube or obstacle!");
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "Hammer", msg, "Buy");
+                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "HAMMER", msg, "BUY");
                 temp.GetComponent<PopupItem>().ItemSetting("item_hammer", 200);
 
                 temp.onConfirm += () =>

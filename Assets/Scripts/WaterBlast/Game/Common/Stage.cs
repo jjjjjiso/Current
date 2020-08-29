@@ -33,6 +33,8 @@ namespace WaterBlast.Game.Common
         }
 
         public BlockEntity[,] blockEntities = null;
+        public BlockEntity[,] blockerEntites = null;
+        private List<BlockDef> blockDef = new List<BlockDef>();
 
         public int width  = 9;
         public int height = 9;
@@ -40,8 +42,10 @@ namespace WaterBlast.Game.Common
         private int wSize = 0;
         private int hSize = 0;
 
-        private int oldRadiationBlockCount = 0;
-        public int currRadiationBlockCount = 0;
+        private int oldStickyBlockCount = 0;
+        public int currStickyBlockCount = 0;
+
+        private List<GameObject> backgrounds = new List<GameObject>();
 
         public void Reset()
         {
@@ -49,6 +53,18 @@ namespace WaterBlast.Game.Common
             {
                 ReturnObject(block.gameObject);
             }
+            
+            foreach (BlockEntity blocker in blockerEntites)
+            {
+                if (blocker == null) continue;
+                ReturnObject(blocker.gameObject);
+            }
+
+            foreach (GameObject obj in backgrounds)
+            {
+                Destroy(obj);
+            }
+            backgrounds.Clear();
         }
 
         private void SetUp(Transform parent, Sprite texture, int width, int height)
@@ -58,7 +74,8 @@ namespace WaterBlast.Game.Common
 
             BlockSetting();
             CreateBackground(parent, texture);
-            BlockIconSetting();
+            BlockIconSetting(true);
+            BlockerSetting();
 
             StartCoroutine(Co_StartItem());
         }
@@ -68,35 +85,76 @@ namespace WaterBlast.Game.Common
             //Block Object Create.
             GameMgr gameMgr = GameMgr.G;
             blockEntities = new BlockEntity[width, height];
-            
+            blockerEntites = new BlockEntity[width, height];
+
+            blockDef.Clear();
+
+            BlockType blockType;
+            Vector2 pos = Vector2.zero;
+
+            wSize = 72;
+            hSize = 73; //원래 h 사이즈 - 85
+
             for (int x = 0; x < width; ++x)
             {
+                pos.x = Point(x, width, wSize);
                 for (int y = 0; y < height; ++y)
                 {
                     var index = x * width + y;
                     var temp = gameMgr.gamePools.GetBlockEntity(gameMgr.level.blocks[index]);
                     Assert.IsNotNull(temp);
-                    if ((temp as Block)._BlockType == BlockType.radiation) ++oldRadiationBlockCount;
+                    if (temp is Booster)
+                    {
+                        switch((temp as Booster)._BoosterType)
+                        {
+                            case BoosterType.arrow:
+                                int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
+                                ArrowBomb arrow = temp as ArrowBomb;
+                                arrow.UpdateSprite(iRandom);
+                                break;
+                            case BoosterType.rainbow:
+                                Rainbow rainbow = temp as Rainbow;
+                                BlockType type = (BlockType)Random.Range((int)BlockType.red, (int)BlockType.purple + 1);
+                                rainbow._PreType = type;
+                                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, type);
+                                rainbow.UpdateSprite(strTemp);
+                                break;
+                        }
+                    }
+                    
+                    if (temp is Block && (temp as Block)._BlockType == BlockType.sticky) ++oldStickyBlockCount;
+
                     temp.SetDepth(y + 11);
                     temp.Show();
                     temp.SetData(x, y);
                     blockEntities[x, y] = temp;
-                }
-            }
-
-            //Position Setting.
-            wSize = blockEntities[0,0]._BlockWidthSize;
-            hSize = blockEntities[0, 0]._BlockHeightSize - 12; //-12
-            Vector2 pos = Vector2.zero;
-            for (int x = 0; x < width; ++x)
-            {
-                pos.x = Point(x, width, wSize);
-
-                for (int y = 0; y < height; ++y)
-                {
+                    
                     pos.y = Point(y, height, hSize);
-
                     blockEntities[x, y]._LocalPosition = pos;
+
+                    if (IsCheckBlockerType(gameMgr.level.blocks[index].blockerType))
+                    {   
+                        blockEntities[x, y].SetIconUIColor(0.3f);
+                        
+                        //Blocker Object Create
+                        var cover = gameMgr.gamePools.GetBlockerEntity(gameMgr.level.blocks[index]);
+                        Assert.IsNotNull(cover);
+                        if (cover is Blocker) (cover as Blocker).sprite.alpha = 1;
+                        cover.SetDepth(y + 21);
+                        cover.Show();
+                        cover.SetData(x, y);
+                        cover._LocalPosition = blockEntities[x, y]._LocalPosition;
+                        blockerEntites[x, y] = cover;
+                    }
+
+                    if (blockerEntites[x, y] == null && temp is Block)
+                    {   // Start Item Random Pos List
+                        blockType = (temp as Block)._BlockType;
+                        if (!IsCheckNotBlockType(blockType))
+                        {
+                            blockDef.Add(new BlockDef(x, y));
+                        }
+                    }
                 }
             }
         }
@@ -124,9 +182,7 @@ namespace WaterBlast.Game.Common
             {
                 for (int y = 0; y < height; ++y)
                 {
-                    Block block = blockEntities[x, y] as Block;
-                    if (block._BlockType == BlockType.empty) continue;
-
+                    if (blockEntities[x, y] is Block && (blockEntities[x, y] as Block)._BlockType == BlockType.empty) continue;
                     GameObject background = new GameObject("Background");
                     background.layer = parent.gameObject.layer;
                     UITexture tempTexture = background.AddComponent<UITexture>();
@@ -136,7 +192,9 @@ namespace WaterBlast.Game.Common
                     tempTexture.height = 110;
                     background.transform.parent = parent;
                     background.transform.Reset();
-                    background.transform.localPosition = block._LocalPosition;
+                    background.transform.localPosition = blockEntities[x, y]._LocalPosition;
+
+                    backgrounds.Add(background);
                 }
             }
         }
@@ -144,33 +202,30 @@ namespace WaterBlast.Game.Common
         IEnumerator Co_StartItem()
         {
             isWait = true;
-            yield return new WaitForSecondsRealtime(1.8f);
+            yield return new WaitForSeconds(1.8f);
 
             List<BlockDef> oldDef = new List<BlockDef>();
+            BlockDef newDef;
+            int defIdx = 0;
             for (int i = 0; i < GameDataMgr.G.isUseStartItem.Length; ++i)
             {
                 if (GameDataMgr.G.isUseStartItem[i])
                 {
-                    BlockDef newDef = new BlockDef(Random.Range(0, width), Random.Range(0, height));
+                    defIdx = Random.Range(0, blockDef.Count);
+                    newDef = new BlockDef(blockDef[defIdx].x, blockDef[defIdx].y); 
                     if(oldDef.Contains(newDef))
                     {
                         if(i > 0) --i;
+                        blockDef.RemoveAt(defIdx);
                         continue;
                     }
                     else
                     {
                         oldDef.Add(newDef);
                     }
-                    
-                    Block block = blockEntities[newDef.x, newDef.y] as Block;
-                    if (block._BlockType == BlockType.empty)
-                    {
-                        if (i > 0) --i;
-                        continue;
-                    }
 
                     StartCoroutine(Co_BoosterChange(newDef.x, newDef.y, ((i * 2) + 5), true));
-                    yield return new WaitForSecondsRealtime(0.5f);
+                    yield return new WaitForSeconds(0.5f);
                 }
             }
 

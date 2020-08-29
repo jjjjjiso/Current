@@ -12,7 +12,7 @@ namespace WaterBlast.Game.Common
 
         private void Awake()
         {
-            string num = string.Format("Level {0}", GameDataMgr.G.endLevel.ToString());
+            string num = string.Format("LEVEL {0}", GameDataMgr.G.endLevel.ToString());
             if (uiLevel != null) uiLevel.text = num;
         }
     }

@@ -44,20 +44,17 @@ namespace WaterBlast.Game.Manager
             //    Screen.sleepTimeout = SleepTimeout.NeverSleep;
             //    Screen.SetResolution(720, 1280, true);
             //}
-            
-            level = GameDataMgr.G.level;
-            availableColors = level.availableColors;
-            gameUI.progressBar.Init(level.score1, level.score2, level.score3);
-            Reset();
 
-            PopupGoal.Open("Goal Popup", level.goals);
+            GameStart();
         }
 
         private void Reset()
         {
+            UserDataMgr.G.SetUseStartItem();
             isGameEnd = false;
             gameState = new GameState();
             gameUI.progressBar.UpdateProgressBar(0);
+            gameUI.SetSprite(false);
             GoalSetting();
             ItemSetting();
             CreateStage();
@@ -104,6 +101,17 @@ namespace WaterBlast.Game.Manager
             }
             stage = Stage.Create(backgroundParent, backgroundSprite, level.width, level.height);
         }
+
+        public void GameStart()
+        {
+            level = GameDataMgr.G.level;
+            availableColors = level.availableColors;
+            gameUI.progressBar.Init(level.score1, level.score2, level.score3);
+            gameUI.SetBG(level.id);
+            Reset();
+
+            PopupGoal.Open("Goal Popup", level.goals);
+        }
         
         public void StageUpdate(BlockEntity blockEntity)
         {
@@ -111,7 +119,7 @@ namespace WaterBlast.Game.Manager
             if (stage == null) return;
             if (stage.isWait) return;
             GameDataMgr gameDataMgr = GameDataMgr.G;
-
+            
             Block block = blockEntity as Block;
             if (block != null)
             {
@@ -135,13 +143,15 @@ namespace WaterBlast.Game.Manager
 
                 if (index != -1)
                 {
-                    gameDataMgr.isUseInGameItem[index] = false;
+                    if (stage.UseItem((ItemType)index, blockEntity))
+                    {
+                        gameDataMgr.isUseInGameItem[index] = false;
 
-                    if (UserDataMgr.G.availableInGameItemCount[index] > 0)
-                        --UserDataMgr.G.availableInGameItemCount[index];
+                        if (UserDataMgr.G.availableInGameItemCount[index] > 0)
+                            --UserDataMgr.G.availableInGameItemCount[index];
 
-                    stage.UseItem((ItemType)index, blockEntity);
-                    itemUIElements.UpdateInGameItem((ItemType)index);
+                        itemUIElements.UpdateInGameItem((ItemType)index);
+                    }
                 }
                 else
                 {
@@ -150,8 +160,6 @@ namespace WaterBlast.Game.Manager
             }
             else
             {
-                //blocker type 일때 여기서
-
                 //booster
                 if (gameDataMgr.IsUseInGameItem()) return;
                 stage.BoosterMatches(blockEntity);
@@ -194,8 +202,15 @@ namespace WaterBlast.Game.Manager
             if (currentLimit >= 0 && IsGameEnd())
             {
                 isGameEnd = true;
+                if (GameDataMgr.G.isTestScene)
+                {
+                    StartCoroutine(Co_TestReset());
+                    return;
+                }
+
                 gameUI.goalUI.UpdateGoalUI(gameState);
-                    
+                gameUI.SetSprite(true);
+
                 ++GameDataMgr.G.endLevel;
                 GameDataMgr.G.UpdateLevel();
                 StartCoroutine(Co_Success());
@@ -205,6 +220,12 @@ namespace WaterBlast.Game.Manager
             if (currentLimit == 0 && !isGameEnd)
             {
                 isGameEnd = true;
+                if (GameDataMgr.G.isTestScene)
+                {
+                    StartCoroutine(Co_TestReset());
+                    return;
+                }
+
                 StartCoroutine(Co_Failed());
             }
         }
@@ -218,20 +239,28 @@ namespace WaterBlast.Game.Manager
 
             return true;
         }
+        IEnumerator Co_TestReset()
+        {
+            yield return new WaitForSeconds(0.5f);
+            GameDataMgr.G.UpdateLevel();
+            yield return new WaitForSeconds(0.5f);
+            GameStart();
+            isGameEnd = false;
+        }
 
         IEnumerator Co_Success()
         {
-            yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSeconds(0.5f);
 
             textAnim.SetTrigger("ClearOn");
-            yield return new WaitForSecondsRealtime(0.8f);
+            yield return new WaitForSeconds(0.8f);
 
             stage.FinalFinale(currentLimit);
             while (stage.isFinale) yield return null;
-            yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSeconds(0.5f);
 
-            string level = string.Format("Level {0}", (GameDataMgr.G.endLevel-1).ToString());
-            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "SuccessPopup", level, null, "Continue");
+            string level = string.Format("LEVEL {0}", (GameDataMgr.G.endLevel-1).ToString());
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "SuccessPopup", level, null, "CONTINUE");
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.success);
             temp.GetComponentInChildren<SuccessPopup>().SetInfo(gameState.score, gameUI.progressBar.GetStars(), gameUI.goalUI.group);
 
@@ -255,12 +284,12 @@ namespace WaterBlast.Game.Manager
             while (stage.isWait) yield return null;
             while (stage.IsMoving(State.move)) yield return null;
 
-            yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSeconds(.5f);
 
             textAnim.SetTrigger("FailedOn");
-            yield return new WaitForSecondsRealtime(0.8f);
+            yield return new WaitForSeconds(0.8f);
 
-            PopupConfirm noMoves = PopupConfirm.Open("Prefabs/Popup/NoMovesPopup", "Failed Moves Popup", null, null, "Play On");
+            PopupConfirm noMoves = PopupConfirm.Open("Prefabs/Popup/NoMovesPopup", "Failed Moves Popup", null, null, "PLAY ON");
             noMoves.onConfirm += () =>
             {
                 currentLimit = 5;
@@ -278,8 +307,8 @@ namespace WaterBlast.Game.Manager
 
         public void Failed()
         {
-            string levelNumber = string.Format("Level {0}", GameDataMgr.G.endLevel.ToString());
-            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "FailedPopup", levelNumber, null, "Try Again");
+            string levelNumber = string.Format("LEVEL {0}", GameDataMgr.G.endLevel.ToString());
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "FailedPopup", levelNumber, null, "TRY AGAIN");
 
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.failed);
             GamePopupItemGroup item = temp.GetComponentInChildren<GamePopupItemGroup>();

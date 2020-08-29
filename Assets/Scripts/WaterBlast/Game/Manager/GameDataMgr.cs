@@ -21,6 +21,12 @@ namespace WaterBlast.Game.Manager
     {
         static private readonly string SAVEDATA_FILE = @"/GameData.json";
 
+        [Tooltip("테스트 씬인지 여부 = true -> test, false -> real game")]
+        public bool isTestScene = false;
+
+        [Tooltip("테스트 씬에서만 사용 시작 레벨 단계")]
+        public int startLevel = 1;
+
         [Tooltip("마지막으로 끝난 레벨 단계")]
         public int endLevel = 1;
 
@@ -60,7 +66,7 @@ namespace WaterBlast.Game.Manager
         public void UpdateLevel()
         {
             var serializer = new fsSerializer();
-            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + 1/*endLevel*/);
+            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? 2 : startLevel)/*endLevel*/);
         }
 
         public bool IsUseInGameItem()

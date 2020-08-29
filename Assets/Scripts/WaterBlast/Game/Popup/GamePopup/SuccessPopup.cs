@@ -38,6 +38,7 @@ namespace WaterBlast.Game.Popup
 
                 goalObject.transform.SetParent(goalGroup.transform, false);
                 goalObject.GetComponent<GoalUIElement>().SetCompletedTick(goal.isCompleted);
+                goalObject.GetComponent<GoalUIElement>().transform.localScale = new Vector3(2f, 2f, 1f);
             }
         }
     }

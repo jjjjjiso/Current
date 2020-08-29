@@ -13,26 +13,27 @@ namespace WaterBlast.Game.UI
         [SerializeField]
         private Star star3 = null;
 
-        private UIProgressBar uiProgressbar = null;
+        //private UIProgressBar uiProgressbar = null;
+        public UISprite fill;
 
         private int starScore1 = 0;
         private int starScore2 = 0;
         private int starScore3 = 0;
 
-        private void Awake()
+        /*private void Awake()
         {
             uiProgressbar = gameObject.GetComponent<UIProgressBar>();
-        }
+        }*/
 
         public void Init(int starScore1, int starScore2, int starScore3)
         {
-            uiProgressbar.value = 0;
+            fill.fillAmount = 0;
 
             this.starScore1 = starScore1;
             this.starScore2 = starScore2;
             this.starScore3 = starScore3;
-
-            int width = uiProgressbar.foregroundWidget.width;
+            
+            int width = fill.width;//uiProgressbar.foregroundWidget.width;
             star1.transform.localPosition = star1.transform.localPosition +
                                             new Vector3(width * (GetProgressValue(starScore1) / 100f) - 10f, 0, 0);
             star2.transform.localPosition = star2.transform.localPosition +
@@ -43,7 +44,7 @@ namespace WaterBlast.Game.UI
 
         public void UpdateProgressBar(int score)
         {
-            uiProgressbar.value = GetProgressValue(score) / 100f;
+            fill.fillAmount = GetProgressValue(score) / 100f;
 
             if(starScore1 <= score)
             {

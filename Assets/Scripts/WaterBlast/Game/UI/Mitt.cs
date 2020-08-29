@@ -42,16 +42,16 @@ namespace WaterBlast.Game.UI
                 bool isTemp = true;
                 if (type == MittType.horizon)
                 {
-                    title = "Row Glove";
+                    title = "ROW GLOVE";
                     msg = string.Format("Removes everything in a row!");
                 }
                 else
                 {
                     isTemp = false;
-                    title = "Column Glove";
+                    title = "COLUMN GLOVE";
                     msg = string.Format("Removes everything in a column!");
                 }
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", title, msg, "Buy");
+                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", title, msg, "BUY");
                 temp.GetComponent<PopupItem>().ItemSetting("item_arrow", 400, isTemp);
 
                 temp.onConfirm += () =>

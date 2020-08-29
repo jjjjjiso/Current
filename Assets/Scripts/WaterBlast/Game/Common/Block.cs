@@ -6,6 +6,8 @@ namespace WaterBlast.Game.Common
 {
     public class Block : BlockEntity
     {
+        public UISprite img;
+
         [SerializeField]
         protected BlockType type = BlockType.empty;
 

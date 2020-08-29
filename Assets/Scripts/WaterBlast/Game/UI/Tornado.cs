@@ -30,7 +30,7 @@ namespace WaterBlast.Game.UI
             {
                 //아이템 샵 팝업.
                 string msg = string.Format("Shuffles all of the cubes!");
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "Tornado", msg, "Buy");
+                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "TORNADO", msg, "BUY");
                 temp.GetComponent<PopupItem>().ItemSetting("item_shuffle", 100);
 
                 temp.onConfirm += () =>

@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1101707614413820}
-  m_IsPrefabAsset: 1
 --- !u!1 &1101707614413820
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4299936275938594}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4299936275938594
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101707614413820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,9 +33,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114743773373915856
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101707614413820}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -54,8 +46,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 696ffb0a1c6ab9c47ba54077e4e3b1e7, type: 2}
   mSprites:
   - name: background
-    x: 0
-    y: 12
+    x: 665
+    y: 50
     width: 77
     height: 77
     borderLeft: 0
@@ -67,8 +59,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: blue
-    x: 550
-    y: 245
+    x: 301
+    y: 99
     width: 126
     height: 133
     borderLeft: 0
@@ -80,49 +72,36 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: bomb
-    x: 418
-    y: 95
-    width: 135
+    x: 301
+    y: 233
+    width: 133
     height: 138
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 1
-    paddingRight: 4
+    paddingLeft: 2
+    paddingRight: 5
     paddingTop: 1
     paddingBottom: 1
-  - name: box1
-    x: 141
-    y: 90
-    width: 140
-    height: 140
+  - name: box
+    x: 766
+    y: 311
+    width: 99
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: box2
-    x: 282
-    y: 372
-    width: 140
-    height: 140
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
+    paddingRight: 1
     paddingTop: 0
     paddingBottom: 0
   - name: bubble
     x: 0
-    y: 231
-    width: 140
-    height: 140
+    y: 66
+    width: 150
+    height: 150
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -132,20 +111,20 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: can
-    x: 0
-    y: 372
-    width: 140
-    height: 140
+    x: 301
+    y: 12
+    width: 100
+    height: 86
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
     paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
+    paddingTop: 13
+    paddingBottom: 1
   - name: green
-    x: 550
+    x: 437
     y: 379
     width: 126
     height: 133
@@ -158,8 +137,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: horizon
-    x: 282
-    y: 13
+    x: 665
+    y: 229
     width: 100
     height: 81
     borderLeft: 0
@@ -171,8 +150,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 10
   - name: item_arrow
-    x: 383
-    y: 26
+    x: 151
+    y: 10
     width: 100
     height: 68
     borderLeft: 0
@@ -184,8 +163,8 @@ MonoBehaviour:
     paddingTop: 16
     paddingBottom: 16
   - name: item_hammer
-    x: 677
-    y: 311
+    x: 564
+    y: 412
     width: 100
     height: 100
     borderLeft: 0
@@ -197,7 +176,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: item_shuffle
-    x: 778
+    x: 866
     y: 312
     width: 100
     height: 99
@@ -209,22 +188,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 1
-  - name: muddywater
-    x: 141
-    y: 372
-    width: 140
-    height: 140
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: orange
-    x: 423
-    y: 379
+    x: 437
+    y: 245
     width: 126
     height: 133
     borderLeft: 0
@@ -236,10 +202,10 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: paper
-    x: 141
-    y: 231
-    width: 140
-    height: 140
+    x: 665
+    y: 412
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -249,8 +215,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: purple
-    x: 423
-    y: 245
+    x: 437
+    y: 111
     width: 126
     height: 133
     borderLeft: 0
@@ -263,9 +229,9 @@ MonoBehaviour:
     paddingBottom: 4
   - name: radiation
     x: 0
-    y: 90
-    width: 140
-    height: 140
+    y: 217
+    width: 300
+    height: 295
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -275,8 +241,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow
-    x: 756
-    y: 210
+    x: 766
+    y: 412
     width: 100
     height: 100
     borderLeft: 0
@@ -288,7 +254,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_blue
-    x: 778
+    x: 867
     y: 412
     width: 100
     height: 100
@@ -301,8 +267,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_green
-    x: 554
-    y: 43
+    x: 564
+    y: 311
     width: 100
     height: 100
     borderLeft: 0
@@ -314,8 +280,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_orange
-    x: 554
-    y: 144
+    x: 564
+    y: 210
     width: 100
     height: 100
     borderLeft: 0
@@ -327,8 +293,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_purple
-    x: 677
-    y: 412
+    x: 564
+    y: 109
     width: 100
     height: 100
     borderLeft: 0
@@ -340,8 +306,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_red
-    x: 655
-    y: 43
+    x: 564
+    y: 8
     width: 100
     height: 100
     borderLeft: 0
@@ -353,8 +319,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: rainbow_yellow
-    x: 655
-    y: 144
+    x: 665
+    y: 311
     width: 100
     height: 100
     borderLeft: 0
@@ -366,8 +332,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: red
-    x: 282
-    y: 234
+    x: 151
+    y: 79
     width: 140
     height: 137
     borderLeft: 0
@@ -378,9 +344,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 3
     paddingBottom: 0
+  - name: sticky
+    x: 437
+    y: 10
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: vertical
-    x: 857
-    y: 211
+    x: 665
+    y: 128
     width: 81
     height: 100
     borderLeft: 0
@@ -392,17 +371,17 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: yellow
-    x: 282
-    y: 95
+    x: 301
+    y: 372
     width: 135
-    height: 138
+    height: 140
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
     paddingLeft: 5
     paddingRight: 0
-    paddingTop: 2
+    paddingTop: 0
     paddingBottom: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}

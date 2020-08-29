@@ -195,4 +195,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   iconUI: {fileID: 0}
-  type: 10
+  type: 9

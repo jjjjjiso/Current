@@ -16,13 +16,14 @@ namespace WaterBlast.Game.Common
         public ObjectPool greenBlockPool = null;
         public ObjectPool blueBlockPool = null;
         public ObjectPool purpleBlockPool = null;
-
-        public ObjectPool bubbleBlockPool = null;
+        
         public ObjectPool canBlockPool = null;
         public ObjectPool paperBlockPool = null;
-        public ObjectPool box1BlockPool = null;
-        public ObjectPool box2BlockPool = null;
-        public ObjectPool radiationBlockPool = null;
+        public ObjectPool boxBlockPool = null;
+        public ObjectPool stickyBlockPool = null;
+
+        public ObjectPool bubbleBlockerPool = null;
+        public ObjectPool radiationBlockerPool = null;
 
         public ObjectPool arrowBombPool = null;
         public ObjectPool bombPool = null;
@@ -34,7 +35,11 @@ namespace WaterBlast.Game.Common
         public ObjectPool greenBlockParticlesPool = null;
         public ObjectPool blueBlockParticlesPool = null;
         public ObjectPool purpleBlockParticlesPool = null;
-        
+        public ObjectPool boxBlockParticlesPool = null;
+        public ObjectPool stickyBlockParticlesPool = null;
+
+        public ObjectPool bubbleParticlesPool = null;
+
         public ObjectPool lineHorizontalParticlesPool = null;
         public ObjectPool lineVerticalParticlesPool = null;
         public ObjectPool bombParticlesPool = null;
@@ -51,13 +56,14 @@ namespace WaterBlast.Game.Common
             Assert.IsNotNull(greenBlockPool);
             Assert.IsNotNull(blueBlockPool);
             Assert.IsNotNull(purpleBlockPool);
-
-            Assert.IsNotNull(bubbleBlockPool);
+            
             Assert.IsNotNull(canBlockPool);
             Assert.IsNotNull(paperBlockPool);
-            Assert.IsNotNull(box1BlockPool);
-            Assert.IsNotNull(box2BlockPool);
-            Assert.IsNotNull(radiationBlockPool);
+            Assert.IsNotNull(boxBlockPool);
+            Assert.IsNotNull(stickyBlockPool);
+
+            Assert.IsNotNull(bubbleBlockerPool);
+            Assert.IsNotNull(radiationBlockerPool);
 
             Assert.IsNotNull(arrowBombPool);
             Assert.IsNotNull(bombPool);
@@ -69,7 +75,11 @@ namespace WaterBlast.Game.Common
             Assert.IsNotNull(greenBlockParticlesPool);
             Assert.IsNotNull(blueBlockParticlesPool);
             Assert.IsNotNull(purpleBlockParticlesPool);
-            
+            Assert.IsNotNull(boxBlockParticlesPool);
+            Assert.IsNotNull(stickyBlockParticlesPool);
+
+            Assert.IsNotNull(bubbleParticlesPool);
+
             Assert.IsNotNull(lineHorizontalParticlesPool);
             Assert.IsNotNull(lineVerticalParticlesPool);
 
@@ -79,6 +89,34 @@ namespace WaterBlast.Game.Common
             colorBlocks.Add(greenBlockPool);
             colorBlocks.Add(blueBlockPool);
             colorBlocks.Add(purpleBlockPool);
+        }
+
+        public BlockEntity GetBlockerEntity(LevelBlock block)
+        {
+            switch (block.blockerType)
+            {
+                case BlockerType.bubble:
+                    return bubbleBlockerPool.GetObj().GetComponent<BlockEntity>();
+                case BlockerType.radiation:
+                    return radiationBlockerPool.GetObj().GetComponent<BlockEntity>();
+            }
+
+            return null;
+        }
+
+        public GameObject GetBlockerParticles(BlockEntity blockEntity)
+        {
+            Blocker blocker = blockEntity as Blocker;
+            if (blocker != null)
+            {
+                switch (blocker._BlockerType)
+                {
+                    case BlockerType.bubble:
+                        return bubbleParticlesPool.GetObj();
+                }
+            }
+
+            return null;
         }
 
         public BlockEntity GetBlockEntity(LevelBlock block)
@@ -144,10 +182,6 @@ namespace WaterBlast.Game.Common
                             }
                             return temp.GetObj().GetComponent<BlockEntity>();
                         }
-                    case BlockType.bubble:
-                        {
-                            return bubbleBlockPool.GetObj().GetComponent<BlockEntity>();
-                        }
                     case BlockType.can:
                         {
                             return canBlockPool.GetObj().GetComponent<BlockEntity>();
@@ -156,17 +190,13 @@ namespace WaterBlast.Game.Common
                         {
                             return paperBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
-                    case BlockType.box1:
+                    case BlockType.box:
                         {
-                            return box1BlockPool.GetObj().GetComponent<BlockEntity>();
+                            return boxBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
-                    case BlockType.box2:
+                    case BlockType.sticky:
                         {
-                            return box2BlockPool.GetObj().GetComponent<BlockEntity>();
-                        }
-                    case BlockType.radiation:
-                        {
-                            return radiationBlockPool.GetObj().GetComponent<BlockEntity>();
+                            return stickyBlockPool.GetObj().GetComponent<BlockEntity>();
                         }
                 }
             }
@@ -190,9 +220,9 @@ namespace WaterBlast.Game.Common
         public GameObject GetParticles(BlockEntity blockEntity)
         {
             Block block = blockEntity as Block;
-            if(block != null)
+            if (block != null)
             {
-                switch(block._BlockType)
+                switch (block._BlockType)
                 {
                     case BlockType.red:
                         return redBlockParticlesPool.GetObj();
@@ -206,6 +236,10 @@ namespace WaterBlast.Game.Common
                         return blueBlockParticlesPool.GetObj();
                     case BlockType.purple:
                         return purpleBlockParticlesPool.GetObj();
+                    case BlockType.box:
+                        return boxBlockParticlesPool.GetObj();
+                    case BlockType.sticky:
+                        return stickyBlockParticlesPool.GetObj();
                 }
             }
 

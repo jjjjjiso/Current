@@ -9,7 +9,6 @@ namespace WaterBlast.Game.Common
     public class BlockEntity : MonoBehaviour
     {
         //public field
-        
 
         //private field
         [SerializeField]
@@ -17,6 +16,8 @@ namespace WaterBlast.Game.Common
         [SerializeField]
         protected BlockIcon iconUI = null;
 
+        public float x;
+        public float y;
         protected BlockDef blockDef = null; //index
         protected UISprite uiSprite = null;
         protected UIWidget uiWidget = null;
@@ -45,6 +46,13 @@ namespace WaterBlast.Game.Common
             gameObject.SetActive(false);
         }
 
+        public void RefreshShow()
+        {
+            state = State.idle;
+            gameObject.SetActive(false);
+            gameObject.SetActive(true);
+        }
+
         public void PlayAnim(string name)
         {
             anim.SetTrigger(name);
@@ -68,6 +76,8 @@ namespace WaterBlast.Game.Common
         public void SetData(int x, int y)
         {
             blockDef = new BlockDef(x, y);
+            this.x = x;
+            this.y = y;
         }
 
         public void SetData(BlockDef blockDef)
@@ -79,6 +89,9 @@ namespace WaterBlast.Game.Common
         {
             blockDef.x = (int)_LocalPosition.x / _BlockWidthSize;
             blockDef.y = (int)_LocalPosition.y / _BlockHeightSize;
+
+            x = blockDef.x;
+            y = blockDef.y;
         }
 
         public void SetPosition(int x, int y)
@@ -98,6 +111,12 @@ namespace WaterBlast.Game.Common
         public void SetIcon(string name)
         {
             iconUI.SpriteUpdate(name, _BlockDepth + 1);
+        }
+
+        public void SetIconUIColor(float a = 1)
+        {
+            //if (iconUI == null) return;
+            //iconUI.SetColor(a);
         }
 
         //private Method
@@ -125,7 +144,8 @@ namespace WaterBlast.Game.Common
             SetData(x, y);
             _LocalPosition = endPos;
             SetDepth(y + 11);
-            if(anim != null) anim.SetTrigger("Falling");
+
+            if (anim != null) anim.SetTrigger("Falling");
         }
 
         protected IEnumerator Co_TargetMove(Vector2 endPos)

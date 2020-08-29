@@ -6,7 +6,7 @@ namespace WaterBlast.Game.Popup
 {
     public class PopupMgr : MonoSingleton<PopupMgr>
     {
-        static private readonly string QUIT = "Quit";
+        //static private readonly string QUIT = "Quit";
 
         public GameObject black = null;
         public bool isFadeCheck = false;
