@@ -72,4 +72,11 @@
         success,
         failed,
     }
+
+    public enum LobbyButtonType
+    {
+        rank,
+        home,
+        shop
+    }
 }

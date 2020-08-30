@@ -8,7 +8,8 @@ namespace WaterBlast.Game.Popup
     {
         //static private readonly string QUIT = "Quit";
 
-        public GameObject black = null;
+        public GameObject black;
+        public UITexture blackTexture;
         public bool isFadeCheck = false;
 
         private Stack<Popup> stackPopup = new Stack<Popup>();
@@ -20,7 +21,13 @@ namespace WaterBlast.Game.Popup
             {
                 Popup temp = stackPopup.Peek();
                 if (temp != null && temp.GetID() != "In Game Setting")
+                {
                     if (!black.activeSelf) black.SetActive(true);
+                    if (temp.GetID() != "StartPopup")
+                        blackTexture.alpha = 1;
+                    else
+                        blackTexture.alpha = 0.8f;
+                }
             }
             else
             {

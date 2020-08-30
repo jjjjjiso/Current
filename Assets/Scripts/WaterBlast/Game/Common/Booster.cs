@@ -64,11 +64,8 @@ namespace WaterBlast.Game.Common
                 if (block != null && block._BlockType == BlockType.paper) return;
                 if (blocks.Contains(entity)) return;
 
-                if (block != null && block._BlockType == BlockType.sticky)
-                {
-                    //--stage.currStickyBlockCount;
-                    --count;
-                }
+                if (block != null && block._BlockType == BlockType.sticky) --count;
+
                 blocks.Add(entity);
             }
         }

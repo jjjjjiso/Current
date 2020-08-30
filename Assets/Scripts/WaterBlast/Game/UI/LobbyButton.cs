@@ -2,19 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using WaterBlast.System;
+using WaterBlast.Game.Manager;
+
 public class LobbyButton : MonoBehaviour
 {
-    public enum ButtonType { rank, home, shop }
-    public ButtonType type; // 화면 전환시 사용 할것.
+    public LobbyButtonType type;
 
     public UISprite bg;
     public UISprite icon;
+
+    public ButtonObject btn;
+
+    public void Init()
+    {
+        btn.fncClick = OnPressed;
+    }
 
     private bool isClick = false;
 
     public void OnPressed()
     {
-        if(!isClick)
+        if (!isClick)
+        {
+            //LobbyMgr.G.uiLobbyBtnGrid.UpdateBtn(type);
+        }
+        else
+        {
+            SetBtnUp();
+        }
+
+        Debug.Log(type + " : " + bg.spriteName);
+        /*if(!isClick)
         {
             isClick = true;
             bg.spriteName = "lobby_on_button";
@@ -25,6 +44,24 @@ public class LobbyButton : MonoBehaviour
             isClick = false;
             bg.spriteName = "lobby_button";
             icon.color = new Color32(62, 203, 219, 255);
-        }
+        }*/
+    }
+
+    public void SetBtnDown()
+    {
+        isClick = true;
+        bg.spriteName = "lobby_on_button";
+        icon.color = new Color32(0, 106, 170, 255);
+
+        Debug.Log(type + " : " + bg.spriteName);
+    }
+
+    public void SetBtnUp()
+    {
+        isClick = false;
+        bg.spriteName = "lobby_button";
+        icon.color = new Color32(62, 203, 219, 255);
+
+        Debug.Log(type + " : " + bg.spriteName);
     }
 }

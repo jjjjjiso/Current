@@ -13,7 +13,9 @@ namespace WaterBlast.Game.UI
         public GoalUI goalUI = null;
         public ProgressBar progressBar = null;
         public UISprite sprite = null;
-        public UISprite sprBG = null;
+        public UITexture textureBG = null;
+
+        public Texture[] bgs;
 
         public void SetGoals(List<Goal> goals, GameObject prefab)
         {
@@ -52,7 +54,8 @@ namespace WaterBlast.Game.UI
 
         public void SetBG(int stageLv)
         {
-            if (sprBG != null) sprBG.spriteName = stageLv < 50 ? "background_ingame_1" : "background_ingame_2";
+            //if (textureBG != null) textureBG.spriteName = stageLv < 50 ? "background_ingame_1" : "background_ingame_2";
+            if (textureBG != null) textureBG.mainTexture = stageLv < 50 ? bgs[0] : bgs[1];
         }
     }
 }

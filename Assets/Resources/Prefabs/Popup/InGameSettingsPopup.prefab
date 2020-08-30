@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 114658427240965624}
   - component: {fileID: 65068630746437770}
   - component: {fileID: 114639381543576264}
-  - component: {fileID: 95419199776192956}
-  - component: {fileID: 114395428738148480}
+  - component: {fileID: 1646518142781084942}
+  - component: {fileID: 4672257460927729233}
   m_Layer: 9
   m_Name: Quit Btn
   m_TagString: Untagged
@@ -130,34 +130,11 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114395428738148480}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114696677037240300}
     mMethodName: OnQuit
     mParameters: []
     oneShot: 0
---- !u!95 &95419199776192956
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007945271875714}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114395428738148480
+--- !u!114 &1646518142781084942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,9 +143,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1007945271875714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 4672257460927729233}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 4672257460927729233}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &4672257460927729233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007945271875714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1007945271875714}
+  tran: {fileID: 4270716503767432}
 --- !u!1 &1175445381643276
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,8 +193,8 @@ GameObject:
   - component: {fileID: 114955434714403074}
   - component: {fileID: 65201761422499732}
   - component: {fileID: 114419400609988406}
-  - component: {fileID: 95847844517530390}
-  - component: {fileID: 114609657645172064}
+  - component: {fileID: 3142314367742514588}
+  - component: {fileID: 3765951908798557969}
   m_Layer: 9
   m_Name: Effect Btn
   m_TagString: Untagged
@@ -299,34 +311,11 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114609657645172064}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114696677037240300}
     mMethodName: OnEffect
     mParameters: []
     oneShot: 0
---- !u!95 &95847844517530390
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175445381643276}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114609657645172064
+--- !u!114 &3142314367742514588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,9 +324,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175445381643276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 3765951908798557969}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 3765951908798557969}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &3765951908798557969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175445381643276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1175445381643276}
+  tran: {fileID: 4429753099643820}
 --- !u!1 &1201404466426196
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,8 +779,8 @@ GameObject:
   - component: {fileID: 114836059865473800}
   - component: {fileID: 65118195737659554}
   - component: {fileID: 114597528080440934}
-  - component: {fileID: 95650518849195300}
-  - component: {fileID: 114054757269319470}
+  - component: {fileID: 1385846924477475169}
+  - component: {fileID: 4623935503638542116}
   m_Layer: 9
   m_Name: Bgm Btn
   m_TagString: Untagged
@@ -873,34 +897,11 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114054757269319470}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114696677037240300}
     mMethodName: OnBGM
     mParameters: []
     oneShot: 0
---- !u!95 &95650518849195300
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607161927769418}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114054757269319470
+--- !u!114 &1385846924477475169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -909,9 +910,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1607161927769418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 4623935503638542116}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 4623935503638542116}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &4623935503638542116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607161927769418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1607161927769418}
+  tran: {fileID: 4727431664578950}
 --- !u!1 &1873380228284200
 GameObject:
   m_ObjectHideFlags: 0

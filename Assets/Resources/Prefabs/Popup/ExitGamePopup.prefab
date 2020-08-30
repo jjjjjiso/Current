@@ -190,8 +190,8 @@ GameObject:
   - component: {fileID: 114504943726156346}
   - component: {fileID: 65017258716173562}
   - component: {fileID: 114636415095247290}
-  - component: {fileID: 95939667328188418}
-  - component: {fileID: 114318854974274994}
+  - component: {fileID: 1105059233313581542}
+  - component: {fileID: 282107773653095831}
   m_Layer: 9
   m_Name: QuitButton
   m_TagString: Untagged
@@ -295,9 +295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tweenTarget: {fileID: 1233359670748306}
-  hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
-  pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  hover: {r: 1, g: 1, b: 1, a: 1}
+  pressed: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 1, g: 1, b: 1, a: 1}
   duration: 0.2
   dragHighlight: 0
   hoverSprite: 
@@ -312,26 +312,7 @@ MonoBehaviour:
     mMethodName: OnExit
     mParameters: []
     oneShot: 0
---- !u!95 &95939667328188418
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233359670748306}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114318854974274994
+--- !u!114 &1105059233313581542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,9 +321,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1233359670748306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 282107773653095831}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 282107773653095831}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &282107773653095831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233359670748306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1233359670748306}
+  tran: {fileID: 4846677223901664}
 --- !u!1 &1293912413938854
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +432,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3015
+  startingRenderQueue: 3000
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -470,6 +486,8 @@ GameObject:
   - component: {fileID: 114517556337071614}
   - component: {fileID: 65138155962537326}
   - component: {fileID: 114674356564476388}
+  - component: {fileID: 2603407523617423586}
+  - component: {fileID: 4039680706217982473}
   m_Layer: 9
   m_Name: ExitButton
   m_TagString: Untagged
@@ -589,6 +607,53 @@ MonoBehaviour:
     mMethodName: Close
     mParameters: []
     oneShot: 0
+--- !u!114 &2603407523617423586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296741360512762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1296741360512762}
+  tran: {fileID: 4185687413899720}
+--- !u!114 &4039680706217982473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296741360512762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 2603407523617423586}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 2603407523617423586}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
 --- !u!1 &1306696315200216
 GameObject:
   m_ObjectHideFlags: 0

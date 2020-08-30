@@ -27,23 +27,23 @@ public class UIButtonColor : UIWidgetContainer
 
 	public GameObject tweenTarget;
 
-	/// <summary>
-	/// Color to apply on hover event (mouse only).
-	/// </summary>
+    /// <summary>
+    /// Color to apply on hover event (mouse only).
+    /// </summary>
 
-	public Color hover = new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
+    public Color hover = Color.white; //new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
 
 	/// <summary>
 	/// Color to apply on the pressed event.
 	/// </summary>
 
-	public Color pressed = new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
+	public Color pressed = Color.white; //new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f);
 
-	/// <summary>
-	/// Color that will be applied when the button is disabled.
-	/// </summary>
+    /// <summary>
+    /// Color that will be applied when the button is disabled.
+    /// </summary>
 
-	public Color disabledColor = Color.white;
+    public Color disabledColor = Color.white;
 
 	/// <summary>
 	/// Duration of the tween process.

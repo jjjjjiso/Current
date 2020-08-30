@@ -716,7 +716,10 @@ MonoBehaviour:
   goalUI: {fileID: 748864650}
   progressBar: {fileID: 1555598338}
   sprite: {fileID: 899670726}
-  sprBG: {fileID: 729264955}
+  textureBG: {fileID: 729264955}
+  bgs:
+  - {fileID: 2800000, guid: 7c29af6a4f81d3b4882d6babe733c169, type: 3}
+  - {fileID: 2800000, guid: 53efc17c64529fe439b746927adc7577, type: 3}
 --- !u!1 &162228437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,9 +1150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tweenTarget: {fileID: 235953614}
-  hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
-  pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  hover: {r: 1, g: 1, b: 1, a: 1}
+  pressed: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 1, g: 1, b: 1, a: 1}
   duration: 0.2
   dragHighlight: 0
   hoverSprite: 
@@ -1160,10 +1163,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 235953620}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 235953616}
     mMethodName: OnPressed
     mParameters: []
@@ -1245,28 +1244,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 235953614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &235953621
-Animator:
-  serializedVersion: 3
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 235953621}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 235953621}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &235953621
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235953614}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 235953614}
+  tran: {fileID: 235953615}
 --- !u!1 &256148528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,10 +1632,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 435072577}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 256148530}
     mMethodName: OnPressed
     mParameters: []
@@ -1702,28 +1713,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 435072572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &435072578
-Animator:
-  serializedVersion: 3
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 435072578}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 435072578}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &435072578
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435072572}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 435072572}
+  tran: {fileID: 435072573}
 --- !u!1 &453518987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,10 +2381,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 718713616}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 1378413342}
     mMethodName: OnPressed
     mParameters: []
@@ -2439,28 +2462,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 718713611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &718713617
-Animator:
-  serializedVersion: 3
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 718713617}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 718713617}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &718713617
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718713611}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 718713611}
+  tran: {fileID: 718713612}
 --- !u!1 &721110542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2546,7 +2585,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 729264953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Script: {fileID: 11500000, guid: d5c5ca47aa5c01740810b7c66662099f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
@@ -2589,9 +2628,16 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 114558682597699628, guid: 106a343e004f77c479ff9f291bd700fa, type: 3}
-  mSpriteName: background_ingame_1
-  mFillCenter: 1
+  mRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  mTexture: {fileID: 2800000, guid: 7c29af6a4f81d3b4882d6babe733c169, type: 3}
+  mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
+  mBorder: {x: 0, y: 0, z: 0, w: 0}
+  mFixedAspect: 0
 --- !u!1 &748864648
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,10 +3518,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 963795293}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 1501578686}
     mMethodName: OnPressed
     mParameters: []
@@ -3557,28 +3599,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 963795288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &963795294
-Animator:
-  serializedVersion: 3
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 963795294}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 963795294}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &963795294
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963795288}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 963795288}
+  tran: {fileID: 963795289}
 --- !u!1 &970716750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5804,10 +5862,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 1364091164}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 180110900}
     mMethodName: OnPressed
     mParameters: []
@@ -5889,28 +5943,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1364091159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1364091165
-Animator:
-  serializedVersion: 3
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 1364091165}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 1364091165}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &1364091165
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364091159}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1364091159}
+  tran: {fileID: 1364091160}
 --- !u!1 &1364912488
 GameObject:
   m_ObjectHideFlags: 0

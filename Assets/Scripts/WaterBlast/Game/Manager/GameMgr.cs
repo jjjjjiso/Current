@@ -120,8 +120,7 @@ namespace WaterBlast.Game.Manager
             if (stage.isWait) return;
             GameDataMgr gameDataMgr = GameDataMgr.G;
             
-            Block block = blockEntity as Block;
-            if (block != null)
+            if (blockEntity is Block || blockEntity is Blocker)
             {
                 int index = -1;
                 if (gameDataMgr.isUseInGameItem[(int)ItemType.hammer])
@@ -158,7 +157,7 @@ namespace WaterBlast.Game.Manager
                     stage.NormMatch(blockEntity);
                 }
             }
-            else
+            else 
             {
                 //booster
                 if (gameDataMgr.IsUseInGameItem()) return;

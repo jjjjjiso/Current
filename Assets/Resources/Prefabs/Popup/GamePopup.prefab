@@ -1191,8 +1191,8 @@ GameObject:
   - component: {fileID: 114938969818501556}
   - component: {fileID: 65606629749754488}
   - component: {fileID: 114444139213492470}
-  - component: {fileID: 95925598898125870}
-  - component: {fileID: 114997614574166326}
+  - component: {fileID: 5359045710789095684}
+  - component: {fileID: 9013735916491258858}
   m_Layer: 9
   m_Name: Play Btn
   m_TagString: Untagged
@@ -1296,9 +1296,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tweenTarget: {fileID: 1336661167548030}
-  hover: {r: 0.88235295, g: 0.78431374, b: 0.5882353, a: 1}
-  pressed: {r: 0.7176471, g: 0.6392157, b: 0.48235294, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  hover: {r: 1, g: 1, b: 1, a: 1}
+  pressed: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 1, g: 1, b: 1, a: 1}
   duration: 0.2
   dragHighlight: 0
   hoverSprite: 
@@ -1309,34 +1309,11 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114997614574166326}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114655279708308604}
     mMethodName: OnConfirm
     mParameters: []
     oneShot: 0
---- !u!95 &95925598898125870
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336661167548030}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114997614574166326
+--- !u!114 &5359045710789095684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1345,9 +1322,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1336661167548030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 9013735916491258858}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 9013735916491258858}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &9013735916491258858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336661167548030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1336661167548030}
+  tran: {fileID: 4208074917052672}
 --- !u!1 &1344383139164834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,8 +1372,8 @@ GameObject:
   - component: {fileID: 114589114514778064}
   - component: {fileID: 65043537467231590}
   - component: {fileID: 114003748706910064}
-  - component: {fileID: 95693022683529854}
-  - component: {fileID: 114327096718691800}
+  - component: {fileID: 3726484630367256295}
+  - component: {fileID: 8482468491947049645}
   m_Layer: 9
   m_Name: Close Btn
   m_TagString: Untagged
@@ -1477,34 +1489,11 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114327096718691800}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114655279708308604}
     mMethodName: OnExit
     mParameters: []
     oneShot: 0
---- !u!95 &95693022683529854
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344383139164834}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114327096718691800
+--- !u!114 &3726484630367256295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1513,9 +1502,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1344383139164834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj: {fileID: 1344383139164834}
+  tran: {fileID: 4571411185698226}
+--- !u!114 &8482468491947049645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344383139164834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 3726484630367256295}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 3726484630367256295}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
 --- !u!1 &1365980209281038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2277,8 +2301,8 @@ GameObject:
   - component: {fileID: 65133434809419400}
   - component: {fileID: 114063039407076996}
   - component: {fileID: 114367635336701476}
-  - component: {fileID: 95883606851588840}
-  - component: {fileID: 114401022454457360}
+  - component: {fileID: 7397469686051217443}
+  - component: {fileID: 3301139430551311700}
   m_Layer: 9
   m_Name: Rainbow Item
   m_TagString: Untagged
@@ -2398,10 +2422,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114401022454457360}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114367635336701476}
     mMethodName: OnPressed
     mParameters: []
@@ -2423,26 +2443,7 @@ MonoBehaviour:
   uiBtnImg: {fileID: 114063039407076996}
   uiItemCnt: {fileID: 114067115716700422}
   type: 3
---- !u!95 &95883606851588840
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622695079253494}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114401022454457360
+--- !u!114 &7397469686051217443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2451,9 +2452,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1622695079253494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 3301139430551311700}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 3301139430551311700}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &3301139430551311700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622695079253494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1622695079253494}
+  tran: {fileID: 4959726930377146}
 --- !u!1 &1653758689076826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2836,7 +2872,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3006
+  startingRenderQueue: 3000
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -3009,8 +3045,8 @@ GameObject:
   - component: {fileID: 65572644829781044}
   - component: {fileID: 114897654788092308}
   - component: {fileID: 114745208961809360}
-  - component: {fileID: 95582929334836508}
-  - component: {fileID: 114638881268245078}
+  - component: {fileID: 2474590325115722756}
+  - component: {fileID: 7620450064522766385}
   m_Layer: 9
   m_Name: Arrow Item
   m_TagString: Untagged
@@ -3130,10 +3166,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114638881268245078}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114745208961809360}
     mMethodName: OnPressed
     mParameters: []
@@ -3155,26 +3187,7 @@ MonoBehaviour:
   uiBtnImg: {fileID: 114897654788092308}
   uiItemCnt: {fileID: 114969335161792310}
   type: 1
---- !u!95 &95582929334836508
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899574700367840}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114638881268245078
+--- !u!114 &2474590325115722756
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3183,9 +3196,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1899574700367840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 7620450064522766385}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 7620450064522766385}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &7620450064522766385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899574700367840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1899574700367840}
+  tran: {fileID: 4296766290415562}
 --- !u!1 &1905537160445610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,8 +3333,8 @@ GameObject:
   - component: {fileID: 65594287588685886}
   - component: {fileID: 114526427654653656}
   - component: {fileID: 114963122046793900}
-  - component: {fileID: 95178483317346194}
-  - component: {fileID: 114239757079088124}
+  - component: {fileID: 7684536961396969674}
+  - component: {fileID: 358058419035168370}
   m_Layer: 9
   m_Name: Bomb Item
   m_TagString: Untagged
@@ -3406,10 +3454,6 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 114239757079088124}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
   - mTarget: {fileID: 114963122046793900}
     mMethodName: OnPressed
     mParameters: []
@@ -3431,26 +3475,7 @@ MonoBehaviour:
   uiBtnImg: {fileID: 114526427654653656}
   uiItemCnt: {fileID: 114266794147179274}
   type: 2
---- !u!95 &95178483317346194
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934019968327854}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 052b0e6ac9d05804c9620cc691b3636c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114239757079088124
+--- !u!114 &7684536961396969674
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3459,9 +3484,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934019968327854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84a71c07c3dfce468aa268d044616cc, type: 3}
+  m_Script: {fileID: 11500000, guid: e862f287df53bb64db191162f851a296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverOver: []
+  onHoverOut: []
+  onPress:
+  - mTarget: {fileID: 358058419035168370}
+    mMethodName: OnPress
+    mParameters: []
+    oneShot: 0
+  onRelease:
+  - mTarget: {fileID: 358058419035168370}
+    mMethodName: OnRelese
+    mParameters: []
+    oneShot: 0
+  onSelect: []
+  onDeselect: []
+  onClick: []
+  onDoubleClick: []
+  onDragStart: []
+  onDragEnd: []
+  onDragOver: []
+  onDragOut: []
+  onDrag: []
+--- !u!114 &358058419035168370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934019968327854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def590cdc9f62454bae8f9c9ae69c802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 1934019968327854}
+  tran: {fileID: 4826230757076806}
 --- !u!1 &1938370262511998
 GameObject:
   m_ObjectHideFlags: 0

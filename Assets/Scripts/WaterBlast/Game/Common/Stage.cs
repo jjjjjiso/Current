@@ -45,6 +45,9 @@ namespace WaterBlast.Game.Common
         private int oldStickyBlockCount = 0;
         public int currStickyBlockCount = 0;
 
+        private int oldRadiationount = 0;
+        public int currRadiationCount = 0;
+
         private List<GameObject> backgrounds = new List<GameObject>();
 
         public void Reset()
@@ -78,6 +81,9 @@ namespace WaterBlast.Game.Common
             BlockerSetting();
 
             StartCoroutine(Co_StartItem());
+
+            currStickyBlockCount = oldStickyBlockCount;
+            currRadiationCount = oldRadiationount;
         }
 
         private void BlockSetting()
@@ -91,6 +97,7 @@ namespace WaterBlast.Game.Common
 
             BlockType blockType;
             Vector2 pos = Vector2.zero;
+            Blocker blocker = null;
 
             wSize = 72;
             hSize = 73; //원래 h 사이즈 - 85
@@ -139,7 +146,11 @@ namespace WaterBlast.Game.Common
                         //Blocker Object Create
                         var cover = gameMgr.gamePools.GetBlockerEntity(gameMgr.level.blocks[index]);
                         Assert.IsNotNull(cover);
-                        if (cover is Blocker) (cover as Blocker).sprite.alpha = 1;
+                        blocker = cover as Blocker;
+
+                        if (blocker._BlockerType == BlockerType.radiation) ++oldRadiationount;
+
+                        blocker.sprite.alpha = 1;
                         cover.SetDepth(y + 21);
                         cover.Show();
                         cover.SetData(x, y);
