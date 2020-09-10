@@ -361,7 +361,7 @@ MonoBehaviour:
   fadeTime: 1
   clickCollider: {fileID: 1995548361}
   isFadeInOut: 1
-  delayTime: 0.5
+  delayTime: 1.5
 --- !u!1 &694079041
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   mHeight: 1280
   mDepth: 0
   mMat: {fileID: 0}
-  autoResizeBoxCollider: 0
+  autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 0.5625

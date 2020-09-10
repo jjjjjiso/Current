@@ -1,0 +1,223 @@
+{
+    "id": 9,
+    "width": 6,
+    "height": 6,
+    "blocks": [
+        {
+            "type": "red",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "red",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "purple",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "purple",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "purple",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "red",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "purple",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "red",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "box",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "yellow",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "blue",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        }
+    ],
+    "limit": 20,
+    "goals": [
+        {
+            "blockType": "red",
+            "amount": 4,
+            "$type": "WaterBlast.Game.Common.CollectBlockGoal"
+        },
+        {
+            "blockType": "purple",
+            "amount": 20,
+            "$type": "WaterBlast.Game.Common.CollectBlockGoal"
+        }
+    ],
+    "availableColors": [
+        "yellow",
+        "green",
+        "blue",
+        "purple"
+    ],
+    "score1": 800,
+    "score2": 2500,
+    "score3": 4500,
+    "awardBoostersWithRemainingMoves": false,
+    "awardedBoosterType": "none",
+    "collectableChance": 0,
+    "availableStartItem": {
+        "arrow": true,
+        "bomb": false,
+        "rainbow": false
+    },
+    "availableInGameItem": {
+        "hammer": true,
+        "horizon": true,
+        "vertical": false,
+        "mix": false
+    }
+}

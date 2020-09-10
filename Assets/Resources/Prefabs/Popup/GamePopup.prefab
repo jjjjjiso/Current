@@ -2421,11 +2421,7 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick:
-  - mTarget: {fileID: 114367635336701476}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
+  onClick: []
 --- !u!114 &114367635336701476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2438,6 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42dcc7e77fc23d748beb8660c5476173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 3301139430551311700}
   lockImg: {fileID: 1938370262511998}
   CheckImg: {fileID: 1005910395846428}
   uiBtnImg: {fileID: 114063039407076996}
@@ -2872,7 +2869,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3000
+  startingRenderQueue: 3001
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -3165,11 +3162,7 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick:
-  - mTarget: {fileID: 114745208961809360}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
+  onClick: []
 --- !u!114 &114745208961809360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3182,6 +3175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42dcc7e77fc23d748beb8660c5476173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 7620450064522766385}
   lockImg: {fileID: 1462897942737372}
   CheckImg: {fileID: 1125018262551522}
   uiBtnImg: {fileID: 114897654788092308}
@@ -3453,11 +3447,7 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick:
-  - mTarget: {fileID: 114963122046793900}
-    mMethodName: OnPressed
-    mParameters: []
-    oneShot: 0
+  onClick: []
 --- !u!114 &114963122046793900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3470,6 +3460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42dcc7e77fc23d748beb8660c5476173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 358058419035168370}
   lockImg: {fileID: 1226632566525390}
   CheckImg: {fileID: 1242375265395412}
   uiBtnImg: {fileID: 114526427654653656}

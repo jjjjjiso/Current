@@ -18,18 +18,18 @@ namespace WaterBlast.Game.Common
 
         public override int BonusScore() { return 20; }
 
-        public override List<BlockEntity> Match(int x, int y, ref int count)
+        public override List<BlockEntity> Match(int x, int y)
         {
             Stage s = GameMgr.G._Stage;
             List<BlockEntity> blocks = new List<BlockEntity>();
-
+            
             switch (arrowType)
             {
                 case ArrowType.horizon:
                     {
                         for(int ix = 0; ix < s.width; ++ix)
                         {
-                            AddBlock(blocks, ix, y, ref count);
+                            AddBlock(blocks, ix, y);
                         }
                     }
                     break;
@@ -37,7 +37,7 @@ namespace WaterBlast.Game.Common
                     {
                         for (int iy = 0; iy < s.height; ++iy)
                         {
-                            AddBlock(blocks, x, iy, ref count);
+                            AddBlock(blocks, x, iy);
                         }
                     }
                     break;
@@ -46,18 +46,18 @@ namespace WaterBlast.Game.Common
             return blocks;
         }
 
-        public override List<BlockEntity> ComboMatch(int x, int y, ref int count)
+        public override List<BlockEntity> ComboMatch(int x, int y)
         {
             Stage s = GameMgr.G._Stage;
             List<BlockEntity> blocks = new List<BlockEntity>();
-
+            
             for (int ix = 0; ix < s.width; ++ix)
             {
-                AddBlock(blocks, ix, y, ref count);
+                AddBlock(blocks, ix, y);
             }
             for (int iy = 0; iy < s.height; ++iy)
             {
-                AddBlock(blocks, x, iy, ref count);
+                AddBlock(blocks, x, iy);
             }
 
             return blocks;

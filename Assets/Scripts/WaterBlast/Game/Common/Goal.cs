@@ -22,7 +22,7 @@ namespace WaterBlast.Game.Common
 #endif
     }
 
-    /// <summary>
+    /*/// <summary>
     /// 도달 범위 골
     /// </summary>
     public class ReachScoreGoal : Goal
@@ -50,7 +50,7 @@ namespace WaterBlast.Game.Common
         {
             return "Reach " + score + " points";
         }
-    }
+    }*/
 
     public class CollectBlockGoal : Goal
     {

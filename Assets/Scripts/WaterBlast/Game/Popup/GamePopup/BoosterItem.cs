@@ -9,6 +9,7 @@ namespace WaterBlast.Game.Popup
 {
     public class BoosterItem : MonoBehaviour
     {
+        [SerializeField] private ButtonObject btn;
         [SerializeField] private GameObject lockImg = null;
         [SerializeField] private GameObject CheckImg = null;
         [SerializeField] private UIButton uiBtnImg = null;
@@ -22,6 +23,8 @@ namespace WaterBlast.Game.Popup
         private void Awake()
         {
             CheckImg.SetActive(false);
+
+            btn.fncClick = OnPressed;
         }
 
         public void OnPressed()

@@ -2681,8 +2681,8 @@ MonoBehaviour:
   startingRenderQueue: 3000
   mClipTexture: {fileID: 0}
   mAlpha: 1
-  mClipping: 0
-  mClipRange: {x: 0, y: 0, z: 300, w: 200}
+  mClipping: 3
+  mClipRange: {x: 0, y: 0, z: 720, w: 1280}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 1
   mSortingOrder: 0
@@ -4069,7 +4069,7 @@ MonoBehaviour:
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
-  mClipRange: {x: 0, y: 0, z: 300, w: 200}
+  mClipRange: {x: 0, y: 0, z: 720, w: 1280}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 0
   mSortingOrder: 0

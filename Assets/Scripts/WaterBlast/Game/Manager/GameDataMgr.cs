@@ -57,7 +57,7 @@ namespace WaterBlast.Game.Manager
 
         public void Reset()
         {
-            for(int i=0; i<isUseStartItem.Length; ++i)
+            for (int i = 0; i < isUseStartItem.Length; ++i) 
             {
                 isUseStartItem[i] = false;
             }
@@ -66,7 +66,8 @@ namespace WaterBlast.Game.Manager
         public void UpdateLevel()
         {
             var serializer = new fsSerializer();
-            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? 2 : startLevel)/*endLevel*/);
+            if (endLevel >= 20) endLevel = 20;
+             level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? endLevel : startLevel)/*endLevel*/);
         }
 
         public bool IsUseInGameItem()

@@ -31,10 +31,13 @@ namespace WaterBlast.Game.Manager
         private Transform backgroundParent = null;
         [SerializeField]
         private Sprite backgroundSprite = null;
+        [SerializeField]
+        private UIButton uiSettingBtn;
 
         private Stage stage = null;
         private GameState gameState = null;
 
+        [HideInInspector]
         public List<ColorType> availableColors = new List<ColorType>();
 
         private void Start()
@@ -109,6 +112,7 @@ namespace WaterBlast.Game.Manager
             gameUI.progressBar.Init(level.score1, level.score2, level.score3);
             gameUI.SetBG(level.id);
             Reset();
+            uiSettingBtn.enabled = true;
 
             PopupGoal.Open("Goal Popup", level.goals);
         }
@@ -209,9 +213,7 @@ namespace WaterBlast.Game.Manager
 
                 gameUI.goalUI.UpdateGoalUI(gameState);
                 gameUI.SetSprite(true);
-
-                ++GameDataMgr.G.endLevel;
-                GameDataMgr.G.UpdateLevel();
+                
                 StartCoroutine(Co_Success());
             }
 
@@ -249,6 +251,7 @@ namespace WaterBlast.Game.Manager
 
         IEnumerator Co_Success()
         {
+            uiSettingBtn.enabled = false;
             yield return new WaitForSeconds(0.5f);
 
             textAnim.SetTrigger("ClearOn");
@@ -258,7 +261,7 @@ namespace WaterBlast.Game.Manager
             while (stage.isFinale) yield return null;
             yield return new WaitForSeconds(0.5f);
 
-            string level = string.Format("LEVEL {0}", (GameDataMgr.G.endLevel-1).ToString());
+            string level = string.Format("LEVEL {0}", (GameDataMgr.G.endLevel).ToString());
             PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "SuccessPopup", level, null, "CONTINUE");
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.success);
             temp.GetComponentInChildren<SuccessPopup>().SetInfo(gameState.score, gameUI.progressBar.GetStars(), gameUI.goalUI.group);
@@ -276,10 +279,14 @@ namespace WaterBlast.Game.Manager
                 sceneFade.fadeTime = 0.3f;
                 sceneFade.OnPressed();
             };
+
+            ++GameDataMgr.G.endLevel;
+            GameDataMgr.G.UpdateLevel();
         }
 
         IEnumerator Co_Failed()
         {
+            uiSettingBtn.enabled = false;
             while (stage.isWait) yield return null;
             while (stage.IsMoving(State.move)) yield return null;
 
@@ -293,7 +300,9 @@ namespace WaterBlast.Game.Manager
             {
                 currentLimit = 5;
                 UpdateLimitCount();
+                stage.BlockIconSetting();
                 isGameEnd = false;
+                uiSettingBtn.enabled = true;
             };
 
             noMoves.onEixt += () =>

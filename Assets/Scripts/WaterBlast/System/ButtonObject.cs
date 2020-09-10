@@ -17,20 +17,23 @@ namespace WaterBlast.System
 
         public UnityEngine.Events.UnityAction fncClick;
 
+        private bool isPress = false;
+
         public void OnPress()
         {
-            if (tran.localScale == vecPress) return;
+            if (isPress) return;
+            isPress = true;
             LeanTween.cancel(obj);
             LeanTween.scale(obj, vecPress, pressTime);
         }
 
         public void OnRelese()
         {
-            if (tran.localScale == Vector3.one) return;
+            if (!isPress) return;
             LeanTween.cancel(obj);
             LeanTween.scale(obj, vecRelese, releseTime).setOnComplete(() =>
             {
-                LeanTween.scale(obj, Vector3.one, releseTime);
+                LeanTween.scale(obj, Vector3.one, releseTime).setOnComplete(() => isPress = false);
             });
 
             if (fncClick != null) fncClick();

@@ -295,8 +295,8 @@ namespace WaterBlast.Editor
             }
 
             GUILayout.EndHorizontal();
-            
-            EditorGUIUtility.labelWidth = 165;
+
+            /*EditorGUIUtility.labelWidth = 165;
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(new GUIContent("Award boosters(보너스 상품)",
                     "Enable this if you want boosters equal to the number of remaining moves to be awarded to the player at the end of the game."
@@ -315,7 +315,7 @@ namespace WaterBlast.Editor
                     (BoosterType)EditorGUILayout.EnumPopup(curLevel.awardedBoosterType, GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             }
-            EditorGUIUtility.labelWidth = 90;
+            EditorGUIUtility.labelWidth = 90;*/
         }
 
         /// <summary>
@@ -723,7 +723,7 @@ namespace WaterBlast.Editor
                     case BrushMode.horizon:
                         for (var i = 0; i < width; i++)
                         {
-                            var idx = i + (y * width);
+                            var idx = y + (i * width);
                             curLevel.blocks[idx].blockerType = curBlockerType;
                         }
                         break;
@@ -731,20 +731,12 @@ namespace WaterBlast.Editor
                     case BrushMode.vertical:
                         for (var j = 0; j < height; j++)
                         {
-                            var idx = x + (j * width);
+                            var idx = j + (x * height);
                             curLevel.blocks[idx].blockerType = curBlockerType;
                         }
                         break;
 
                     case BrushMode.fill:
-                        //for (var j = 0; j < height; j++)
-                        //{
-                        //    for (var i = 0; i < width; i++)
-                        //    {
-                        //        var idx = i + (j * width);
-                        //        curLevel.blocks[idx].blockerType = curBlockerType;
-                        //    }
-                        //}
                         for (var i = 0; i < width; i++)
                         {
                             for (var j = 0; j < height; j++)

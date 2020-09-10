@@ -32,6 +32,12 @@ namespace WaterBlast.Game.Manager
         //[NonSerialized]
         public int[] availableInGameItemCount = new int[4];
 
+        protected override void OnAwake()
+        {
+            base.OnAwake();
+            //Load();
+        }
+
         private void OnApplicationQuit()
         {
             Save();

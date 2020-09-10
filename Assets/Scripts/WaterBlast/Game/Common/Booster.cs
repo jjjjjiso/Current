@@ -18,6 +18,7 @@ namespace WaterBlast.Game.Common
         protected float delayTime = 0.3f;
 
         protected bool isCombo = false;
+        protected bool isSelect = false;
 
         //default Method
 
@@ -27,12 +28,12 @@ namespace WaterBlast.Game.Common
             return 0;
         }
 
-        public virtual List<BlockEntity> Match(int x, int y, ref int count)
+        public virtual List<BlockEntity> Match(int x, int y)
         {
             return new List<BlockEntity>();
         }
 
-        public virtual List<BlockEntity> ComboMatch(int x, int y, ref int count)
+        public virtual List<BlockEntity> ComboMatch(int x, int y)
         {
             return new List<BlockEntity>();
         }
@@ -48,7 +49,7 @@ namespace WaterBlast.Game.Common
             GameMgr.G.StageUpdate(this);
         }
 
-        protected void AddBlock(List<BlockEntity> blocks, int x, int y, ref int count)
+        protected void AddBlock(List<BlockEntity> blocks, int x, int y)
         {
             Stage stage = GameMgr.G._Stage;
             if (x < 0 || x >= stage.width ||
@@ -59,13 +60,19 @@ namespace WaterBlast.Game.Common
             {
                 if (!entity.gameObject.activeSelf) return;
                 var block = entity as Block;
-                if (block != null && block._BlockType == BlockType.empty) return;
-                if (block != null && block._BlockType == BlockType.can) return;
-                if (block != null && block._BlockType == BlockType.paper) return;
+                if (block != null)
+                {
+                    if (block._BlockType == BlockType.empty) return;
+                    if (block._BlockType == BlockType.can) return;
+                    if (block._BlockType == BlockType.paper) return;
+                }
+                else
+                {
+                    var booster = entity as Booster;
+                    if (booster != null) booster._IsSelect = false;
+                }
+
                 if (blocks.Contains(entity)) return;
-
-                if (block != null && block._BlockType == BlockType.sticky) --count;
-
                 blocks.Add(entity);
             }
         }
@@ -100,6 +107,12 @@ namespace WaterBlast.Game.Common
         {
             get { return isCombo; }
             set { isCombo = value; }
+        }
+
+        public bool _IsSelect
+        {
+            get { return isSelect; }
+            set { isSelect = value; }
         }
     }
 }
