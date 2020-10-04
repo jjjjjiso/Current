@@ -273,7 +273,7 @@ namespace WaterBlast.Game.Manager
                 sceneFade.OnPressed();
             };
 
-            temp.onEixt += () =>
+            temp.onExit += () =>
             {
                 sceneFade.delayTime = 0.15f;
                 sceneFade.fadeTime = 0.3f;
@@ -295,17 +295,36 @@ namespace WaterBlast.Game.Manager
             textAnim.SetTrigger("FailedOn");
             yield return new WaitForSeconds(0.8f);
 
-            PopupConfirm noMoves = PopupConfirm.Open("Prefabs/Popup/NoMovesPopup", "Failed Moves Popup", null, null, "PLAY ON");
+            PopupConfirm noMoves = PopupConfirm.Open("Prefabs/Popup/NoMovesPopup", "Failed Moves Popup", null, null, "PLAY ON", false);
+            PopupNoMoves popupNoMoves = noMoves.GetComponent<PopupNoMoves>();
+            if (popupNoMoves != null) popupNoMoves.SetCoin();
+
             noMoves.onConfirm += () =>
             {
-                currentLimit = 5;
-                UpdateLimitCount();
-                stage.BlockIconSetting();
-                isGameEnd = false;
-                uiSettingBtn.enabled = true;
+                if (UserDataMgr.G.coin >= 100)
+                {
+                    currentLimit = 5;
+                    UpdateLimitCount();
+                    stage.BlockIconSetting();
+                    isGameEnd = false;
+                    uiSettingBtn.enabled = true;
+                    UserDataMgr.G.CoinsUsed(100);
+                    if (popupNoMoves != null) popupNoMoves.SetCoin();
+                    noMoves.Close();
+                }
+                else
+                {
+                    PopupMgr.G.ShowAdsPopup(null, "Watch ads and get rewarded.", "OK", () =>
+                    {
+                        AdsMgr.G.fncSuccess = () =>
+                        {
+                            if (popupNoMoves != null) popupNoMoves.SetCoin();
+                        };
+                    });
+                }
             };
 
-            noMoves.onEixt += () =>
+            noMoves.onExit += () =>
             {
                 noMoves.Close();
 
@@ -315,8 +334,10 @@ namespace WaterBlast.Game.Manager
 
         public void Failed()
         {
+            UserDataMgr.G.UpdateLife();
+
             string levelNumber = string.Format("LEVEL {0}", GameDataMgr.G.endLevel.ToString());
-            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "FailedPopup", levelNumber, null, "TRY AGAIN");
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/GamePopup", "FailedPopup", levelNumber, null, "TRY AGAIN", false);
 
             temp.GetComponent<GamePopup>().OnPopup(GamePopupState.failed);
             GamePopupItemGroup item = temp.GetComponentInChildren<GamePopupItemGroup>();
@@ -328,12 +349,33 @@ namespace WaterBlast.Game.Manager
 
             temp.onConfirm += () =>
             {
-                temp.Close();
-                Reset();
-                PopupGoal.Open("Goal Popup", level.goals);
+                if (UserDataMgr.G.life > 0)
+                {
+                    temp.Close();
+                    Reset();
+                    PopupGoal.Open("Goal Popup", level.goals);
+                }
+                else
+                {
+                    int count = 1;
+                    if (UserDataMgr.G.IsCoins(count))
+                    {
+                        PopupMgr.G.ShowItemPopup("Life Item Popup", "LIFE", "You can play the game with life!", "BUY",
+                                                 "life_icon", count, GameDataMgr.G.itemCost, () =>
+                                                 {
+                                                     UserDataMgr.G.CoinsUsed(GameDataMgr.G.itemCost * count);
+                                                     UserDataMgr.G.life += count;
+                                                     UserDataMgr.G.SetTimeToNextLife();
+                                                 }, true);
+                    }
+                    else
+                    {
+                        PopupMgr.G.ShowAdsPopup(null, "Watch ads and get rewarded.", "OK");
+                    }
+                } 
             };
 
-            temp.onEixt += () =>
+            temp.onExit += () =>
             {
                 sceneFade.delayTime = 0.15f;
                 sceneFade.fadeTime = 0.3f;

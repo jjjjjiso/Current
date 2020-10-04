@@ -37,27 +37,36 @@ namespace WaterBlast.Game.UI
             else
             {
                 //샵 팝업.
-                string title = null;
-                string msg = null;
-                bool isTemp = true;
-                if (type == MittType.horizon)
+                int count = 3;
+                if (UserDataMgr.G.IsCoins(count))
                 {
-                    title = "ROW GLOVE";
-                    msg = string.Format("Removes everything in a row!");
+                    string title = null;
+                    string msg = null;
+                    bool isTemp = true;
+                    if (type == MittType.horizon)
+                    {
+                        title = "ROW GLOVE";
+                        msg = "Removes everything in a row!";
+                    }
+                    else
+                    {
+                        isTemp = false;
+                        title = "COLUMN GLOVE";
+                        msg = "Removes everything in a column!";
+                    }
+                    
+                    PopupMgr.G.ShowItemPopup("Item Popup", title, msg, "BUY", "item_arrow", count, GameDataMgr.G.itemCost, 
+                        () =>
+                        {
+                            UserDataMgr.G.CoinsUsed(GameDataMgr.G.itemCost * count);
+                            UserDataMgr.G.availableInGameItemCount[index] += count;
+                            UpdateInGameItemCount(index);
+                        }, false, isTemp);
                 }
                 else
                 {
-                    isTemp = false;
-                    title = "COLUMN GLOVE";
-                    msg = string.Format("Removes everything in a column!");
+                    PopupMgr.G.ShowAdsPopup(null, "Not enough coins." + "\n" + "Watch ads and get rewarded.", "OK");
                 }
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", title, msg, "BUY");
-                temp.GetComponent<PopupItem>().ItemSetting("item_arrow", 400, isTemp);
-
-                temp.onConfirm += () =>
-                {
-
-                };
             }
         }
     }

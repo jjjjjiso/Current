@@ -45,8 +45,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: d838d581dea0eb24883e6c2f198a89a1, type: 2}
   mSprites:
+  - name: ad_icon
+    x: 846
+    y: 345
+    width: 165
+    height: 166
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: bitmuri
-    x: 1508
+    x: 1227
     y: 820
     width: 211
     height: 204
@@ -59,7 +72,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bitmuri2
-    x: 1720
+    x: 1439
     y: 820
     width: 211
     height: 204
@@ -72,8 +85,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BrokenLife
-    x: 282
-    y: 114
+    x: 513
+    y: 122
     width: 107
     height: 78
     borderLeft: 0
@@ -85,10 +98,10 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: extra
-    x: 1201
-    y: 661
-    width: 306
-    height: 363
+    x: 1026
+    y: 784
+    width: 200
+    height: 240
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -99,33 +112,46 @@ MonoBehaviour:
     paddingBottom: 0
   - name: popup_background
     x: 0
-    y: 193
-    width: 645
-    height: 831
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
+    y: 512
+    width: 512
+    height: 512
+    borderLeft: 200
+    borderRight: 200
+    borderTop: 200
+    borderBottom: 260
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: popup_background2
+    x: 513
+    y: 512
+    width: 512
+    height: 512
+    borderLeft: 200
+    borderRight: 200
+    borderTop: 140
+    borderBottom: 260
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: popup_inground
-    x: 646
-    y: 525
-    width: 554
-    height: 499
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
+    x: 513
+    y: 201
+    width: 332
+    height: 310
+    borderLeft: 140
+    borderRight: 140
+    borderTop: 100
+    borderBottom: 160
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: popup_mission
-    x: 646
-    y: 159
+    x: 0
+    y: 146
     width: 511
     height: 365
     borderLeft: 0
@@ -137,8 +163,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_gray
-    x: 0
-    y: 52
+    x: 323
+    y: 5
     width: 140
     height: 140
     borderLeft: 0
@@ -150,8 +176,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_yellow
-    x: 141
-    y: 52
+    x: 846
+    y: 204
     width: 140
     height: 140
     borderLeft: 0
@@ -162,9 +188,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: textbox
+    x: 0
+    y: 67
+    width: 322
+    height: 78
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: tickIcon
     x: 0
-    y: 0
+    y: 15
     width: 59
     height: 51
     borderLeft: 0

@@ -29,14 +29,21 @@ namespace WaterBlast.Game.UI
             else
             {
                 //아이템 샵 팝업.
-                string msg = string.Format("Shuffles all of the cubes!");
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "TORNADO", msg, "BUY");
-                temp.GetComponent<PopupItem>().ItemSetting("item_shuffle", 100);
-
-                temp.onConfirm += () =>
+                int count = 3;
+                if (UserDataMgr.G.IsCoins(count))
                 {
-
-                };
+                    PopupMgr.G.ShowItemPopup("Item Popup", "TORNADO", "Shuffles all of the cubes!", "BUY",
+                                             "item_shuffle", count, GameDataMgr.G.itemCost, () =>
+                                             {
+                                                 UserDataMgr.G.CoinsUsed(GameDataMgr.G.itemCost * count);
+                                                 UserDataMgr.G.availableInGameItemCount[index] += count;
+                                                 UpdateInGameItemCount(index);
+                                             });
+                }
+                else
+                {
+                    PopupMgr.G.ShowAdsPopup(null, "Not enough coins." + "\n" + "Watch ads and get rewarded.", "OK");
+                }
             }
         }
     }

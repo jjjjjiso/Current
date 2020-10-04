@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 
 using UnityEngine;
 
@@ -12,9 +15,9 @@ namespace WaterBlast.Game.Manager
         {
             string dataPath = string.Empty;
 
-#if (UNITY_ANDROID && UNITY_EDITOR)
+#if UNITY_EDITOR
             dataPath = Application.dataPath;
-#elif (UNITY_ANDROID)
+#elif UNITY_ANDROID
             dataPath = Application.persistentDataPath;
 #endif
 

@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+using WaterBlast.System;
+using WaterBlast.Game.Manager;
 
 namespace WaterBlast.Game.Popup
 {
@@ -107,6 +110,81 @@ namespace WaterBlast.Game.Popup
             {
                 stackPopup.Push(stack.Pop());
             }
+        }
+        
+        public void ShowAdsPopup(string title, string message, string btn, Action actConfirm = null, Action actEixt = null)
+        {
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ADPopup", "AD", title, message, btn);
+            temp.GetComponent<PopupAD>().SetInfo();
+
+            temp.onConfirm += () =>
+            {
+                if (actConfirm != null)
+                {
+                    actConfirm();
+                    actConfirm = null;
+                }
+                temp.Close();
+                AdsMgr.G.ShowRewardedAd();
+            };
+
+            temp.onExit += () =>
+            {
+                if (actEixt != null)
+                {
+                    actEixt();
+                    actEixt = null;
+                }
+                temp.Close();
+            };
+        }
+
+        public void ShowItemPopup(string id, string title, string message, string btn, string itemName, int itemCount, int cost, Action actConfirm = null, bool isBlack = false, bool isTemp = true)
+        {
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", id, title, message, btn, false);
+            PopupItem popupItem = temp.GetComponent<PopupItem>();
+            if (popupItem != null) popupItem.ItemSetting(itemName, itemCount, cost, isBlack, isTemp);
+
+            temp.onConfirm += () =>
+            {
+                if (actConfirm != null)
+                {
+                    actConfirm();
+                    actConfirm = null;
+                }
+
+                temp.SetMessage("Purchase completed!");
+                if (popupItem != null) popupItem.UpdateData(false);
+
+                temp.onConfirm += () =>
+                {
+                    temp.Close();
+                };
+            };
+        }
+
+        public void ShowItemPopup(string id, string title, string message, string btn, BoosterType type, int itemCount, int cost, Action actConfirm = null)
+        {
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", id, title, message, btn, false);
+            PopupItem popupItem = temp.GetComponent<PopupItem>();
+            if (popupItem != null) popupItem.ItemSetting(type, itemCount, cost);
+
+            temp.onConfirm += () =>
+            {
+                if (actConfirm != null)
+                {
+                    actConfirm();
+                    actConfirm = null;
+                }
+
+                temp.SetMessage("Purchase completed!");
+                if (popupItem != null) popupItem.UpdateData(false);
+
+                temp.onConfirm += () =>
+                {
+                    temp.Close();
+                };
+            };
         }
     }
 }

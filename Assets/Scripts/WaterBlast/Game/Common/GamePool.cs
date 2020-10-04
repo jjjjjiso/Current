@@ -45,6 +45,8 @@ namespace WaterBlast.Game.Common
         public ObjectPool bombParticlesPool = null;
         public ObjectPool bombComboParticlesPool = null;
 
+        public ObjectPool trashBox = null;
+
         List<ObjectPool> colorBlocks = new List<ObjectPool>();
 
         private void Awake()
@@ -82,6 +84,10 @@ namespace WaterBlast.Game.Common
 
             Assert.IsNotNull(lineHorizontalParticlesPool);
             Assert.IsNotNull(lineVerticalParticlesPool);
+            Assert.IsNotNull(bombParticlesPool);
+            Assert.IsNotNull(bombComboParticlesPool);
+
+            Assert.IsNotNull(trashBox);
 
             colorBlocks.Add(redBlockPool);
             colorBlocks.Add(orangeBlockPool);
@@ -89,6 +95,11 @@ namespace WaterBlast.Game.Common
             colorBlocks.Add(greenBlockPool);
             colorBlocks.Add(blueBlockPool);
             colorBlocks.Add(purpleBlockPool);
+        }
+
+        public GameObject GetTrashBox()
+        {
+            return trashBox.GetObj();
         }
 
         public BlockEntity GetBlockerEntity(LevelBlock block)

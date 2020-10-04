@@ -30,9 +30,9 @@ namespace WaterBlast.Game.Popup
         public void OnPressed()
         {
             if (isLock) return;
-            if(itemCount > 0)
+            int idx = (int)(type - 1);
+            if (itemCount > 0)
             {
-                int idx = (int)(type - 1);
                 if (!GameDataMgr.G.isUseStartItem[idx])
                 {
                     GameDataMgr.G.isUseStartItem[idx] = true;
@@ -55,16 +55,24 @@ namespace WaterBlast.Game.Popup
             }
             else
             {
-                TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
-                string boosterName = myTI.ToTitleCase(type.ToString()).ToUpper();
-                string msg = string.Format("Start the level with a {0}!", boosterName);
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Booster Item Popup", boosterName, msg, "BUY");
-                temp.GetComponent<PopupItem>().ItemSetting(type, 150);
-
-                temp.onConfirm += () =>
+                int count = 3;
+                if (UserDataMgr.G.IsCoins(count))
                 {
-
-                };
+                    TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
+                    string boosterName = myTI.ToTitleCase(type.ToString()).ToUpper();
+                    string msg = string.Format("Start the level with a {0}!", boosterName);
+                    PopupMgr.G.ShowItemPopup("Booster Item Popup", boosterName, msg, "BUY", type, count, GameDataMgr.G.itemCost, () =>
+                    {
+                        UserDataMgr.G.CoinsUsed(GameDataMgr.G.itemCost * count);
+                        UserDataMgr.G.availableStartItemCount[idx] += count;
+                        SetItemCount(UserDataMgr.G.availableStartItemCount[idx]);
+                        if (LobbyMgr.G != null && LobbyMgr.G.levelNumber != null) LobbyMgr.G.levelNumber.UpdateCoin();
+                    });
+                }
+                else
+                {
+                    PopupMgr.G.ShowAdsPopup(null, "Not enough coins." + "\n" + "Watch ads and get rewarded.", "OK");
+                }
             }
         }
 

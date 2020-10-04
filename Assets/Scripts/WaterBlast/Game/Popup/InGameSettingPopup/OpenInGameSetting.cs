@@ -26,7 +26,7 @@ namespace WaterBlast.Game.Popup
                 popup.onQuit += () =>
                 {
                     PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ExitGamePopup", "Exit Popup", null, null, "QUIT");
-                    temp.onEixt += () =>
+                    temp.onExit += () =>
                     {
                         temp.Close();
                         GameMgr.G.Failed();

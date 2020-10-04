@@ -449,12 +449,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 448775313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 997c37a2db6efd64b8fc8214dc6ad9e8, type: 3}
+  m_Script: {fileID: 11500000, guid: ff574ad7c3751e74083ea93c248826a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableStartItemCount: 0a0000000a0000000a000000
-  userStartItemCount: 000000000000000000000000
-  availableInGameItemCount: 0a0000000a0000000a0000000a000000
+  life: 0
+  coin: 0
+  availableStartItemCount: 000000000000000000000000
+  availableInGameItemCount: 00000000000000000000000000000000
 --- !u!4 &448775315
 Transform:
   m_ObjectHideFlags: 0
@@ -563,6 +564,49 @@ MonoBehaviour:
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
   mFixedAspect: 0
+--- !u!1 &858997158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858997160}
+  - component: {fileID: 858997159}
+  m_Layer: 0
+  m_Name: AdsMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &858997159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858997158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea423d4198d04fa48a80f33a3b9996b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &858997160
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858997158}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974914306
 GameObject:
   m_ObjectHideFlags: 0

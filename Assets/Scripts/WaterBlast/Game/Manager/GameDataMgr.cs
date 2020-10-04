@@ -40,19 +40,30 @@ namespace WaterBlast.Game.Manager
 
         public bool isBGM    = true;
         public bool isEffect = true;
-        
+
+        [NonSerialized]
+        public int itemCost = 200;
+        [NonSerialized]
+        public int adsRewardCost = 1000;
+
         [NonSerialized]
         public Level level = null;
 
         protected override void OnAwake()
         {
-            //Load();
+            Load();
             UpdateLevel();
         }
 
         private void OnApplicationQuit()
         {
             Save();
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            if (pause) Save();
+            else Load();
         }
 
         public void Reset()
@@ -66,7 +77,7 @@ namespace WaterBlast.Game.Manager
         public void UpdateLevel()
         {
             var serializer = new fsSerializer();
-            if (endLevel >= 20) endLevel = 20;
+            if (endLevel >= 40) endLevel = 40;
              level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? endLevel : startLevel)/*endLevel*/);
         }
 

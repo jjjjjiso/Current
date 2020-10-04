@@ -29,14 +29,21 @@ namespace WaterBlast.Game.UI
             else
             {
                 //아이템 샵 팝업.
-                string msg = string.Format("Removes any cube or obstacle!");
-                PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ItemPopup", "Item Popup", "HAMMER", msg, "BUY");
-                temp.GetComponent<PopupItem>().ItemSetting("item_hammer", 200);
-
-                temp.onConfirm += () =>
+                int count = 3;
+                if (UserDataMgr.G.IsCoins(count))
                 {
-
-                };
+                    PopupMgr.G.ShowItemPopup("Item Popup", "HAMMER", "Removes any cube or obstacle!", "BUY", 
+                                             "item_hammer", count, GameDataMgr.G.itemCost, () =>
+                                             {
+                                                 UserDataMgr.G.CoinsUsed(GameDataMgr.G.itemCost * count);
+                                                 UserDataMgr.G.availableInGameItemCount[index] += count;
+                                                 UpdateInGameItemCount(index);
+                                             });
+                }
+                else
+                {
+                    PopupMgr.G.ShowAdsPopup(null, "Not enough coins." + "\n" + "Watch ads and get rewarded.", "OK");
+                }
             }
         }
     }

@@ -49,11 +49,13 @@ namespace WaterBlast.Game.Common
         public int currRadiationCount = 0;
 
         private List<GameObject> backgrounds = new List<GameObject>();
+        private List<GameObject> trashBoxs = new List<GameObject>();
 
         public void Reset()
         {
             foreach(BlockEntity block in blockEntities)
             {
+                if (block == null) continue;
                 ReturnObject(block.gameObject);
             }
             
@@ -62,6 +64,13 @@ namespace WaterBlast.Game.Common
                 if (blocker == null) continue;
                 ReturnObject(blocker.gameObject);
             }
+
+            foreach (GameObject obj in trashBoxs)
+            {
+                if (obj == null) continue;
+                ReturnObject(obj);
+            }
+            trashBoxs.Clear();
 
             foreach (GameObject obj in backgrounds)
             {
@@ -102,6 +111,7 @@ namespace WaterBlast.Game.Common
             wSize = 72;
             hSize = 73; //원래 h 사이즈 - 85
 
+            bool isTrash = false;
             for (int x = 0; x < width; ++x)
             {
                 pos.x = Point(x, width, wSize);
@@ -128,7 +138,8 @@ namespace WaterBlast.Game.Common
                                 break;
                         }
                     }
-                    
+
+                    if (!isTrash && temp is Block && IsCheckTrashType((temp as Block)._BlockType)) isTrash = true;
                     if (temp is Block && (temp as Block)._BlockType == BlockType.sticky) ++oldStickyBlockCount;
 
                     temp.SetDepth(y + 11);
@@ -166,6 +177,21 @@ namespace WaterBlast.Game.Common
                             blockDef.Add(new BlockDef(x, y));
                         }
                     }
+                }
+            }
+
+            if (isTrash)
+            {
+                for (int x = 0; x < width; ++x)
+                {
+                    var temp = gameMgr.gamePools.GetTrashBox();
+                    if (temp == null) continue;
+
+                    pos = blockEntities[x, 0]._LocalPosition;
+                    pos.y -= 70;
+                    temp.transform.localPosition = pos;
+                    temp.SetActive(true);
+                    trashBoxs.Add(temp);
                 }
             }
         }
