@@ -50,15 +50,20 @@ namespace WaterBlast.Game.Common
 
         public void ShowAds()
         {
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             PopupMgr.G.ShowAdsPopup(null, "Watch ads and get rewarded.", "OK");
         }
 
         public void ShowPurchaseLife()
         {
             if (UserDataMgr.G.IsMaxLife()) return;
+
             int count = 1;
             if (UserDataMgr.G.IsCoins(count))
             {
+                SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
                 PopupMgr.G.ShowItemPopup("Life Item Popup", "LIFE", "You can play the game with life!", "BUY", 
                                          "life_icon", count, GameDataMgr.G.itemCost, () =>
                                          {

@@ -45,17 +45,20 @@ namespace WaterBlast.Game.Popup
 
         public void OnConfirm()
         {
+            Manager.SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             if (onConfirm != null)
             {
                 onConfirm();
             }
 
             if (IsDelayCloseConfirm) Delay(Close, 0.3f);
-            //Close();
         }
 
         public void OnExit()
         {
+            Manager.SoundMgr.G.EffectPlay(System.EffectSound.btn_cancel);
+
             if (onExit != null)
             {
                 onExit();

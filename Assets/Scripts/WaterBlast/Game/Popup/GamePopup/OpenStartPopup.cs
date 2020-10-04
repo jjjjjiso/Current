@@ -9,6 +9,8 @@ namespace WaterBlast.Game.Popup
     {
         public void OnPressed()
         {
+            SoundMgr.G.EffectPlay(EffectSound.btn_ok);
+
             if (UserDataMgr.G.life <= 0)
             {
                 int count = 1;

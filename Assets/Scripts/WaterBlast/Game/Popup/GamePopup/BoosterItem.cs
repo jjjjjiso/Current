@@ -30,6 +30,9 @@ namespace WaterBlast.Game.Popup
         public void OnPressed()
         {
             if (isLock) return;
+
+            SoundMgr.G.EffectPlay(EffectSound.btn_ok);
+
             int idx = (int)(type - 1);
             if (itemCount > 0)
             {

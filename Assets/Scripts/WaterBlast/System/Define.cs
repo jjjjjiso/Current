@@ -79,4 +79,30 @@
         home,
         shop
     }
+
+    public enum BGMSound
+    {
+        lobby,
+        stage,
+    }
+
+    public enum EffectSound
+    {
+        btn_ok,
+        btn_cancel,
+        block,
+        block_miss,
+        trash_down,
+        bubble_pop,
+
+        arrow_bomb,
+        bomb,
+        
+        glove,
+        hammer,
+        mix,
+
+        win,
+        lose,
+    }
 }

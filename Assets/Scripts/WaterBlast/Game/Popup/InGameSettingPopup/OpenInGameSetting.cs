@@ -16,7 +16,9 @@ namespace WaterBlast.Game.Popup
 
         public void OnPressed()
         {
-            if(popup == null)
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
+            if (popup == null)
             {
                 oldDepth = uiSettingPanel.depth;
                 uiSettingPanel.depth = 5;
@@ -26,7 +28,7 @@ namespace WaterBlast.Game.Popup
                 popup.onQuit += () =>
                 {
                     PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ExitGamePopup", "Exit Popup", null, null, "QUIT");
-                    temp.onExit += () =>
+                    temp.onConfirm += () =>
                     {
                         temp.Close();
                         GameMgr.G.Failed();
@@ -34,16 +36,6 @@ namespace WaterBlast.Game.Popup
 
                     uiSettingPanel.depth = oldDepth;
                     uiBlack.SetActive(false);
-                };
-
-                popup.onBGM += () =>
-                {
-
-                };
-
-                popup.onEffect += () =>
-                {
-
                 };
             }
             else

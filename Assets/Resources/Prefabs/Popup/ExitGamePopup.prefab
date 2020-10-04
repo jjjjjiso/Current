@@ -309,7 +309,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 114985368012740386}
-    mMethodName: OnExit
+    mMethodName: OnConfirm
     mParameters: []
     oneShot: 0
 --- !u!114 &1105059233313581542
@@ -432,7 +432,7 @@ MonoBehaviour:
   anchorOffset: 0
   softBorderPadding: 1
   renderQueue: 0
-  startingRenderQueue: 3023
+  startingRenderQueue: 3001
   mClipTexture: {fileID: 0}
   mAlpha: 1
   mClipping: 0
@@ -604,7 +604,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 114985368012740386}
-    mMethodName: Close
+    mMethodName: OnExit
     mParameters: []
     oneShot: 0
 --- !u!114 &2603407523617423586

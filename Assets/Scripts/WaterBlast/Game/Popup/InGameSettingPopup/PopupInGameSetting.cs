@@ -42,6 +42,8 @@ namespace WaterBlast.Game.Popup
 
         public void OnQuit()
         {
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             if (onQuit != null)
             {
                 onQuit();
@@ -54,6 +56,8 @@ namespace WaterBlast.Game.Popup
 
         public void OnExit()
         {
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             anim.SetTrigger("OffPressed");
 
             Delay(Close, .2f);
@@ -61,6 +65,8 @@ namespace WaterBlast.Game.Popup
 
         public void OnBGM()
         {
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             if (onBGM != null)
             {
                 onBGM();
@@ -76,10 +82,14 @@ namespace WaterBlast.Game.Popup
                 uiBGM.normalSprite = blue;
                 GameDataMgr.G.isBGM = true;
             }
+
+            SoundMgr.G.SetBGM(GameDataMgr.G.isBGM);
         }
 
         public void OnEffect()
         {
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
+
             if (onEffect != null)
             {
                 onEffect();
