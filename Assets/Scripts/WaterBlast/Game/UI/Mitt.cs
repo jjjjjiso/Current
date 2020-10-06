@@ -19,6 +19,8 @@ namespace WaterBlast.Game.UI
             if (isLock) return;
             if (!IsWhetherOrNotToUse()) return;
 
+            SoundMgr.G.EffectPlay(EffectSound.btn_ok);
+
             int index = (type == MittType.horizon) ? (int)ItemType.horizon : (int)ItemType.vertical;
             if (UserDataMgr.G.availableInGameItemCount[index] > 0)
             {

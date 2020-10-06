@@ -90,7 +90,7 @@
     {
         btn_ok,
         btn_cancel,
-        block,
+        block_pop,
         block_miss,
         trash_down,
         bubble_pop,
@@ -104,5 +104,8 @@
 
         win,
         lose,
+
+        popup_open,
+        booster_change,
     }
 }

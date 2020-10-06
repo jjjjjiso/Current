@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 using WaterBlast.System;
@@ -9,7 +10,11 @@ namespace WaterBlast.Game.Manager
     {
         public AudioSource sourceBgm = null;
         public AudioSource sourceEffect = null;
-        
+        public AudioSource sourceGameEffect = null;
+
+        public Transform tranGame;
+        private List<AudioSource> sourceGameEffects;
+
         [Header("BGM Clips"), Tooltip("오디오 클립들")]
         public AudioClip[] BGMClips = null;
         [Header("FX Clips"), Tooltip("오디오 클립들")]
@@ -18,9 +23,23 @@ namespace WaterBlast.Game.Manager
         private float time;
         private float mLastTimestamp = 0f;
 
+        private int gameEffectIndex = 0;
+
         protected override void OnAwake()
         {
+            if (sourceGameEffects == null) sourceGameEffects = new List<AudioSource>();
+
             if (BGMClips.Length > 0) BGMPlay(BGMClips[(int)BGMSound.lobby], 0.3f);
+            gameEffectIndex = 0;
+        }
+
+        public void RemoveGameEffect()
+        {
+            foreach (var tmp in sourceGameEffects)
+            {
+                Destroy(tmp.gameObject);
+            }
+            sourceGameEffects.Clear();
         }
 
         public void SetBGM(bool isValue)
@@ -40,7 +59,7 @@ namespace WaterBlast.Game.Manager
 
         public void BGMChangePlay(BGMSound bgmSound, float volume = 1f, float changeSpeed = 1f, float waitTime = 1f, float maxTime = 1f, bool isSmooth = false)
         {
-            if (!GameDataMgr.G.isBGM || BGMClips.Length <= 0) return;
+            if (!GameDataMgr.G.isBGM || BGMClips.Length <= 0 || BGMClips.Length <= (int)bgmSound) return;
 
             time = RealTime.time;
             if (sourceBgm.clip == BGMClips[(int)bgmSound] && mLastTimestamp + 0.1f > time) return;
@@ -84,7 +103,7 @@ namespace WaterBlast.Game.Manager
 
         public void EffectPlay(EffectSound effectSound, float volume = 1f, bool isLoop = false)
         {
-            if (!GameDataMgr.G.isEffect || EffectClips.Length <= 0) return;
+            if (!GameDataMgr.G.isEffect || EffectClips.Length <= 0 || EffectClips.Length <= (int)effectSound) return;
 
             time = RealTime.time;
             if (sourceBgm.clip == EffectClips[(int)effectSound] && mLastTimestamp + 0.1f > time) return;
@@ -94,6 +113,37 @@ namespace WaterBlast.Game.Manager
             sourceEffect.loop = isLoop;
             sourceEffect.volume = volume;
             sourceEffect.Play();
+        }
+
+        public void GameEffectPlay(EffectSound effectSound, float volume = 1f, bool isLoop = false)
+        {
+            if (!GameDataMgr.G.isEffect || EffectClips.Length <= 0 || EffectClips.Length <= (int)effectSound) return;
+
+            AudioSource tmpAudio = GetGameEffect();
+            if (tmpAudio == null) return;
+
+            tmpAudio.clip = EffectClips[(int)effectSound];
+            tmpAudio.loop = isLoop;
+            tmpAudio.volume = volume;
+            tmpAudio.Play();
+        }
+
+        private AudioSource GetGameEffect()
+        {
+            for (int i = 0; i < sourceGameEffects.Count; ++i)
+            {
+                if (sourceGameEffects[i].isPlaying) continue;
+                sourceGameEffects[i].clip = null;
+                return sourceGameEffects[i];
+            }
+
+            AudioSource tmp = Instantiate(sourceGameEffect);
+            tmp.transform.SetParent(tranGame);
+            tmp.transform.localPosition = Vector3.zero;
+            tmp.transform.localScale = Vector3.one;
+
+            sourceGameEffects.Add(tmp);
+            return tmp;
         }
     }
 }

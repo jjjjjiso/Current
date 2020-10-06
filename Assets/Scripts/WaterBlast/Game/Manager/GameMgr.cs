@@ -51,6 +51,11 @@ namespace WaterBlast.Game.Manager
             GameStart();
         }
 
+        private void OnDestroy()
+        {
+            SoundMgr.G.RemoveGameEffect();
+        }
+
         private void Reset()
         {
             UserDataMgr.G.SetUseStartItem();
@@ -254,6 +259,7 @@ namespace WaterBlast.Game.Manager
             uiSettingBtn.enabled = false;
             yield return new WaitForSeconds(0.5f);
 
+            SoundMgr.G.GameEffectPlay(EffectSound.win);
             textAnim.SetTrigger("ClearOn");
             yield return new WaitForSeconds(0.8f);
 
@@ -292,6 +298,7 @@ namespace WaterBlast.Game.Manager
 
             yield return new WaitForSeconds(.5f);
 
+            SoundMgr.G.GameEffectPlay(EffectSound.lose);
             textAnim.SetTrigger("FailedOn");
             yield return new WaitForSeconds(0.8f);
 

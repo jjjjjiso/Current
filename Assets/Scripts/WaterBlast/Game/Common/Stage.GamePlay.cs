@@ -48,6 +48,8 @@ namespace WaterBlast.Game.Common
             
             if (matchedBlocks.Count >= 2) //2개 이상 터트리기.
             {
+                SoundMgr.G.GameEffectPlay(EffectSound.block_pop);
+
                 AddCollectedBlock(matchedBlocks);               //미션 체크.
                 GameMgr.G.ReduceTheNumberOfLimitCount();        //제한 횟수 감소
                 UpdateScore(matchedBlocks.Count * basicScore);  // 점수 (버블 점수 어찌 할지 상의 후 코드 수정)
@@ -94,6 +96,8 @@ namespace WaterBlast.Game.Common
             }
             else
             {
+                SoundMgr.G.GameEffectPlay(EffectSound.block_miss);
+
                 pickBlock.PlayAnim("NoMatches");
                 pickBlock._State = State.idle;
             }
@@ -152,7 +156,7 @@ namespace WaterBlast.Game.Common
                 if (!isCombo)
                     StartCoroutine(Co_CreateBoosterParticles(pickBooster, false));
 
-                StartCoroutine(Co_BoosterMatch(matchedBlocks));
+                StartCoroutine(Co_BoosterMatch(matchedBlocks, pickBooster._BoosterType, isComboCheck));
             }
         }
 
@@ -301,6 +305,7 @@ namespace WaterBlast.Game.Common
         IEnumerator Co_BoosterChange(int x, int y, int count, bool isStartItem = false)
         {
             while (IsMoving(State.booster_move)) yield return null;
+
             var hitBlock = blockEntities[x, y] as Block;
             BlockType colorType = (hitBlock != null) ? hitBlock._BlockType : BlockType.empty;
             ReturnObject(hitBlock.gameObject);
@@ -349,9 +354,21 @@ namespace WaterBlast.Game.Common
         }
 
         bool isBooFirst = false;
-        IEnumerator Co_BoosterMatch(List<BlockEntity> boosters)
+        IEnumerator Co_BoosterMatch(List<BlockEntity> boosters, BoosterType type, bool isComboCheck = true)
         {
             while (IsMoving(State.booster_move)) yield return null;
+
+            if (isComboCheck)
+            {
+                EffectSound sound = EffectSound.arrow_bomb;
+                switch (type)
+                {
+                    case BoosterType.bomb: sound = EffectSound.bomb; break;
+                    case BoosterType.rainbow: break;
+                }
+                SoundMgr.G.GameEffectPlay(sound);
+            }
+
             ComboBoostersClear();
             int defCount = boosters.Count;
             int count = 0;
@@ -504,7 +521,7 @@ namespace WaterBlast.Game.Common
 
             StartCoroutine(Co_ArrowBombAndBombParticles(x, y));
             
-            StartCoroutine(Co_BoosterMatch(blocks));
+            StartCoroutine(Co_BoosterMatch(blocks, BoosterType.arrow));
         }
 
         private void RainbowAndAnotherBomb(BoosterType type, int bonusScore)
@@ -598,6 +615,8 @@ namespace WaterBlast.Game.Common
             hammer.GetComponent<Animator>().SetTrigger("Plump");
 
             yield return new WaitForSeconds(.6f);
+
+            SoundMgr.G.GameEffectPlay(EffectSound.hammer);
 
             isWait = false;
 
@@ -727,6 +746,8 @@ namespace WaterBlast.Game.Common
         IEnumerator Co_MittMove(Vector2 startPos, Vector2 endPos, int index)
         {
             while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
+
+            SoundMgr.G.GameEffectPlay(EffectSound.glove);
 
             isWait = true;
             GameObject mitt = GameMgr.G.gameItemAnim[index];
@@ -990,6 +1011,8 @@ namespace WaterBlast.Game.Common
             while (IsMoving(State.move)) yield return null;
             while (IsMoving(State.booster_move)) yield return null;
 
+            SoundMgr.G.GameEffectPlay(EffectSound.trash_down);
+
             float movePosY = block.transform.localPosition.y - block._BlockHeightSize;
             LeanTween.value(block.gameObject, (value) =>
             {
@@ -1140,6 +1163,8 @@ namespace WaterBlast.Game.Common
 
         private void AllMixBlocks()
         {
+            SoundMgr.G.GameEffectPlay(EffectSound.mix);
+
             List<BlockEntity> tempEntities = MixBlocks();
             Block block = null;
             for (int i = 0; i < tempEntities.Count; ++i)
@@ -1199,6 +1224,8 @@ namespace WaterBlast.Game.Common
 
         private void CreateBooster(GameObject booster, int x, int y)
         {
+            SoundMgr.G.GameEffectPlay(EffectSound.booster_change);
+
             booster.transform.localPosition = blockEntities[x, y]._LocalPosition;
             BlockEntity entity = booster.GetComponent<BlockEntity>();
             Assert.IsNotNull(entity);
@@ -1277,6 +1304,7 @@ namespace WaterBlast.Game.Common
             Blocker blocker = blockEntity as Blocker;
             if (blocker._BlockerType == BlockerType.bubble)
             {
+                SoundMgr.G.GameEffectPlay(EffectSound.bubble_pop);
                 ReturnBlockerObject(blocker);
             }
             else if (blocker._BlockerType == BlockerType.radiation)
@@ -1644,7 +1672,7 @@ namespace WaterBlast.Game.Common
                     }
                 }
                 
-                yield return StartCoroutine(Co_BoosterMatch(blocks));
+                yield return StartCoroutine(Co_BoosterMatch(blocks, booster._BoosterType));
                 ++count;
             }
 
