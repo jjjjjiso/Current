@@ -39,42 +39,40 @@ namespace WaterBlast.Game.Popup
 
             if (isFadeCheck && Input.GetKeyDown(KeyCode.Escape))
             {
-                //bool isPopup = (stackPopup.Count == 0) ? false : true;
-                //if (isPopup) // 열린 팝업들이 있다.
-                //{
-                //    Popup popup = stackPopup.Pop();
-                //    if (popup.GetID() == QUIT)
-                //    {
-                //        //원상 복구.
-                //        Time.timeScale = 1;
-                //    }
-
-                //    popup.Close();
-                //}
-                //else
+                bool isPopup = (stackPopup.Count == 0) ? false : true;
+                if (isPopup) // 열린 팝업들이 있다.
                 {
-                    //시간 멈춤.
-                    //Time.timeScale = 0;
+                    Popup popup = stackPopup.Pop();
+                    popup.Close();
+                    if (popup.GetID() == "In Game Setting") GameMgr.G.uiSettingBtn.OnPressed();
+                    else if (popup.GetID() == "SuccessPopup" || popup.GetID() == "FailedPopup") GameMgr.G.GoLooby();
+                    else if (popup.GetID() == "Failed Moves Popup") GameMgr.G.Failed();
+                }
+                else
+                {
+                    for (int i = 0; i < GameDataMgr.G.isUseInGameItem.Length; ++i)
+                    {
+                        if (GameDataMgr.G.isUseInGameItem[i])
+                        {
+                            GameDataMgr.G.isUseInGameItem[i] = false;
+                            GameMgr.G.itemUIElements.items[i].ResetInfo();
+                            return;
+                        }
+                    }
 
-//                    PopupYesNo temp = PopupYesNo.Open(QUIT, DataMgr.G.GetIndexUIText(1000));
-//                    if (temp != null)
-//                    {
-//                        temp.onYes += () =>
-//                        {
+                    PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/QuitPopup", "Quit", "Are You Sure?", "Do you want to quit?", "QUIT", false);
+                    if (temp != null)
+                    {
+                        temp.onConfirm += () =>
+                        {
 #if (UNITY_ANDROID && UNITY_EDITOR)
                             UnityEditor.EditorApplication.isPlaying = false;
 
 #elif (UNITY_ANDROID && !UNITY_EDITOR)
                             Application.Quit();
 #endif
-//                        };
-
-//                        temp.onNo += () =>
-//                        {
-//                            //원상 복구.
-//                            Time.timeScale = 1;
-//                        };
-//                    }
+                        };
+                    }
                 }
             }
         }

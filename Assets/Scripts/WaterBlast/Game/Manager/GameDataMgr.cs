@@ -49,6 +49,8 @@ namespace WaterBlast.Game.Manager
         [NonSerialized]
         public Level level = null;
 
+        private int maxLevel = 100;
+
         protected override void OnAwake()
         {
             Load();
@@ -77,7 +79,7 @@ namespace WaterBlast.Game.Manager
         public void UpdateLevel()
         {
             var serializer = new fsSerializer();
-            if (endLevel >= 40) endLevel = 40;
+            if (endLevel >= maxLevel) endLevel = maxLevel;
              level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? endLevel : startLevel)/*endLevel*/);
         }
 

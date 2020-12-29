@@ -59,7 +59,7 @@ namespace WaterBlast.Game.Popup
             else
             {
                 int count = 3;
-                if (UserDataMgr.G.IsCoins(count))
+                if (UserDataMgr.G.IsItemCoins(count))
                 {
                     TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
                     string boosterName = myTI.ToTitleCase(type.ToString()).ToUpper();

@@ -9,7 +9,7 @@ namespace WaterBlast.Game.Common
     {
         protected BlockType preType = BlockType.empty;
 
-        public override int BonusScore() { return 50; }
+        public override int BonusScore() { return 70; }
 
         public override List<BlockEntity> Match(int x, int y)
         {

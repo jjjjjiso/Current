@@ -18,7 +18,7 @@ namespace WaterBlast.Game.Common
         private readonly string RAINBOW_ICON_FORMAT = "rainbow_icon_{0}";
         private readonly string FACE_ICON_FORMAT    = "face_icon_{0}";
 
-        private const int basicScore   = 10;
+        private const int basicScore = 40;
 
         private List<Vector2> comboBoosterIndex = new List<Vector2>();
         private List<Booster> comboBoosters = new List<Booster>();
@@ -48,7 +48,7 @@ namespace WaterBlast.Game.Common
             
             if (matchedBlocks.Count >= 2) //2개 이상 터트리기.
             {
-                SoundMgr.G.GameEffectPlay(EffectSound.block_pop);
+                SoundMgr.G.GameEffectPlay(EffectSound.block_pop, 0.5f);
 
                 AddCollectedBlock(matchedBlocks);               //미션 체크.
                 GameMgr.G.ReduceTheNumberOfLimitCount();        //제한 횟수 감소
@@ -361,12 +361,14 @@ namespace WaterBlast.Game.Common
             if (isComboCheck)
             {
                 EffectSound sound = EffectSound.arrow_bomb;
+                float volume = 1f;
                 switch (type)
                 {
+                    case BoosterType.arrow: volume = 0.5f; break;
                     case BoosterType.bomb: sound = EffectSound.bomb; break;
-                    case BoosterType.rainbow: break;
+                    case BoosterType.rainbow: sound = EffectSound.rainbow_bomb; break;
                 }
-                SoundMgr.G.GameEffectPlay(sound);
+                SoundMgr.G.GameEffectPlay(sound, volume);
             }
 
             ComboBoostersClear();
@@ -590,6 +592,8 @@ namespace WaterBlast.Game.Common
         {
             while (IsMoving(State.move) || IsMoving(State.booster_move)) yield return null;
             isWait = true;
+
+            SoundMgr.G.GameEffectPlay(EffectSound.hammer_move);
 
             GameObject hammer = GameMgr.G.gameItemAnim[(int)ItemType.hammer];
             hammer.transform.localPosition = new Vector2(80f, -650f);
@@ -918,6 +922,15 @@ namespace WaterBlast.Game.Common
                     if (entity._BlockType != type) continue;
                     if (type == BlockType.box || type == BlockType.sticky) 
                     {
+                        if (type == BlockType.box)
+                        {
+                            SoundMgr.G.GameEffectPlay(EffectSound.box_pop);
+                        }
+                        else if (type == BlockType.sticky)
+                        {
+                            SoundMgr.G.GameEffectPlay(EffectSound.sticky_pop);
+                        }
+
                         AddCollectedBlock(entity);
                         UpdateCurStickyBlockCount(entity);
 

@@ -8,7 +8,7 @@ namespace WaterBlast.Game.Common
 {
     public class Bomb : Booster
     {
-        public override int BonusScore() { return 30; }
+        public override int BonusScore() { return 60; }
 
         public override List<BlockEntity> Match(int x, int y)
         {

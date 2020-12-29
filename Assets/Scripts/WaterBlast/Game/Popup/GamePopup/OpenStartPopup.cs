@@ -14,7 +14,7 @@ namespace WaterBlast.Game.Popup
             if (UserDataMgr.G.life <= 0)
             {
                 int count = 1;
-                if (UserDataMgr.G.IsCoins(count))
+                if (UserDataMgr.G.IsItemCoins(count))
                 {
                     PopupMgr.G.ShowItemPopup("Life Item Popup", "LIFE", "You can play the game with life!", "BUY", "life_icon",
                                              count, GameDataMgr.G.itemCost, () =>

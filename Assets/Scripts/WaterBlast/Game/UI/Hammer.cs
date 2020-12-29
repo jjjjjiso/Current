@@ -32,7 +32,7 @@ namespace WaterBlast.Game.UI
             {
                 //아이템 샵 팝업.
                 int count = 3;
-                if (UserDataMgr.G.IsCoins(count))
+                if (UserDataMgr.G.IsItemCoins(count))
                 {
                     PopupMgr.G.ShowItemPopup("Item Popup", "HAMMER", "Removes any cube or obstacle!", "BUY", 
                                              "item_hammer", count, GameDataMgr.G.itemCost, () =>

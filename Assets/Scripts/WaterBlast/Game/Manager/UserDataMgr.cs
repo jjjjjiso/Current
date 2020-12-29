@@ -92,7 +92,12 @@ namespace WaterBlast.Game.Manager
             if (coin < 0) coin = 0;
         }
 
-        public bool IsCoins(int itemCnt)
+        public bool IsCoins(int useCoin)
+        {
+            return coin >= useCoin;
+        }
+
+        public bool IsItemCoins(int itemCnt)
         {
             return coin >= (GameDataMgr.G.itemCost * itemCnt);
         }

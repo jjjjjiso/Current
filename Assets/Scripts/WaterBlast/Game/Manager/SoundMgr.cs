@@ -28,15 +28,15 @@ namespace WaterBlast.Game.Manager
         protected override void OnAwake()
         {
             if (sourceGameEffects == null) sourceGameEffects = new List<AudioSource>();
-
-            if (BGMClips.Length > 0) BGMPlay(BGMClips[(int)BGMSound.lobby], 0.3f);
             gameEffectIndex = 0;
         }
 
         public void RemoveGameEffect()
         {
+            if (sourceGameEffects == null || sourceGameEffects.Count <= 0) return;
             foreach (var tmp in sourceGameEffects)
             {
+                if (tmp == null) continue;
                 Destroy(tmp.gameObject);
             }
             sourceGameEffects.Clear();

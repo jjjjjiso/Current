@@ -40,7 +40,7 @@ namespace WaterBlast.Game.UI
             {
                 //샵 팝업.
                 int count = 3;
-                if (UserDataMgr.G.IsCoins(count))
+                if (UserDataMgr.G.IsItemCoins(count))
                 {
                     string title = null;
                     string msg = null;

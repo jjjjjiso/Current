@@ -16,7 +16,7 @@ namespace WaterBlast.Game.Common
     {
         protected ArrowType arrowType = ArrowType.horizon;
 
-        public override int BonusScore() { return 20; }
+        public override int BonusScore() { return 50; }
 
         public override List<BlockEntity> Match(int x, int y)
         {

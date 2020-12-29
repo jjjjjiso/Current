@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
 
+using WaterBlast.Game.Popup;
+
 namespace WaterBlast.Game.Manager
 {
     public class AdsMgr : MonoDontDestroySingleton<AdsMgr>
@@ -87,12 +89,12 @@ namespace WaterBlast.Game.Manager
 
         private void DoSomeSkippedAction()
         {
-
+            PopupConfirm.Open("Prefabs/Popup/QuitPopup", "QuitPopup", "Ad skip!", "It is skipped and cannot be rewarded.", "OK");
         }
 
         private void DoSomeSkippedFailed()
         {
-
+            PopupConfirm.Open("Prefabs/Popup/QuitPopup", "QuitPopup", "Sorry", "The ad failed to be shown. \n Please try again.", "OK");
         }
     }
 }

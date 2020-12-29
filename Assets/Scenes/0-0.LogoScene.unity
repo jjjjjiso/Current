@@ -79,7 +79,7 @@ LightmapSettings:
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 1
+    m_PVRFilteringMode: 2
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTestScene: 0
   startLevel: 1
-  endLevel: 24
+  endLevel: 1
   isBGM: 1
   isEffect: 1
 --- !u!4 &13049448
@@ -284,7 +284,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1176,7 +1176,8 @@ MonoBehaviour:
   sourceEffect: {fileID: 1524931608}
   sourceGameEffect: {fileID: 399269463}
   tranGame: {fileID: 179046713}
-  BGMClips: []
+  BGMClips:
+  - {fileID: 8300000, guid: 58c9dda294515ba439ea40d60d6bbc44, type: 3}
   EffectClips:
   - {fileID: 8300000, guid: 96d1eb5a28c5e8242b79658525392775, type: 3}
   - {fileID: 8300000, guid: 02227ddbb4494074c8bce63c9e0c7a3f, type: 3}
@@ -1186,6 +1187,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9983dabdd8c05fe48a4506ace4b95a14, type: 3}
   - {fileID: 8300000, guid: aef103fd36640fb459958a78c1844366, type: 3}
   - {fileID: 8300000, guid: 2eccc35edc680c74fa624ec83a383656, type: 3}
+  - {fileID: 8300000, guid: fca61ff9d1e36a940ae15728843e399c, type: 3}
   - {fileID: 8300000, guid: 97f76be438bce604ba9789a63b5b3573, type: 3}
   - {fileID: 8300000, guid: dbcc03b8c833b7f418e540e9e8520f8b, type: 3}
   - {fileID: 8300000, guid: 57d54674a0210a944ae61c6842724a2c, type: 3}
@@ -1193,6 +1195,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 522fb21a1557d244e910cf78bf1193ed, type: 3}
   - {fileID: 8300000, guid: 02b2c24fbe094c24780cfe7f31f36e3d, type: 3}
   - {fileID: 8300000, guid: d33facbab93e55a47a6df6478f60adfb, type: 3}
+  - {fileID: 8300000, guid: bd2ac92443d737d42b3aed8b27ac73dc, type: 3}
+  - {fileID: 8300000, guid: 25ac0c797b017ee40817a59b41900dd1, type: 3}
+  - {fileID: 8300000, guid: ad6dc410a9c76af4f8c3b485b847ec72, type: 3}
 --- !u!1 &2047206482
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,7 @@ namespace WaterBlast.Game.UI
 {
     public class ItemUIElements : MonoBehaviour
     {
-        [SerializeField]
-        private Item[] items = null;
+        public Item[] items = null;
 
         public void ItemSetting(ItemType type, bool isEnable)
         {

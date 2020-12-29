@@ -8,6 +8,7 @@ namespace WaterBlast.Game.Popup
 {
     public class OpenInGameSetting : MonoBehaviour
     {
+        public UIButton btn;
         [SerializeField] private UIPanel uiSettingPanel = null;
         [SerializeField] private GameObject uiBlack = null;
 
@@ -22,7 +23,7 @@ namespace WaterBlast.Game.Popup
             {
                 oldDepth = uiSettingPanel.depth;
                 uiSettingPanel.depth = 5;
-                uiBlack.SetActive(true);
+                ActiveBlack(true);
 
                 popup = PopupInGameSetting.Open("In Game Setting");
                 popup.onQuit += () =>
@@ -35,15 +36,20 @@ namespace WaterBlast.Game.Popup
                     };
 
                     uiSettingPanel.depth = oldDepth;
-                    uiBlack.SetActive(false);
+                    ActiveBlack(false);
                 };
             }
             else
             {
                 popup.OnExit();
                 uiSettingPanel.depth = oldDepth;
-                uiBlack.SetActive(false);
+                ActiveBlack(false);
             }
+        }
+
+        public void ActiveBlack(bool isValue)
+        {
+            uiBlack.SetActive(isValue);
         }
     }
 }

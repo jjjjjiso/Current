@@ -28,7 +28,7 @@ namespace WaterBlast.Game.Popup
         {
             PopupConfirm temp = Popup.Create<PopupConfirm>(path, ID);
 
-            Manager.SoundMgr.G.EffectPlay(System.EffectSound.popup_open);
+            Manager.SoundMgr.G.GameEffectPlay(System.EffectSound.popup_open);
 
             if (!string.IsNullOrEmpty(title)   && temp.uiTitle   != null) { temp.uiTitle.text   = title/*DataMgr.G.GetIndexUIText(204)*/; }
             if (!string.IsNullOrEmpty(message) && temp.uiMessage != null) { temp.uiMessage.text = message/*DataMgr.G.GetIndexUIText(204)*/; }

@@ -1137,6 +1137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4701d5dcebeb22b4ea46eff76579d269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  btn: {fileID: 235953617}
   uiSettingPanel: {fileID: 1132777286}
   uiBlack: {fileID: 941949602}
 --- !u!114 &235953617
@@ -3268,7 +3269,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 941949602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Script: {fileID: 11500000, guid: d5c5ca47aa5c01740810b7c66662099f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
@@ -3288,13 +3289,13 @@ MonoBehaviour:
     relative: 1
     absolute: 0
   updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 0.5882353}
+  mColor: {r: 1, g: 1, b: 1, a: 0.7058824}
   mPivot: 4
   mWidth: 1300
   mHeight: 1800
   mDepth: 9
   mMat: {fileID: 0}
-  autoResizeBoxCollider: 1
+  autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 0.7222222
@@ -3311,9 +3312,16 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 114558682597699628, guid: 106a343e004f77c479ff9f291bd700fa, type: 3}
-  mSpriteName: black
-  mFillCenter: 1
+  mRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  mTexture: {fileID: 2800000, guid: 4613104e04a01174dbdbf01e67dd3685, type: 3}
+  mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
+  mBorder: {x: 0, y: 0, z: 0, w: 0}
+  mFixedAspect: 0
 --- !u!65 &941949605
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8615,7 +8623,7 @@ MonoBehaviour:
   textAnim: {fileID: 1774534850}
   backgroundParent: {fileID: 1877015157}
   backgroundSprite: {fileID: 21300000, guid: 24f802e8015b9fc4db9807396440aedb, type: 3}
-  uiSettingBtn: {fileID: 235953617}
+  uiSettingBtn: {fileID: 235953616}
   availableColors: 
 --- !u!4 &2079392923
 Transform:

@@ -31,8 +31,8 @@ namespace WaterBlast.Game.Manager
         private Transform backgroundParent = null;
         [SerializeField]
         private Sprite backgroundSprite = null;
-        [SerializeField]
-        private UIButton uiSettingBtn;
+        
+        public OpenInGameSetting uiSettingBtn;
 
         private Stage stage = null;
         private GameState gameState = null;
@@ -117,7 +117,7 @@ namespace WaterBlast.Game.Manager
             gameUI.progressBar.Init(level.score1, level.score2, level.score3);
             gameUI.SetBG(level.id);
             Reset();
-            uiSettingBtn.enabled = true;
+            uiSettingBtn.btn.enabled = true;
 
             PopupGoal.Open("Goal Popup", level.goals);
         }
@@ -256,7 +256,7 @@ namespace WaterBlast.Game.Manager
 
         IEnumerator Co_Success()
         {
-            uiSettingBtn.enabled = false;
+            uiSettingBtn.btn.enabled = false;
             yield return new WaitForSeconds(0.5f);
 
             SoundMgr.G.GameEffectPlay(EffectSound.win);
@@ -274,16 +274,12 @@ namespace WaterBlast.Game.Manager
 
             temp.onConfirm += () =>
             {
-                sceneFade.delayTime = 0.15f;
-                sceneFade.fadeTime = 0.3f;
-                sceneFade.OnPressed();
+                GoLooby();
             };
 
             temp.onExit += () =>
             {
-                sceneFade.delayTime = 0.15f;
-                sceneFade.fadeTime = 0.3f;
-                sceneFade.OnPressed();
+                GoLooby();
             };
 
             ++GameDataMgr.G.endLevel;
@@ -292,7 +288,7 @@ namespace WaterBlast.Game.Manager
 
         IEnumerator Co_Failed()
         {
-            uiSettingBtn.enabled = false;
+            uiSettingBtn.btn.enabled = false;
             while (stage.isWait) yield return null;
             while (stage.IsMoving(State.move)) yield return null;
 
@@ -308,14 +304,15 @@ namespace WaterBlast.Game.Manager
 
             noMoves.onConfirm += () =>
             {
-                if (UserDataMgr.G.coin >= 100)
+                int useCoin = 100;
+                if (UserDataMgr.G.IsCoins(useCoin))
                 {
                     currentLimit = 5;
                     UpdateLimitCount();
                     stage.BlockIconSetting();
                     isGameEnd = false;
-                    uiSettingBtn.enabled = true;
-                    UserDataMgr.G.CoinsUsed(100);
+                    uiSettingBtn.btn.enabled = true;
+                    UserDataMgr.G.CoinsUsed(useCoin);
                     if (popupNoMoves != null) popupNoMoves.SetCoin();
                     noMoves.Close();
                 }
@@ -365,7 +362,7 @@ namespace WaterBlast.Game.Manager
                 else
                 {
                     int count = 1;
-                    if (UserDataMgr.G.IsCoins(count))
+                    if (UserDataMgr.G.IsItemCoins(count))
                     {
                         PopupMgr.G.ShowItemPopup("Life Item Popup", "LIFE", "You can play the game with life!", "BUY",
                                                  "life_icon", count, GameDataMgr.G.itemCost, () =>
@@ -384,10 +381,15 @@ namespace WaterBlast.Game.Manager
 
             temp.onExit += () =>
             {
-                sceneFade.delayTime = 0.15f;
-                sceneFade.fadeTime = 0.3f;
-                sceneFade.OnPressed();
+                GoLooby();
             };
+        }
+
+        public void GoLooby()
+        {
+            sceneFade.delayTime = 0.15f;
+            sceneFade.fadeTime = 0.3f;
+            sceneFade.OnPressed();
         }
 
         //Property

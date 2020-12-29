@@ -14,6 +14,8 @@ namespace WaterBlast.Game.Manager
 
         private void Start()
         {
+            SoundMgr.G.BGMChangePlay(System.BGMSound.lobby);
+
             uiLobbyBg.UpdateBg();
             //uiLobbyBtnGrid.Init();
             levelNumber.Init();

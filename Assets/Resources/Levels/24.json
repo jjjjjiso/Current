@@ -257,9 +257,9 @@
             "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         },
         {
-            "blockerType": "bubble",
+            "blockType": "box",
             "amount": 15,
-            "$type": "WaterBlast.Game.Common.CollectBlockerGoal"
+            "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         }
     ],
     "availableColors": [

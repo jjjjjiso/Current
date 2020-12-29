@@ -60,7 +60,7 @@ namespace WaterBlast.Game.Common
             if (UserDataMgr.G.IsMaxLife()) return;
 
             int count = 1;
-            if (UserDataMgr.G.IsCoins(count))
+            if (UserDataMgr.G.IsItemCoins(count))
             {
                 SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
 

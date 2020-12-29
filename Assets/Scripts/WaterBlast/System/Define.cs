@@ -97,6 +97,7 @@
 
         arrow_bomb,
         bomb,
+        rainbow_bomb,
         
         glove,
         hammer,
@@ -107,5 +108,10 @@
 
         popup_open,
         booster_change,
+
+        box_pop,
+        sticky_pop,
+
+        hammer_move,
     }
 }

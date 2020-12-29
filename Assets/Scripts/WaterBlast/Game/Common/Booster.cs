@@ -25,7 +25,7 @@ namespace WaterBlast.Game.Common
         //public Method
         public virtual int BonusScore()
         {
-            return 0;
+            return 50;
         }
 
         public virtual List<BlockEntity> Match(int x, int y)
