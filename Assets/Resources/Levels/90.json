@@ -413,7 +413,7 @@
     "goals": [
         {
             "blockType": "can",
-            "amount": 28,
+            "amount": 8,
             "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         }
     ],

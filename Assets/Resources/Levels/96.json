@@ -413,7 +413,7 @@
     "goals": [
         {
             "blockType": "sticky",
-            "amount": 24,
+            "amount": 20,
             "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         },
         {
@@ -426,8 +426,7 @@
         "yellow",
         "green",
         "blue",
-        "red",
-        "purple"
+        "red"
     ],
     "score1": 800,
     "score2": 2000,

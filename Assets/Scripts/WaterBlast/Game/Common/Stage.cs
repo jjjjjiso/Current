@@ -268,6 +268,17 @@ namespace WaterBlast.Game.Common
 
             isWait = false;
             GameDataMgr.G.Reset();
+
+            yield return new WaitForSeconds(1f);
+
+            for (int x = 0; x < width; ++x)
+            {
+                var blockEntity = blockEntities[x, 0];
+                if (IsCheckBlock(blockEntity, BlockType.can) || IsCheckBlock(blockEntity, BlockType.paper))
+                {
+                    StartCoroutine(Co_MoveMission(blockEntity));
+                }
+            }
         }
     }
 }

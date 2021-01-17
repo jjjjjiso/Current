@@ -27,7 +27,7 @@ namespace WaterBlast.Game.Manager
 #if UNITY_ANDROID
             Advertisement.Initialize(android_game_id);
 #elif UNITY_IOS
-        Advertisement.Initialize(ios_game_id);
+            Advertisement.Initialize(ios_game_id);
 #endif
         }
 
@@ -73,7 +73,8 @@ namespace WaterBlast.Game.Manager
 
         private void DoSomeRewardAction()
         {
-            UserDataMgr.G.AddCoins(GameDataMgr.G.adsRewardCost);
+            UserDataMgr.G.AddCoins(UserDataMgr.G.coinRewardedCount < UserDataMgr.G.coinRewardedMaxCount ? GameDataMgr.G.adsRewardCost : GameDataMgr.G.itemCost);
+
             ++UserDataMgr.G.coinRewardedCount;
             if (UserDataMgr.G.coinRewardedCount > UserDataMgr.G.coinRewardedMaxCount)
                 UserDataMgr.G.coinRewardedCount = UserDataMgr.G.coinRewardedMaxCount;

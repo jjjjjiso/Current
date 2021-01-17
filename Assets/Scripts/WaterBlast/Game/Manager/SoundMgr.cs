@@ -44,22 +44,20 @@ namespace WaterBlast.Game.Manager
 
         public void SetBGM(bool isValue)
         {
-            if (isValue) BGMStop();
-            else BGMPlay();
+            if (isValue) BGMPlay();
+            else BGMStop();
         }
 
         public void BGMPlay(AudioClip changeClip, float volume)
         {
-            if (!GameDataMgr.G.isBGM) return;
-
             sourceBgm.clip = changeClip;
             sourceBgm.volume = volume;
-            sourceBgm.Play();
+            if (GameDataMgr.G.isBGM) sourceBgm.Play();
         }
 
         public void BGMChangePlay(BGMSound bgmSound, float volume = 1f, float changeSpeed = 1f, float waitTime = 1f, float maxTime = 1f, bool isSmooth = false)
         {
-            if (!GameDataMgr.G.isBGM || BGMClips.Length <= 0 || BGMClips.Length <= (int)bgmSound) return;
+            if (BGMClips.Length <= 0 || BGMClips.Length <= (int)bgmSound) return;
 
             time = RealTime.time;
             if (sourceBgm.clip == BGMClips[(int)bgmSound] && mLastTimestamp + 0.1f > time) return;

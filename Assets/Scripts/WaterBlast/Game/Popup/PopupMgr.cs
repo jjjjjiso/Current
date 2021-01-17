@@ -112,7 +112,7 @@ namespace WaterBlast.Game.Popup
         
         public void ShowAdsPopup(string title, string message, string btn, Action actConfirm = null, Action actEixt = null)
         {
-            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ADPopup", "AD", title, message, btn);
+            PopupConfirm temp = PopupConfirm.Open("Prefabs/Popup/ADPopup", "AD", title, message + "\n" + "(After 10 ads, 200 coins will be paid.)", btn);
             temp.GetComponent<PopupAD>().SetInfo();
 
             temp.onConfirm += () =>

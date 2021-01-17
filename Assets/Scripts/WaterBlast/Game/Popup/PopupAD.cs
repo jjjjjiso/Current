@@ -13,9 +13,12 @@ namespace WaterBlast.Game.Popup
 
         public void SetInfo()
         {
-            rewardCoin.text = GameDataMgr.G.adsRewardCost.ToString();
             int count = UserDataMgr.G.coinRewardedMaxCount - UserDataMgr.G.coinRewardedCount;
             rewardCount.text = string.Format("{0}/{1}", count, UserDataMgr.G.coinRewardedMaxCount);
+            rewardCount.color = (count > 0) ? Color.white : Color.red;
+
+            int cost = (count > 0) ? GameDataMgr.G.adsRewardCost : GameDataMgr.G.itemCost;
+            rewardCoin.text = cost.ToString();
         }
     }
 }

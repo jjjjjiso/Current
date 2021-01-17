@@ -74,9 +74,19 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
+        },
+        {
+            "type": "sticky",
             "blockerType": "none",
             "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -104,9 +114,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -114,9 +124,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -124,49 +134,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "random",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "random",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -199,7 +169,37 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "rainbow",
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
+        },
+        {
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "bomb",
             "blockerType": "none",
             "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
@@ -264,9 +264,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -294,9 +294,29 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
+        },
+        {
+            "type": "sticky",
             "blockerType": "none",
             "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
+        },
+        {
+            "type": "sticky",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBlockType"
+        },
+        {
+            "type": "bomb",
+            "blockerType": "none",
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -324,9 +344,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -334,29 +354,9 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "random",
+            "type": "bomb",
             "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "random",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "sticky",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
-        },
-        {
-            "type": "random",
-            "blockerType": "none",
-            "$type": "WaterBlast.Game.Common.LevelBlockType"
+            "$type": "WaterBlast.Game.Common.LevelBoosterType"
         },
         {
             "type": "sticky",
@@ -409,7 +409,7 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         }
     ],
-    "limit": 25,
+    "limit": 30,
     "goals": [
         {
             "blockType": "red",
@@ -418,12 +418,12 @@
         },
         {
             "blockType": "yellow",
-            "amount": 30,
+            "amount": 25,
             "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         },
         {
             "blockType": "green",
-            "amount": 30,
+            "amount": 20,
             "$type": "WaterBlast.Game.Common.CollectBlockGoal"
         }
     ],

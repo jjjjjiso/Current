@@ -80,7 +80,7 @@ namespace WaterBlast.Game.Manager
         {
             var serializer = new fsSerializer();
             if (endLevel >= maxLevel) endLevel = maxLevel;
-             level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? endLevel : startLevel)/*endLevel*/);
+            level = FileUtils.LoadJsonFile<Level>(serializer, "Levels/" + ((!isTestScene) ? endLevel : startLevel)/*endLevel*/);
         }
 
         public bool IsUseInGameItem()

@@ -409,7 +409,7 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         }
     ],
-    "limit": 25,
+    "limit": 32,
     "goals": [
         {
             "blockType": "box",

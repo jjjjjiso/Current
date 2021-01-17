@@ -88,8 +88,6 @@ namespace WaterBlast.Game.Popup
 
         public void OnEffect()
         {
-            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
-
             if (onEffect != null)
             {
                 onEffect();
@@ -105,6 +103,8 @@ namespace WaterBlast.Game.Popup
                 uiEffect.normalSprite  = blue;
                 GameDataMgr.G.isEffect = true;
             }
+
+            SoundMgr.G.EffectPlay(System.EffectSound.btn_ok);
         }
     }
 }

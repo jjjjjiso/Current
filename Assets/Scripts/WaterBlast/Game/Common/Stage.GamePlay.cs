@@ -987,7 +987,7 @@ namespace WaterBlast.Game.Common
                             stack.Clear();
                             continue;
                         }
-                        
+
                         int yy = (y - stack.Count);
                         if (emptyIdx != -1 && emptyIdx < yy) emptyCnt = 0;
                         yy -= emptyCnt;
@@ -1001,7 +1001,7 @@ namespace WaterBlast.Game.Common
                         }
                     }
                 }
-                
+
                 for (int i = stack.Count - 1; i >= 0; --i)
                 {
                     int y = ((height - 1) - i);
@@ -1684,7 +1684,12 @@ namespace WaterBlast.Game.Common
                         rainbow.Hide();
                     }
                 }
-                
+
+                if (isFinale)
+                {
+                    UpdateScore((blocks.Count * basicScore) + boosters[0].BonusScore());
+                }
+
                 yield return StartCoroutine(Co_BoosterMatch(blocks, booster._BoosterType));
                 ++count;
             }
