@@ -25,6 +25,7 @@
 
     public enum ColorType
     {
+        none,
         red,
         orange,
         yellow,

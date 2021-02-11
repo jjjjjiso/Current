@@ -45,11 +45,13 @@ namespace WaterBlast.Game.Manager
         public int itemCost = 200;
         [NonSerialized]
         public int adsRewardCost = 1000;
+        [NonSerialized]
+        public int adsRewardTenCost = 500;
 
         [NonSerialized]
         public Level level = null;
 
-        private int maxLevel = 100;
+        private int maxLevel = 120;
 
         protected override void OnAwake()
         {

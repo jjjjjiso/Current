@@ -149,8 +149,18 @@ namespace WaterBlast.Game.Manager
             yield break;
         }
 
+        public void UpdateAdsRewardedCount()
+        {
+            if (loginTime.Date != DateTime.Now.Date)
+            {
+                coinRewardedCount = 0;
+            }
+        }
+
         private void Save()
         {
+            UpdateAdsRewardedCount();
+
             USER_SAVE data = new USER_SAVE();
             data.life = life;
             data.coin = coin;
@@ -179,12 +189,13 @@ namespace WaterBlast.Game.Manager
             coinRewardedCount = data.coinRewardedCount;
             quitTime = new DateTime(data.quitTime);
             loginTime = DateTime.Now;
-            TimeSpan ts = loginTime - quitTime;
-            if (quitTime.Day != loginTime.Day)
+            
+            if (quitTime.Date != loginTime.Date)
             {
                 coinRewardedCount = 0;
             }
 
+            TimeSpan ts = loginTime - quitTime;
             if (ts.TotalSeconds > data.timeToNextLife)
             {   
                 life = maxLife;

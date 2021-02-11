@@ -149,7 +149,7 @@
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },
         {
-            "type": "box",
+            "type": "random",
             "blockerType": "radiation",
             "$type": "WaterBlast.Game.Common.LevelBlockType"
         },

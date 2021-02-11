@@ -32,6 +32,11 @@ namespace WaterBlast.Game.Common
         private Coroutine co_sticky;
         private Coroutine co_radiation;
 
+        bool isEndCheck;
+
+        LevelBlockType lbtSticky = new LevelBlockType() { type = BlockType.sticky };
+        LevelBlock lbtRadiation = new LevelBlock() { blockerType = BlockerType.radiation };
+
         public void NormMatch(BlockEntity pickBlock)
         {
             if (pickBlock is Blocker) return;
@@ -53,7 +58,12 @@ namespace WaterBlast.Game.Common
                 AddCollectedBlock(matchedBlocks);               //미션 체크.
                 GameMgr.G.ReduceTheNumberOfLimitCount();        //제한 횟수 감소
                 UpdateScore(matchedBlocks.Count * basicScore);  // 점수 (버블 점수 어찌 할지 상의 후 코드 수정)
-                
+
+                for (int i = 0; i < matchedBlockers.Count; ++i)
+                {
+                    ReturnBlocker(matchedBlockers[i]);
+                }
+
                 if (matchedBlocks.Count < 5)
                 {
                     Block block = null;
@@ -68,9 +78,11 @@ namespace WaterBlast.Game.Common
                         
                         CheckMissionBlock(block);
                     }
-                    MatchDown();
+                    isEndCheck = MatchDown();
                     StartCheckSticky();
                     StartCheckRadiation();
+
+                    if (isEndCheck) GameMgr.G.GameEnd();
                 }
                 else
                 {
@@ -87,11 +99,6 @@ namespace WaterBlast.Game.Common
                         CheckMissionBlock(block);
                     }
                     StartCoroutine(Co_BoosterChange(x, y, matchedBlocks.Count));
-                }
-                
-                for (int i = 0; i < matchedBlockers.Count; ++i)
-                {
-                    ReturnBlocker(matchedBlockers[i]);
                 }
             }
             else
@@ -188,7 +195,7 @@ namespace WaterBlast.Game.Common
             }
             co_sticky = StartCoroutine(Co_CheckStickyBlock());
         }
-
+        
         // 전염 블록 개수에 따라 추가 전염 시키거나 가만히 있거나
         IEnumerator Co_CheckStickyBlock()
         {
@@ -229,6 +236,7 @@ namespace WaterBlast.Game.Common
                             //Debug.Log("+ " + oldStickyBlockCount);
                             ReturnObject(blockTemp.gameObject);
                             CreateStickyBlock(blockTemp._X, blockTemp._Y);
+                            RemoveCollectedBlock(lbtSticky);
                             yield break;
                         }
                     }
@@ -289,6 +297,7 @@ namespace WaterBlast.Game.Common
                             currRadiationCount = oldRadiationount;
                             //Debug.Log("+ " + oldRadiationount);
                             CreateRadiationBlocker(blockTemp._X, blockTemp._Y);
+                            RemoveCollectedBlock(lbtRadiation);
                             yield break;
                         }
                     }
@@ -347,9 +356,11 @@ namespace WaterBlast.Game.Common
             {
                 // 점수
                 UpdateScore(score);
-                MatchDown();
+                isEndCheck = MatchDown();
                 StartCheckSticky();
                 StartCheckRadiation();
+
+                if (isEndCheck) GameMgr.G.GameEnd();
             }
         }
 
@@ -381,7 +392,7 @@ namespace WaterBlast.Game.Common
                     int x = boosters[count]._X;
                     int y = boosters[count]._Y;
                     var hitBlock = blockEntities[x, y];
-                    if(!hitBlock.gameObject.activeSelf)
+                    if(!hitBlock.gameObject.activeSelf || IsCheckBlock(hitBlock, BlockType.empty))
                     {
                         ++count;
                         continue;
@@ -426,10 +437,10 @@ namespace WaterBlast.Game.Common
 
             if (!isBooFirst)
             {
-                MatchDown();
+                bool isEndCheck = MatchDown();
                 StartCheckSticky();
                 StartCheckRadiation();
-                GameMgr.G.GameEnd();
+                if (isEndCheck) GameMgr.G.GameEnd();
             }
 
             isBooFirst = false;
@@ -642,13 +653,13 @@ namespace WaterBlast.Game.Common
                 if (particles != null) CreateParticle(particles, block._LocalPosition);
             }
 
-            MatchDown();
+            bool isEndCheck = MatchDown();
 
             yield return new WaitForSeconds(.1f);
 
             hammer.transform.localScale = Vector2.one;
             hammer.SetActive(false);
-            GameMgr.G.GameEnd();
+            if (isEndCheck) GameMgr.G.GameEnd();
         }
 
         IEnumerator Co_UseMittHorizonItem(int y)
@@ -949,21 +960,28 @@ namespace WaterBlast.Game.Common
             }
         }
 
+        List<BlockEntity> stack;
+        List<int> emptyIdxs;
+        Vector2 vEndPos;
+        Vector2 vTemp;
         private bool MatchDown()
         {
+            bool isEndCheck = true;
+            if (stack == null) stack = new List<BlockEntity>();
+            if (emptyIdxs == null) emptyIdxs = new List<int>();
+            vEndPos = Vector2.zero;
+            vTemp = Vector2.zero;
             for (int x = 0; x < width; ++x)
             {
-                var stack = new List<BlockEntity>();
-                int emptyIdx = -1;
-                int emptyCnt = 0;
+                stack.Clear();
+                emptyIdxs.Clear();
 
                 for (int y = 0; y < height; ++y)
                 {
                     var blockEntity = blockEntities[x, y];
                     if (IsCheckBlock(blockEntity, BlockType.empty))
                     {
-                        if (stack.Count != 0) ++emptyCnt;
-                        emptyIdx = y;
+                        emptyIdxs.Add(y);
                         continue;
                     }
 
@@ -976,7 +994,9 @@ namespace WaterBlast.Game.Common
                             blockEntity = blockEntities[x, y];
 
                             stack.Add(blockEntity);
-                            blockEntity._LocalPosition = new Vector2(Point(x, width, wSize), (15 * hSize));
+                            vTemp.x = Point(x, width, wSize);
+                            vTemp.y = (15 * hSize);
+                            blockEntity._LocalPosition = vTemp;
                         }
                     }
                     else if (stack.Count != 0)
@@ -988,35 +1008,47 @@ namespace WaterBlast.Game.Common
                             continue;
                         }
 
-                        int yy = (y - stack.Count);
-                        if (emptyIdx != -1 && emptyIdx < yy) emptyCnt = 0;
-                        yy -= emptyCnt;
+                        int yy = (y - stack.Count) - emptyIdxs.Count;
+                        yy = GetEmptyMoveY(yy);
+
                         Swap(x, y, x, yy);
-                        Vector2 vEndPos = new Vector2(Point(x, width, wSize), Point(yy, height, hSize));
+                        vEndPos.x = Point(x, width, wSize);
+                        vEndPos.y = Point(yy, height, hSize);
                         blockEntity.DownMove(vEndPos, x, yy);
 
                         if (yy == 0 && (IsCheckBlock(blockEntity, BlockType.can) || IsCheckBlock(blockEntity, BlockType.paper)))
                         {
                             StartCoroutine(Co_MoveMission(blockEntity));
+                            isEndCheck = false;
                         }
                     }
                 }
 
                 for (int i = stack.Count - 1; i >= 0; --i)
                 {
-                    int y = ((height - 1) - i);
-                    if (emptyIdx != -1 && emptyIdx < y) emptyCnt = 0;
-                    y -= emptyCnt;
+                    int y = ((height - 1) - i) - emptyIdxs.Count;
+                    y = GetEmptyMoveY(y);
                     var blockEntity = blockEntities[x, y];
                     blockEntity.Show();
-                    Vector2 vEndPos = new Vector2(Point(x, width, wSize), Point(y, height, hSize));
+                    vEndPos.x = Point(x, width, wSize);
+                    vEndPos.y = Point(y, height, hSize);
                     blockEntity.DownMove(vEndPos, x, y);
                 }
             }
 
             if (!GameMgr.G.isGameEnd) BlockIconSetting();
             BlockerSetting();
-            return true;
+            return isEndCheck;
+        }
+
+        int GetEmptyMoveY(int y)
+        {
+            if (y < 0) y = 0;
+            for (int e = 0; e < emptyIdxs.Count; ++e)
+            {
+                if (emptyIdxs[e] <= y) ++y;
+            }
+            return y;
         }
 
         IEnumerator Co_MoveMission(BlockEntity block)
@@ -1500,6 +1532,56 @@ namespace WaterBlast.Game.Common
             GameMgr mgr = GameMgr.G;
             mgr._GameState.score += score;
             mgr.gameUI.progressBar.UpdateProgressBar(mgr._GameState.score);
+        }
+
+        public void RemoveCollectedBlock(LevelBlock type)
+        {
+            GameMgr mgr = GameMgr.G;
+            int count = 0;
+            if (type is LevelBlockType)
+            {   //block
+                BlockType blockType = (type as LevelBlockType).type;
+                if (GameMgr.G._GameState.collectedBlocks.ContainsKey(blockType))
+                {
+                    count = mgr._GameState.collectedBlocks[blockType] - 1;
+                    if (count < 0)
+                    {
+                        GameMgr.G.UpdateGoalUI(type);
+                        foreach (Goal goal in mgr.level.goals)
+                        {
+                            if (goal is CollectBlockGoal)
+                            {
+                                CollectBlockGoal blockGoal = goal as CollectBlockGoal;
+                                blockGoal.amount_plus += 1;
+                            }
+                        }
+                    }
+                    else GameMgr.G._GameState.collectedBlocks[blockType] -= 1;
+                }
+            }
+            else if (type is LevelBlock)
+            {   //blocker
+                BlockerType blockerType = (type as LevelBlock).blockerType;
+                if (mgr._GameState.collectedBlockers.ContainsKey(blockerType))
+                {
+                    count = mgr._GameState.collectedBlockers[blockerType] - 1;
+                    if (count < 0)
+                    {
+                        GameMgr.G.UpdateGoalUI(type);
+                        foreach (Goal goal in mgr.level.goals)
+                        {
+                            if (goal is CollectBlockerGoal)
+                            {
+                                CollectBlockerGoal blockerGoal = goal as CollectBlockerGoal;
+                                blockerGoal.amount_plus += 1;
+                            }
+                        }
+                    }
+                    else GameMgr.G._GameState.collectedBlockers[blockerType] -= 1;
+                }
+            }
+
+            GameMgr.G.UpdateGoalUI();
         }
 
         private void AddCollectedBlock(BlockEntity blockEntity)

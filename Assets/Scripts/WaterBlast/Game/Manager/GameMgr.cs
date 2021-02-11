@@ -75,12 +75,14 @@ namespace WaterBlast.Game.Manager
                 if (goal is CollectBlockGoal)
                 {
                     CollectBlockGoal block = goal as CollectBlockGoal;
+                    block.amount_plus = 0;
                     gameState.collectedBlocks.Add(block.blockType, 0);
                     
                 }
                 else if (goal is CollectBlockerGoal)
                 {
                     CollectBlockerGoal blocker = goal as CollectBlockerGoal;
+                    blocker.amount_plus = 0;
                     gameState.collectedBlockers.Add(blocker.blockerType, 0);
                 }
             }
@@ -173,7 +175,7 @@ namespace WaterBlast.Game.Manager
                 stage.BoosterMatches(blockEntity);
             }
 
-            GameEnd();
+            //GameEnd();
         }
 
         public void ReduceTheNumberOfLimitCount()
@@ -200,6 +202,11 @@ namespace WaterBlast.Game.Manager
         public void UpdateGoalUI()
         {
             gameUI.goalUI.UpdateGoalUI(gameState);
+        }
+
+        public void UpdateGoalUI(LevelBlock lvBlock)
+        {
+            gameUI.goalUI.UpdateTargetAmount(lvBlock);
         }
 
         public void GameEnd()

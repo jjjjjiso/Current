@@ -26,6 +26,7 @@ namespace WaterBlast.Editor
         private BrushType curBrushType;
         private BlockType curBlockType;
         private BoosterType curBoosterType;
+        private ColorType curColorType;
         private BlockerType curBlockerType;
 
         private enum BrushMode
@@ -414,6 +415,13 @@ namespace WaterBlast.Editor
                 curBoosterType =
                     (BoosterType)EditorGUILayout.EnumPopup(curBoosterType, GUILayout.Width(100));
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(new GUIContent("RainbowColorType", "The current type of booster."),
+                    GUILayout.Width(EditorGUIUtility.labelWidth));
+                curColorType =
+                    (ColorType)EditorGUILayout.EnumPopup(curColorType, GUILayout.Width(100));
+                GUILayout.EndHorizontal();
             }
 
             GUILayout.BeginHorizontal();
@@ -464,20 +472,21 @@ namespace WaterBlast.Editor
         /// </summary>
         private void InitializeNewLevel()
         {
-            foreach (var type in Enum.GetValues(typeof(ColorType)))
+            foreach (ColorType type in Enum.GetValues(typeof(ColorType)))
             {
-                curLevel.availableColors.Add((ColorType)type);
+                if (type == ColorType.none) continue;
+                curLevel.availableColors.Add(type);
             }
 
-            foreach (var type in Enum.GetValues(typeof(BoosterType)))
+            foreach (BoosterType type in Enum.GetValues(typeof(BoosterType)))
             {
-                if ((BoosterType)type == BoosterType.none) continue;
-                curLevel.availableStartItem.Add((BoosterType)type, true);
+                if (type == BoosterType.none) continue;
+                curLevel.availableStartItem.Add(type, true);
             }
 
-            foreach (var type in Enum.GetValues(typeof(ItemType)))
+            foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
             {
-                curLevel.availableInGameItem.Add((ItemType)type, true);
+                curLevel.availableInGameItem.Add(type, true);
             }
         }
 
@@ -602,18 +611,13 @@ namespace WaterBlast.Editor
             else if (curLevel.blocks[tileIndex] is LevelBoosterType)
             {
                 var boosterTile = (LevelBoosterType)curLevel.blocks[tileIndex];
-                tileTypeName = boosterTile.type.ToString();
+                if (boosterTile.colorType != ColorType.none)
+                    tileTypeName = boosterTile.type.ToString() + string.Format("_{0}", boosterTile.colorType.ToString());
+                else tileTypeName = boosterTile.type.ToString();
             }
             if (curLevel.blocks[tileIndex].blockerType == BlockerType.bubble || curLevel.blocks[tileIndex].blockerType == BlockerType.radiation)
             {
-                if (curLevel.blocks[tileIndex].blockerType == BlockerType.bubble)
-                {
-                    tileTypeName += string.Format("_{0}", curLevel.blocks[tileIndex].blockerType.ToString());
-                }
-                else if (curLevel.blocks[tileIndex].blockerType == BlockerType.radiation)
-                {
-                    tileTypeName = curLevel.blocks[tileIndex].blockerType.ToString();
-                }
+                tileTypeName += string.Format("_{0}", curLevel.blocks[tileIndex].blockerType.ToString());
             }
             
             if (tileTextures.ContainsKey(tileTypeName))
@@ -681,14 +685,14 @@ namespace WaterBlast.Editor
                 switch (curBrushMode)
                 {
                     case BrushMode.tile:
-                        curLevel.blocks[tileIndex] = new LevelBoosterType { type = curBoosterType };
+                        curLevel.blocks[tileIndex] = new LevelBoosterType { type = curBoosterType, colorType = curColorType };
                         break;
 
                     case BrushMode.horizon:
                         for (var i = 0; i < width; i++)
                         {
                             var idx = y + (i * width);
-                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
+                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType, colorType = curColorType };
                         }
                         break;
 
@@ -696,7 +700,7 @@ namespace WaterBlast.Editor
                         for (var j = 0; j < height; j++)
                         {
                             var idx = j + (x * height);
-                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
+                            curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType, colorType = curColorType };
                         }
                         break;
 
@@ -706,7 +710,7 @@ namespace WaterBlast.Editor
                             for (var j = 0; j < height; j++)
                             {
                                 var idx = j + (i * height);
-                                curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType };
+                                curLevel.blocks[idx] = new LevelBoosterType { type = curBoosterType, colorType = curColorType };
                             }
                         }
                         break;

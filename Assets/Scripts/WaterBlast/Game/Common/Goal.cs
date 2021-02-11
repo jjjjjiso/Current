@@ -12,7 +12,6 @@ namespace WaterBlast.Game.Common
 {
     public abstract class Goal
     {
-        //수정해야함.
         public abstract bool IsComplete(GameState state);
 
 #if UNITY_EDITOR
@@ -56,10 +55,11 @@ namespace WaterBlast.Game.Common
     {
         public BlockType blockType;
         public int amount;
+        public int amount_plus = 0;
 
         public override bool IsComplete(GameState state)
         {
-            return state.collectedBlocks[blockType] >= amount;
+            return state.collectedBlocks[blockType] >= (amount + amount_plus);
         }
 
 #if UNITY_EDITOR
@@ -93,10 +93,11 @@ namespace WaterBlast.Game.Common
     {
         public BlockerType blockerType;
         public int amount;
+        public int amount_plus = 0;
 
         public override bool IsComplete(GameState state)
         {
-            return state.collectedBlockers[blockerType] >= amount;
+            return state.collectedBlockers[blockerType] >= (amount + amount_plus);
         }
 
 #if UNITY_EDITOR

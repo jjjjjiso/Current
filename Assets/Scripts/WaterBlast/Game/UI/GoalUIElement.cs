@@ -19,12 +19,14 @@ namespace WaterBlast.Game.UI
 
         private Vector3 vec3;
 
+        LevelBlock levelBlock;
+
         private void Awake()
         {
             if(tickImage != null) tickImage.gameObject.SetActive(false);
         }
 
-        public virtual void GoalUISetting(Goal goal)
+        public void GoalUISetting(Goal goal)
         {
             currentGoal = goal;
             var blockGoal = goal as CollectBlockGoal;
@@ -33,6 +35,8 @@ namespace WaterBlast.Game.UI
                 image.spriteName = blockGoal.blockType.ToString();
                 targetAmount     = blockGoal.amount;
                 amountText.text  = targetAmount.ToString();
+
+                levelBlock = new LevelBlockType() { type = blockGoal.blockType };
             }
             else
             {
@@ -42,10 +46,31 @@ namespace WaterBlast.Game.UI
                 image.spriteName = blockerGoal.blockerType.ToString();
                 targetAmount     = blockerGoal.amount;
                 amountText.text  = targetAmount.ToString();
+
+                levelBlock = new LevelBlock() { blockerType = blockerGoal.blockerType };
             }
         }
 
-        public virtual void UpdateGoal(GameState state)
+        public void UpdateTargetAmount(LevelBlock lvBlock)
+        {
+            if (levelBlock is LevelBlockType && lvBlock is LevelBlockType)
+            { // block
+                if ((levelBlock as LevelBlockType).type == (lvBlock as LevelBlockType).type)
+                {
+                    ++targetAmount;
+                }
+            }
+            else if (levelBlock is LevelBlock && lvBlock is LevelBlock)
+            { // blocker
+                if ((levelBlock as LevelBlock).blockerType == (lvBlock as LevelBlock).blockerType)
+                {
+                    ++targetAmount;
+                }
+            }
+            amountText.text = (targetAmount - currentAmount).ToString();
+        }
+
+        public void UpdateGoal(GameState state)
         {
             if (currentAmount == targetAmount) return;
 

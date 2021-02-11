@@ -19,5 +19,6 @@ namespace WaterBlast.Game.Common
     public class LevelBoosterType : LevelBlock
     {
         public BoosterType type;
+        public ColorType colorType;
     }
 }

@@ -130,10 +130,23 @@ namespace WaterBlast.Game.Common
                                 arrow.UpdateSprite(iRandom);
                                 break;
                             case BoosterType.rainbow:
+                                ColorType color = ((LevelBoosterType)gameMgr.level.blocks[index]).colorType;
                                 Rainbow rainbow = temp as Rainbow;
-                                BlockType type = (BlockType)Random.Range((int)BlockType.red, (int)BlockType.purple + 1);
-                                rainbow._PreType = type;
-                                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, type);
+                                switch (color)
+                                {
+                                    case ColorType.none:
+                                        BlockType type = (BlockType)Random.Range((int)BlockType.red, (int)BlockType.purple + 1);
+                                        rainbow._PreType = type;
+                                        break;
+                                    case ColorType.red: rainbow._PreType = BlockType.red; break;
+                                    case ColorType.orange: rainbow._PreType = BlockType.orange; break;
+                                    case ColorType.yellow: rainbow._PreType = BlockType.yellow; break;
+                                    case ColorType.green: rainbow._PreType = BlockType.green; break;
+                                    case ColorType.blue: rainbow._PreType = BlockType.blue; break;
+                                    case ColorType.purple: rainbow._PreType = BlockType.purple; break;
+                                }
+                               
+                                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, rainbow._PreType);
                                 rainbow.UpdateSprite(strTemp);
                                 break;
                         }
@@ -224,9 +237,9 @@ namespace WaterBlast.Game.Common
                     background.layer = parent.gameObject.layer;
                     UITexture tempTexture = background.AddComponent<UITexture>();
                     tempTexture.mainTexture = texture.texture;
-                    tempTexture.color = new Color32(10, 10, 10, 255);//Color.black;
-                    tempTexture.width = 100;
-                    tempTexture.height = 110;
+                    tempTexture.color = new Color32(9, 65, 116, 255);//Color.black;
+                    tempTexture.width = 90;
+                    tempTexture.height = 100;
                     background.transform.parent = parent;
                     background.transform.Reset();
                     background.transform.localPosition = blockEntities[x, y]._LocalPosition;

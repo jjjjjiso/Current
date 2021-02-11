@@ -17,5 +17,13 @@ namespace WaterBlast.Game.UI
                 element.UpdateGoal(gameState);
             }
         }
+
+        public void UpdateTargetAmount(LevelBlock lvBlock)
+        {
+            foreach (var element in group.GetComponentsInChildren<GoalUIElement>())
+            {
+                element.UpdateTargetAmount(lvBlock);
+            }
+        }
     }
 }

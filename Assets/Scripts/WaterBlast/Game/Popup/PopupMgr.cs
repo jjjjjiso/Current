@@ -26,7 +26,7 @@ namespace WaterBlast.Game.Popup
                 if (temp != null && temp.GetID() != "In Game Setting")
                 {
                     if (!black.activeSelf) black.SetActive(true);
-                    if (temp.GetID() != "StartPopup")
+                    if (temp.GetID() != "StartPopup" && temp.GetID() != "Goal Popup")
                         blackTexture.alpha = 1;
                     else
                         blackTexture.alpha = 0.8f;
