@@ -28,7 +28,7 @@ namespace WaterBlast.Game.UI
 
             foreach (var goal in goals)
             {
-                if (!(goal is CollectBlockGoal) && !(goal is CollectBlockerGoal)) continue;
+                if (!(goal is CollectBlockGoal) && !(goal is CollectBlockerGoal) && !(goal is CollectBoosterGoal)) continue;
                 var goalObj = Instantiate(prefab);
                 goalObj.transform.SetParent(goalUI.group.transform, false);
                 goalObj.GetComponent<GoalUIElement>().GoalUISetting(goal);

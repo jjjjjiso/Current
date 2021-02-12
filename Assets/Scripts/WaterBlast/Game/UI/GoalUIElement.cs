@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using WaterBlast.System;
 using WaterBlast.Game.Common;
 
 namespace WaterBlast.Game.UI
@@ -40,34 +41,61 @@ namespace WaterBlast.Game.UI
             }
             else
             {
-                var blockerGoal = goal as CollectBlockerGoal;
-                if (blockerGoal == null) return;
+                var boosterGoal = goal as CollectBoosterGoal;
+                if (boosterGoal != null)
+                {
+                    string name = boosterGoal.boosterType.ToString();
+                    switch (boosterGoal.boosterType)
+                    {
+                        case BoosterType.arrow:
+                            int type = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
+                            name = ((ArrowType)type).ToString();
+                            break;
+                        case BoosterType.rainbow:
+                            name = string.Format("{0}_{1}", boosterGoal.boosterType, boosterGoal.colorType);
+                            break;
+                    }
 
-                image.spriteName = blockerGoal.blockerType.ToString();
-                targetAmount     = blockerGoal.amount;
-                amountText.text  = targetAmount.ToString();
+                    image.spriteName = name;
+                    targetAmount = boosterGoal.amount;
+                    amountText.text = targetAmount.ToString();
 
-                levelBlock = new LevelBlock() { blockerType = blockerGoal.blockerType };
+                    levelBlock = new LevelBoosterType() { type = boosterGoal.boosterType };
+                }
+                else
+                {
+                    var blockerGoal = goal as CollectBlockerGoal;
+                    if (blockerGoal == null) return;
+                    image.spriteName = blockerGoal.blockerType.ToString();
+                    targetAmount = blockerGoal.amount;
+                    amountText.text = targetAmount.ToString();
+
+                    levelBlock = new LevelBlock() { blockerType = blockerGoal.blockerType };
+                }
             }
         }
 
         public void UpdateTargetAmount(LevelBlock lvBlock)
         {
+            if (levelBlock is LevelBoosterType) return;
+            bool isChange = false;
             if (levelBlock is LevelBlockType && lvBlock is LevelBlockType)
-            { // block
+            {   // block
                 if ((levelBlock as LevelBlockType).type == (lvBlock as LevelBlockType).type)
                 {
                     ++targetAmount;
+                    isChange = true;
                 }
             }
             else if (levelBlock is LevelBlock && lvBlock is LevelBlock)
-            { // blocker
+            {   // blocker
                 if ((levelBlock as LevelBlock).blockerType == (lvBlock as LevelBlock).blockerType)
                 {
                     ++targetAmount;
+                    isChange = true;
                 }
             }
-            amountText.text = (targetAmount - currentAmount).ToString();
+            if (isChange) amountText.text = (targetAmount - currentAmount).ToString();
         }
 
         public void UpdateGoal(GameState state)
@@ -82,10 +110,21 @@ namespace WaterBlast.Game.UI
             }
             else
             {
-                var blockerGoal = currentGoal as CollectBlockerGoal;
-                if(blockerGoal != null)
+                var boosterGoal = currentGoal as CollectBoosterGoal;
+                if (boosterGoal != null)
                 {
-                    newAmount = state.collectedBlockers[blockerGoal.blockerType];
+                    if (boosterGoal.boosterType != BoosterType.rainbow)
+                        newAmount = state.collectedBoosters[boosterGoal.boosterType];
+                    else
+                        newAmount = state.collectedRainbows[boosterGoal.colorType];
+                }
+                else
+                {
+                    var blockerGoal = currentGoal as CollectBlockerGoal;
+                    if (blockerGoal != null)
+                    {
+                        newAmount = state.collectedBlockers[blockerGoal.blockerType];
+                    }
                 }
             }
 

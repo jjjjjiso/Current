@@ -77,7 +77,19 @@ namespace WaterBlast.Game.Manager
                     CollectBlockGoal block = goal as CollectBlockGoal;
                     block.amount_plus = 0;
                     gameState.collectedBlocks.Add(block.blockType, 0);
-                    
+                }
+                else if (goal is CollectBoosterGoal)
+                {
+                    CollectBoosterGoal booster = goal as CollectBoosterGoal;
+                    if (booster.boosterType != BoosterType.rainbow)
+                        gameState.collectedBoosters.Add(booster.boosterType, 0);
+                    else
+                    {
+                        if (booster.colorType == ColorType.none)
+                            booster.colorType = (ColorType)UnityEngine.Random.Range((int)ColorType.red, (int)ColorType.purple + 1);
+
+                        gameState.collectedRainbows.Add(booster.colorType, 0);
+                    } 
                 }
                 else if (goal is CollectBlockerGoal)
                 {
@@ -254,6 +266,7 @@ namespace WaterBlast.Game.Manager
         }
         IEnumerator Co_TestReset()
         {
+            DebugX.LogError("SCORE = " + gameState.score);
             yield return new WaitForSeconds(0.5f);
             GameDataMgr.G.UpdateLevel();
             yield return new WaitForSeconds(0.5f);

@@ -111,13 +111,14 @@ namespace WaterBlast.Game.Common
             wSize = 72;
             hSize = 73; //원래 h 사이즈 - 85
 
+            int gap = width - height;
             bool isTrash = false;
             for (int x = 0; x < width; ++x)
             {
                 pos.x = Point(x, width, wSize);
                 for (int y = 0; y < height; ++y)
                 {
-                    var index = x * width + y;
+                    var index = x * (width - gap) + y;
                     var temp = gameMgr.gamePools.GetBlockEntity(gameMgr.level.blocks[index]);
                     Assert.IsNotNull(temp);
                     if (temp is Booster)
@@ -125,29 +126,13 @@ namespace WaterBlast.Game.Common
                         switch((temp as Booster)._BoosterType)
                         {
                             case BoosterType.arrow:
-                                int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
                                 ArrowBomb arrow = temp as ArrowBomb;
-                                arrow.UpdateSprite(iRandom);
+                                arrow.UpdateSprite();
                                 break;
                             case BoosterType.rainbow:
                                 ColorType color = ((LevelBoosterType)gameMgr.level.blocks[index]).colorType;
                                 Rainbow rainbow = temp as Rainbow;
-                                switch (color)
-                                {
-                                    case ColorType.none:
-                                        BlockType type = (BlockType)Random.Range((int)BlockType.red, (int)BlockType.purple + 1);
-                                        rainbow._PreType = type;
-                                        break;
-                                    case ColorType.red: rainbow._PreType = BlockType.red; break;
-                                    case ColorType.orange: rainbow._PreType = BlockType.orange; break;
-                                    case ColorType.yellow: rainbow._PreType = BlockType.yellow; break;
-                                    case ColorType.green: rainbow._PreType = BlockType.green; break;
-                                    case ColorType.blue: rainbow._PreType = BlockType.blue; break;
-                                    case ColorType.purple: rainbow._PreType = BlockType.purple; break;
-                                }
-                               
-                                string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, rainbow._PreType);
-                                rainbow.UpdateSprite(strTemp);
+                                rainbow.UpdateSprite(color);
                                 break;
                         }
                     }

@@ -10,19 +10,32 @@ namespace WaterBlast.Game.Common
         public int score;
         public Dictionary<BlockType, int> collectedBlocks = new Dictionary<BlockType, int>();
         public Dictionary<BlockerType, int> collectedBlockers = new Dictionary<BlockerType, int>();
+        public Dictionary<BoosterType, int> collectedBoosters = new Dictionary<BoosterType, int>();
+        public Dictionary<ColorType, int> collectedRainbows = new Dictionary<ColorType, int>();
 
         public void Reset()
         {
             score = 0;
             collectedBlocks.Clear();
             collectedBlockers.Clear();
-            foreach (var value in Enum.GetValues(typeof(BlockType)))
+            collectedBoosters.Clear();
+            collectedRainbows.Clear();
+            foreach (BlockType value in Enum.GetValues(typeof(BlockType)))
             {
-                collectedBlocks.Add((BlockType)value, 0);
+                collectedBlocks.Add(value, 0);
             }
-            foreach (var value in Enum.GetValues(typeof(BlockerType)))
+            foreach (BlockerType value in Enum.GetValues(typeof(BlockerType)))
             {
-                collectedBlockers.Add((BlockerType)value, 0);
+                collectedBlockers.Add(value, 0);
+            }
+            foreach (BoosterType value in Enum.GetValues(typeof(BoosterType)))
+            {
+                collectedBoosters.Add(value, 0);
+            }
+            foreach (ColorType value in Enum.GetValues(typeof(ColorType)))
+            {
+                if (value == ColorType.none) continue;
+                collectedRainbows.Add(value, 0);
             }
         }
     }

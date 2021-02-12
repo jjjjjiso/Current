@@ -46,18 +46,9 @@ namespace WaterBlast.Game.UI
         {
             fill.fillAmount = GetProgressValue(score) / 100f;
 
-            if(starScore1 <= score)
-            {
-                star1.Activate();
-            }
-            if (starScore2 <= score)
-            {
-                star2.Activate();
-            }
-            if (starScore3 <= score)
-            {
-                star3.Activate();
-            }
+            star1.Activate(starScore1 <= score);
+            star2.Activate(starScore2 <= score);
+            star3.Activate(starScore3 <= score);
         }
 
         private int GetProgressValue(int value)

@@ -17,9 +17,14 @@ namespace WaterBlast.Game.Popup
         {
             uiScore.text = score.ToString();
 
-            for (int i=0; i<starCount; ++i)
+            for (int i = 0; i < stars.Length; ++i)
             {
-                stars[i].Activate();
+                if (i >= starCount)
+                {
+                    stars[i].Activate(false);
+                    continue;
+                }
+                stars[i].Activate(true);
             }
 
             foreach (var goal in group.GetComponentsInChildren<GoalUIElement>())

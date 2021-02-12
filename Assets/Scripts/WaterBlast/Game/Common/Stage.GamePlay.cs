@@ -325,10 +325,9 @@ namespace WaterBlast.Game.Common
                 case 5:
                 case 6:
                     {
-                        int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
                         CreateBooster(BoosterType.arrow, x, y);
                         ArrowBomb arrow = blockEntities[x, y] as ArrowBomb;
-                        arrow.UpdateSprite(iRandom);
+                        arrow.UpdateSprite();
                         score = arrow.BonusScore();
                     }
                     break;
@@ -344,9 +343,7 @@ namespace WaterBlast.Game.Common
                         CreateBooster(BoosterType.rainbow, x, y);
                         Rainbow rainbow = blockEntities[x, y] as Rainbow;
                         Assert.IsNotNull(rainbow);
-                        rainbow._PreType = colorType;
-                        string strTemp = string.Format("{0}_{1}", BoosterType.rainbow, colorType);
-                        rainbow.UpdateSprite(strTemp);
+                        rainbow.UpdateSprite(colorType);
                         score = rainbow.BonusScore();
                     }
                     break;
@@ -354,7 +351,7 @@ namespace WaterBlast.Game.Common
 
             if(!isStartItem)
             {
-                // 점수
+                AddCollectedBlock(blockEntities[x, y]);
                 UpdateScore(score);
                 isEndCheck = MatchDown();
                 StartCheckSticky();
@@ -1586,6 +1583,7 @@ namespace WaterBlast.Game.Common
 
         private void AddCollectedBlock(BlockEntity blockEntity)
         {
+            if (blockEntity == null) return;
             if (blockerEntites[blockEntity._X, blockEntity._Y] != null)
             {   //blocker
                 Blocker blocker = blockerEntites[blockEntity._X, blockEntity._Y] as Blocker;
@@ -1600,6 +1598,25 @@ namespace WaterBlast.Game.Common
                 if (GameMgr.G._GameState.collectedBlocks.ContainsKey(block._BlockType))
                 {
                     GameMgr.G._GameState.collectedBlocks[block._BlockType] += 1;
+                }
+            }
+            else if (blockEntity is Booster)
+            {
+                Booster booster = blockEntity as Booster;
+                if (booster._BoosterType != BoosterType.rainbow)
+                {
+                    if (GameMgr.G._GameState.collectedBoosters.ContainsKey(booster._BoosterType))
+                    {
+                        GameMgr.G._GameState.collectedBoosters[booster._BoosterType] += 1;
+                    }
+                }
+                else
+                {
+                    Rainbow rainbow = booster as Rainbow;
+                    if (rainbow != null && GameMgr.G._GameState.collectedRainbows.ContainsKey(rainbow._PreColType))
+                    {
+                        GameMgr.G._GameState.collectedRainbows[rainbow._PreColType] += 1;
+                    }
                 }
             }
 
@@ -1723,11 +1740,9 @@ namespace WaterBlast.Game.Common
 
                 var block = blockEntities[x, y];
 
-                if (type == BoosterType.arrow)
-                {
-                    int iRandom = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
-                    block.GetComponent<ArrowBomb>().UpdateSprite(iRandom);
-                }
+                if (!isFinale) AddCollectedBlock(block);
+
+                if (type == BoosterType.arrow) block.GetComponent<ArrowBomb>().UpdateSprite();
                 boosters.Add(block as Booster);
                 ++count;
 

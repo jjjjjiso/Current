@@ -51,7 +51,7 @@ namespace WaterBlast.Game.Manager
         [NonSerialized]
         public Level level = null;
 
-        private int maxLevel = 120;
+        private int maxLevel = 130;
 
         protected override void OnAwake()
         {

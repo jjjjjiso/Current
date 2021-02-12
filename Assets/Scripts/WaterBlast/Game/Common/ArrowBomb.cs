@@ -110,8 +110,9 @@ namespace WaterBlast.Game.Common
             UpdateSprite(arrowType.ToString());
         }
 
-        public void UpdateSprite(int type)
+        public void UpdateSprite()
         {
+            int type = Random.Range((int)ArrowType.horizon, (int)ArrowType.vertical + 1);
             this.arrowType = (ArrowType)type;
             UpdateSprite(arrowType.ToString());
         }

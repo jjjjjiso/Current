@@ -416,12 +416,15 @@ namespace WaterBlast.Editor
                     (BoosterType)EditorGUILayout.EnumPopup(curBoosterType, GUILayout.Width(100));
                 GUILayout.EndHorizontal();
 
-                GUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(new GUIContent("RainbowColorType", "The current type of booster."),
-                    GUILayout.Width(EditorGUIUtility.labelWidth));
-                curColorType =
-                    (ColorType)EditorGUILayout.EnumPopup(curColorType, GUILayout.Width(100));
-                GUILayout.EndHorizontal();
+                if (curBoosterType == BoosterType.rainbow)
+                {
+                    GUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(new GUIContent("RainbowColor", "The current type of booster."),
+                        GUILayout.Width(EditorGUIUtility.labelWidth));
+                    curColorType =
+                        (ColorType)EditorGUILayout.EnumPopup(curColorType, GUILayout.Width(100));
+                    GUILayout.EndHorizontal();
+                }
             }
 
             GUILayout.BeginHorizontal();
@@ -455,12 +458,15 @@ namespace WaterBlast.Editor
             //    GUILayout.EndHorizontal();
             //}
 
-            for (var i = curLevel.height - 1; i >= 0; --i)
+            int gap = curLevel.width - curLevel.height;
+            for (int i = curLevel.height - 1; i >= 0; --i)
             {
                 GUILayout.BeginHorizontal();
-                for (var j = 0; j < curLevel.width; j++)
+                for (int j = 0; j < curLevel.width; j++)
                 {
-                    var tileIndex = (curLevel.width * j) + i;
+                    int tileIndex = 0;
+                    if (curLevel.id <= 126) tileIndex = (curLevel.width * j) + i; // 버그... 이전에 만든건 다틀어져서 냅둠...
+                    else tileIndex = ((curLevel.width - gap) * j) + i;
                     CreateButton(tileIndex);
                 }
                 GUILayout.EndHorizontal();
@@ -642,8 +648,11 @@ namespace WaterBlast.Editor
         /// <param name="tileIndex"></param>
         private void DrawTile(int tileIndex)
         {
-            var x = tileIndex / width;
-            var y = tileIndex % height;
+            int re_width = width - (width - height);
+
+            int x = tileIndex / re_width;
+            int y = tileIndex % height;
+
             if (curBrushType == BrushType.block)
             {
                 switch (curBrushMode)
@@ -655,7 +664,7 @@ namespace WaterBlast.Editor
                     case BrushMode.horizon:
                         for (var i = 0; i < width; i++)
                         {
-                            var idx = y + (i * width);
+                            var idx = y + (i * re_width);
                             curLevel.blocks[idx] = new LevelBlockType { type = curBlockType };
                         }
                         break;

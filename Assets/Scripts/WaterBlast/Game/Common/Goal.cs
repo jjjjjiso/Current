@@ -126,4 +126,53 @@ namespace WaterBlast.Game.Common
             return "Collect " + amount + " " + blockerType;
         }
     }
+
+    public class CollectBoosterGoal : Goal
+    {
+        public BoosterType boosterType;
+        public ColorType colorType;
+        public int amount;
+
+        public override bool IsComplete(GameState state)
+        {
+            if (boosterType != BoosterType.rainbow)
+                return state.collectedBoosters[boosterType] >= amount;
+
+            return state.collectedRainbows[colorType] >= amount;
+        }
+
+#if UNITY_EDITOR
+
+        public override void Draw()
+        {
+            GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Type");
+            boosterType = (BoosterType)EditorGUILayout.EnumPopup(boosterType, GUILayout.Width(100));
+            GUILayout.EndHorizontal();
+            
+            if (boosterType == BoosterType.rainbow)
+            {
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.PrefixLabel("ColorType");
+                colorType = (ColorType)EditorGUILayout.EnumPopup(colorType, GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Amount");
+            amount = EditorGUILayout.IntField(amount, GUILayout.Width(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+        }
+
+#endif
+
+        public override string ToString()
+        {
+            return "Collect " + amount + " " + boosterType;
+        }
+    }
 }

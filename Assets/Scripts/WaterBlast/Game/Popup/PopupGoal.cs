@@ -25,7 +25,7 @@ namespace WaterBlast.Game.Popup
 
             foreach (var goal in goals)
             {
-                if (!(goal is CollectBlockGoal) && !(goal is CollectBlockerGoal)) continue;
+                if (!(goal is CollectBlockGoal) && !(goal is CollectBlockerGoal) && !(goal is CollectBoosterGoal)) continue;
                 var goalObj = Instantiate(temp.goalPrefab);
                 goalObj.transform.SetParent(temp.goalParent.transform, false);
                 goalObj.GetComponent<GoalUIElement>().GoalUISetting(goal);

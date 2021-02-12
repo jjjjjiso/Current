@@ -16,12 +16,7 @@ namespace WaterBlast.Game.UI
             Activate(false);
         }
 
-        public void Activate()
-        {
-            Activate(true);
-        }
-
-        private void Activate(bool isActive)
+        public void Activate(bool isActive)
         {
             this.isActive = isActive;
 
